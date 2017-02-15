@@ -15,6 +15,7 @@ $ npm install -g ionic
 * run the following commands in the WebStorm terminal
 ```
 $ npm install
+$ ionic platform add android
 $ ionic build
 $ ionic serve
 ```

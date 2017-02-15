@@ -21,3 +21,20 @@ $ ionic serve
 ```
 * If "ionic serve" runs without a problem, you're good to go!
 * Read this: https://ionicframework.com/docs/v2/resources/developer-tips/
+
+**Running on Android Device:** (Super slow though???)
+* ```$ ionic build android```
+* ```$ /Users/ScottHenry/Library/Android/sdk/tools/android sdk``` (In normal command line)
+* Download Android 6.0 (API 23) & Tools & Extras
+* Click Install Packages and accept the license agreement
+* Run the Android Virtual Device manager (Some variation of below)
+* ```$ /Users/ScottHenry/Library/Android/sdk/tools/android avd``` (In normal command line)
+* Device Definitions > Nexus 6 > Create AVD…
+* AVD Name: “test”
+* Target: “Android 6.0”
+* CPU/ABI: “Google APIs Intel Atom (x86)”
+* Skin: “Skin with dynamic hardware controls”
+* Select “test” > Start > Launch
+* ```$ ionic build android ```
+* ```$ ionic emulate android -ls``` (Only once the emulator is up and running)
+

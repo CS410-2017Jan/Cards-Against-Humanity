@@ -7,7 +7,7 @@
 $ node -v
 $ npm -v
 $ npm install -g ionic
-``
+```
 * Checkout from Version Control on WebStorm
 * Github Clone from URL: https://github.com/CS410-2017Jan/Cards-Against-Humanity.git
 * Open project in WebStorm

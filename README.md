@@ -9,5 +9,6 @@ Install Webstorm, Android Studio, Postman, Node.js, iTerm (Mac)
 > Clone
 > Open project in WebStorm
 > View > Tool Windows > Terminal (run these commands in the Webstorm terminal)
+
 $ npm install
 $ ionic serve

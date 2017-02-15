@@ -2,7 +2,12 @@
 
 **Setup Instructions:**
 * Install WebStorm, Android Studio, Postman, Node.js, iTerm (Mac)
-* If you already have Node and npm installed, check that they are a recent version. ("node -v" and "npm -v")
+* In your general command line install ionic and update to lastest node/npm versions.
+```
+$ node -v
+$ npm -v
+$ npm install -g ionic
+``
 * Checkout from Version Control on WebStorm
 * Github Clone from URL: https://github.com/CS410-2017Jan/Cards-Against-Humanity.git
 * Open project in WebStorm

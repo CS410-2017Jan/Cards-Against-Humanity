@@ -10,6 +10,7 @@
 * run the following commands in the WebStorm terminal
 ```
 $ npm install
+$ ionic build
 $ ionic serve
 ```
 * If "ionic serve" runs without a problem, you're good to go!

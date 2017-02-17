@@ -22,7 +22,7 @@ $ ionic serve
 * If "ionic serve" runs without a problem, you're good to go!
 * Read this: https://ionicframework.com/docs/v2/resources/developer-tips/
 
-**Running on Android Device:** (Super slow though???)
+**Running on Android Device:** (Super slow though??? --> use Nexus 5 (FHD < QHD))
 * ```$ ionic build android```
 * ```$ /Users/ScottHenry/Library/Android/sdk/tools/android sdk``` (In normal command line)
 * Download Android 6.0 (API 23) & Tools & Extras
@@ -36,5 +36,9 @@ $ ionic serve
 * Skin: “Skin with dynamic hardware controls”
 * Select “test” > Start > Launch
 * ```$ ionic build android ```
+* ```$ cordova platform add android ```
 * ```$ ionic emulate android -ls``` (Only once the emulator is up and running)
 
+**Notes:**
+* If your emulator is slow, change it to a Nexus 5.
+* If the Intel hardware acceleration (HAXM) isn't working or maybe the emulator isn't running, try checking your BIOS to see if Intel Virtualization Technology is enabled.

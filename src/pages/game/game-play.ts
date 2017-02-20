@@ -3,22 +3,22 @@
  */
 
 import { Deck } from './data-classes/deck';
+import { Card } from './data-classes/card';
+import { Player } from './data-classes/player';
 
 export class GamePlay {
   CHANNEL;
   NUM_CARDS_HAND = 5;
 
   deck;
-  numPlayers;       // current number of players in the game
   players = [];     // array of players currently in the game
   cardsPlayed = 0;  // the number of cards played so far total
   hand = [];        // array of cards
   roundNumber = 0;  // current round number
 
-  constructor(channel: string, players: [string], deck: typeof Deck) {
-    this.deck = deck;
+  constructor(channel: string, players: [typeof Player], deck: typeof Deck) {
     this.CHANNEL = channel;
-
+    this.deck = deck;
     this.players = players;
   }
 
@@ -34,9 +34,9 @@ export class GamePlay {
   }
 
   // uses gamestate to draw next card from the deck
-  drawCard() {
+  drawCard() : typeof Card {
     console.log('drawCard stub');
-    Deck.drawCard
+    return this.deck.drawCard;
   }
 
   //

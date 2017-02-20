@@ -1,14 +1,15 @@
+/*
+ Generated class for the GamePlay page.
+
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+*/
+
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import PubNub from 'pubnub';
 import { GamePlay } from './game-play';
 
-/*
-  Generated class for the GamePlay page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-game', // should this be game-page?
   templateUrl: 'game.html'

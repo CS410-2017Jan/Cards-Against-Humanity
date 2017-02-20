@@ -2,30 +2,24 @@
  * Created by Joshua Jackson on 18-Feb-17.
  */
 
+import { Deck } from './data-classes/deck';
+
 export class GamePlay {
-  DECK;
   CHANNEL;
   NUM_CARDS_HAND = 5;
 
+  deck;
   numPlayers;       // current number of players in the game
   players = [];     // array of players currently in the game
   cardsPlayed = 0;  // the number of cards played so far total
   hand = [];        // array of cards
   roundNumber = 0;  // current round number
 
-
-  constructor(channel: string, players: [string], deck: Object) {
-    this.DECK = deck;
+  constructor(channel: string, players: [string], deck: typeof Deck) {
+    this.deck = deck;
     this.CHANNEL = channel;
 
     this.players = players;
-  }
-
-  // grabs the username parameters from the URL and puts them into players
-  buildPlayers() {
-    for (var i = 1; i <= this.numPlayers; i++) {
-      this.players.push("Player" + i);
-    }
   }
 
   // starts the game
@@ -42,6 +36,7 @@ export class GamePlay {
   // uses gamestate to draw next card from the deck
   drawCard() {
     console.log('drawCard stub');
+    Deck.drawCard
   }
 
   //

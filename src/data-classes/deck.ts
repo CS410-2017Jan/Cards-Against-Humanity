@@ -27,7 +27,7 @@ export class Deck {
 
   // shuffles the cards in the deck
   shuffle() {
-    console.log('deck.shuffle() stub');
+    console.log('STUB: deck.shuffle()');
   }
 
   // returns next card in deck that hasn't been discarded

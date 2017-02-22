@@ -13,11 +13,10 @@ export abstract class GameRenderer {
   blackCard;
   hand;
   cardsPlayed;
-  continueButton
+  continueButton;
   //continueRequest;
   winningCard;
   clickable;
-
 
   constructor(GamePage: GamePage) {
     this.GamePage = GamePage;
@@ -78,5 +77,4 @@ export abstract class GameRenderer {
   renderText(str: string) {
     this.text = str;
   }
-
 }

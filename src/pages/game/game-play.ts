@@ -59,7 +59,7 @@ export class GamePlay {
     });
 
     // TODO: switch all references to 'this' to 'gamePlay'
-    var gamePlay = this;
+    var GamePlay = this;
 
     // set up listeners for different events
     this.PubNub.addListener({
@@ -82,11 +82,11 @@ export class GamePlay {
       },
 
       message: function(msg) {
-        gamePlay.handleMsg(msg);
+        GamePlay.handleMsg(msg);
       },
 
       presence: function(p) {
-        gamePlay.handlePresence(p);
+        GamePlay.handlePresence(p);
       },
     });
 
@@ -179,10 +179,10 @@ export class GamePlay {
   // calls appropriate handler for given msg
   handleMsg(pubnubMsgObj) {
     console.log(pubnubMsgObj);
-    var pubnubmsg = JSON.parse(pubnubMsgObj.message);
-    var content = JSON.parse(pubnubmsg.content);
+    var pubnubMsg = JSON.parse(pubnubMsgObj.message);
+    var content = JSON.parse(pubnubMsg.content);
 
-    switch (pubnubmsg.code) {
+    switch (pubnubMsg.code) {
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
         this.cardsPlayed.push(content);

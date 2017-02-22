@@ -53,10 +53,10 @@ export class GamePage {
 
     console.log('ionViewDidLoad GamePage');
 
-    var card1 = new Card('white', 'test whiteCard content');
-    var card2= new Card('white', 'test whiteCard2 content');
-    var card3= new Card('black', 'test blackCard3 content');
-    var card4= new Card('black', 'test blackCard4 content');
+    var card1 = new Card('white', 'test whiteCard1 content');
+    var card2 = new Card('white', 'test whiteCard2 content');
+    var card3 = new Card('black', 'test blackCard3 content');
+    var card4 = new Card('black', 'test blackCard4 content');
 
     var deck2 = new Deck('deck1');
     deck2.addCard(card1);

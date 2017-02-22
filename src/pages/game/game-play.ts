@@ -47,6 +47,8 @@ export class GamePlay {
     this.deck = deck;
     this.GameRenderer = GameRenderer;
 
+    console.log('I am: ' + this.PLAYER_USERNAME);
+
     this.PubNub = new PubNub({
       subscribeKey: this.SUBKEY, // always required
       publishKey: this.PUBKEY,   // only required if publishing

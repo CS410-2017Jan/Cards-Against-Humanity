@@ -28,17 +28,24 @@ import { GameRenderer } from '../../data-classes/game-renderer.ts';
 // ======================================================================
 export class GamePage {
   USERNAME;    // this client's username will not change during a game
+  SUBKEY;
+  PUBKEY;
+  CHANNEL;
+  players;
+  deck;
+
   gamePlay;    // this client's instance of the GamePlay class.
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              //subkey: string,
-              //pubkey: string,
-              //channel: string,
-              //username: string,
-              //players: typeof Player[],
-              //deck: typeof Deck
-              ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,) {
+    console.log('PARAMS: ');
+    console.log(navParams);
+
+    this.USERNAME = navParams.get('username');
+    //this.SUBKEY = navParams.get('subkey');
+    //this.PUBKEY = navParams.get('pubkey');
+    this.CHANNEL = navParams.get('channel');
+    //this.players = navParams.get('players');
+    //this.deck = navParams.get('deck');
   }
 
   ionViewDidLoad() {
@@ -58,16 +65,16 @@ export class GamePage {
     deck2.addCard(card4);
 
     var players = [];
-    players.push(new Player('username1'));
-    players.push(new Player('username2'));
-    players.push(new Player('username3'));
+    players.push(new Player('Player1'));
+    players.push(new Player('Player2'));
+    players.push(new Player('Player3'));
 
     var gameRenderer = new GameRenderer();
 
-    this.gamePlay = new GamePlay('testChannel',
+    this.gamePlay = new GamePlay(this.CHANNEL,
                                 'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
                                 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
-                                players[0].username,
+                                this.USERNAME,
                                 players,
                                 deck2,
                                 gameRenderer

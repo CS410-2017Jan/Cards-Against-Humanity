@@ -49,6 +49,8 @@ export class Deck {
         if (!member(this.cards[i], this.discards)) {
           this.discards.push(this.cards[i]);
           return this.cards[i];
+        } else {
+          console.log(this.cards[i].content + ' was discarded');
         }
       }
     }

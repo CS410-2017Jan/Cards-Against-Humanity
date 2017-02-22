@@ -34,7 +34,8 @@ export class GamePage {
   players;
   deck;
 
-  gamePlay;    // this client's instance of the GamePlay class.
+  GamePlay;    // this client's instance of the GamePlay class.
+  GameRenderer;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,) {
     console.log('PARAMS: ');
@@ -53,34 +54,34 @@ export class GamePage {
 
     console.log('ionViewDidLoad GamePage');
 
-    var card1 = new Card('white', 'test whiteCard1 content');
-    var card2 = new Card('white', 'test whiteCard2 content');
-    var card3 = new Card('black', 'test blackCard3 content');
-    var card4 = new Card('black', 'test blackCard4 content');
+    var testDeck = new Deck('testDeck');
 
-    var deck2 = new Deck('deck1');
-    deck2.addCard(card1);
-    deck2.addCard(card2);
-    deck2.addCard(card3);
-    deck2.addCard(card4);
+    for (var i=1; i<=50; i++) {
+      testDeck.addCard(new Card('white', 'whiteCard'+i));
+    }
+
+    for (var i=1; i<=10; i++) {
+      testDeck.addCard(new Card('black', 'blackCard'+i));
+    }
+
 
     var players = [];
     players.push(new Player('Player1'));
     players.push(new Player('Player2'));
     players.push(new Player('Player3'));
 
-    var gameRenderer = new GameRenderer();
+    this.GameRenderer = new GameRenderer(this);
 
-    this.gamePlay = new GamePlay(this.CHANNEL,
+    this.GamePlay = new GamePlay(this.CHANNEL,
                                 'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
                                 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
                                 this.USERNAME,
                                 players,
-                                deck2,
-                                gameRenderer
+                                testDeck,
+                                this.GameRenderer
                                 );
     //setTimeout(this.gamePlay.startGame(), 1000);
-    this.gamePlay.startGame();
+    this.GamePlay.startGame();
   }
 }
 

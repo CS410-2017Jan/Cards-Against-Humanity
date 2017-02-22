@@ -5,11 +5,11 @@
 import { Card } from './card.ts';
 
 export abstract class GameRenderer {
-
-
-  renderBlackCard(Card) {
+  renderBlackCard(card: typeof Card) {
     console.log('STUB: renderBlackCard()');
   }
 
-
+  renderWhiteCard(card: typeof Card) {
+    console.log('STUB: renderBlackCard()');
+  }
 }

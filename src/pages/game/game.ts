@@ -27,14 +27,7 @@ import { GameRenderer } from '../../data-classes/game-renderer.ts';
 // actions are in the GamePlay class.
 // ======================================================================
 export class GamePage {
-
-  SUBKEY;      // the pubnub subscription key
-  PUBKEY;      // the pubnub publish key
-  // TODO: do we need the below CHANNEL? note that it is also passed to an instance of GamePlay
-  CHANNEL;     // the channel name doesn't change during a game
   USERNAME;    // this client's username will not change during a game
-  //PUBNUB;      // this client's pubnub object
-
   gamePlay;    // this client's instance of the GamePlay class.
 
   constructor(public navCtrl: NavController,
@@ -46,66 +39,6 @@ export class GamePage {
               //players: typeof Player[],
               //deck: typeof Deck
               ) {
-
-    //this.SUBKEY = subkey; // 'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f';
-    //this.PUBKEY = pubkey; // 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7';
-    //this.CHANNEL = channel;
-    // ^ do we need the above three vars? Note that game-play.ts uses them
-
-    //this.USERNAME = username;
-
-    /* Not sure we need this code here
-    this.PUBNUB = new PubNub({
-      subscribeKey: this.SUBKEY, // always required
-      publishKey: this.PUBKEY,   // only required if publishing
-      uuid: this.USERNAME,
-      presenceTimeout: 30
-    });
-
-    this.gamePlay = new GamePlay(channel, players, deck);
-
-    // set up listeners for different events
-    this.PUBNUB.addListener({
-      status: function(statusEvent) {
-        if (statusEvent.category === 'PNConnectedCategory') {
-          console.log('PNConnectedCategory');
-        } else if (statusEvent.category === 'PNUnknownCategory') {
-          var newState = {
-            new: 'error'
-          };
-          this.PUBNUB.setState(
-            {
-              state: newState
-            },
-            function (status) {
-              console.log(statusEvent.errorData.message)
-            }
-          );
-        }
-      },
-      message: function(message) {
-        console.log(message);
-        //renderMsg(message);
-      },
-      presence: function(p) {
-        console.log(p.action);
-        //renderPresenceEvent(p);
-      }
-    });
-
-    // subscribe to pubnub channel
-    this.PUBNUB.subscribe({
-      channels: [this.CHANNEL],
-      withPresence: true
-    });
-
-    // dev test publish
-    this.PUBNUB.publish({
-      channel :  this.CHANNEL,
-      message : 'this is a TEST. pew pew pew. '
-    });
-    */
-
   }
 
   ionViewDidLoad() {
@@ -129,27 +62,15 @@ export class GamePage {
 
     var gameRenderer = new GameRenderer();
 
-    var gamePlay = new GamePlay('testChannel',
+    this.gamePlay = new GamePlay('testChannel',
                                 'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
                                 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
                                 players[0].username,
                                 players,
                                 deck2,
                                 gameRenderer);
-    gamePlay.startGame();
+    this.gamePlay.startGame();
   }
-
-  /* Not sure we need this code here
-  // sends message value stored in textarea messagebox through pubnub publish to
-  // designated channel. Sends nothing if textarea value is blank
-  sendMsg(msg) {
-    if (msg != "") { // don't send nothing!
-      this.PUBNUB.publish({
-        channel :  this.CHANNEL,
-        message : msg });
-    }
-  }
-  */
 }
 
 // a dev var, it's a test deck but it's not OUR deck format. The format below is JSON from some website.

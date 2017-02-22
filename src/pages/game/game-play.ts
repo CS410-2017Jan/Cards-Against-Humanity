@@ -24,10 +24,10 @@ export class GamePlay {
 
   deck;                // The Deck object associated with this specific game
   players = [];        // Array of players currently in the game
-  cardsPlayed = 0;     // The number of cards played so far total
+  cardsPlayed = 0;     // The total number of cards played so far
   hand = [];           // Array of cards
   roundNumber = 0;     // Current round number
-  judge;
+  judge;               // Current judge username
 
   constructor(channel: string,
               subkey: string,

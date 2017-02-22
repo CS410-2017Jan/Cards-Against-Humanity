@@ -79,5 +79,4 @@ export abstract class GameRenderer {
     this.text = str;
   }
 
-
 }

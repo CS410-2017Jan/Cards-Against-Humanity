@@ -14,13 +14,12 @@
 
 <ion-content padding>
 
-
   <div *ngIf="this.GameRenderer !== undefined" >
 
     <p>Black Card:</p>
-    <span *ngIf="this.GameRenderer.blackCard !== undefined">
+    <div *ngIf="this.GameRenderer.blackCard !== undefined">
       {{this.GameRenderer.blackCard.content}}
-    </span>
+    </div>
 
     <p>TEXT: {{this.GameRenderer.text}}</p>
 

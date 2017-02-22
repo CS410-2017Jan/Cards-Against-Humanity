@@ -28,8 +28,8 @@ export class GamePlay {
   hand = [];           // Array of cards
   roundNumber = 0;     // Current round number
   judge;               // Current judge username
-  blackCard;
-  continueCounter = 0;
+  blackCard;           // Current black card for round
+  continueCounter = 0; // Current number of players ready to continue
 
   constructor(channel: string,
               subkey: string,
@@ -102,13 +102,8 @@ export class GamePlay {
     console.log('start new game');
     // deal out (NUM_CARDS_HAND - 1) cards then starts new round
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
-      var card = this.deck.drawWhiteCard();
-      console.log('card: ');
-      console.log(card);
-      this.hand.push(card);
+      this.hand.push(this.deck.drawWhiteCard());
     }
-    console.log('starting hand: ');
-    console.log(this.hand);
     this.newRound();
   }
 
@@ -146,15 +141,13 @@ export class GamePlay {
     if (card.type == 'white') {
       var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(card));
       this.sendMsg(msg);
+      this.hand.splice(this.hand.indexOf(card), 1);
     } else if (card.type == 'black') {
       var msg = new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(card));
       this.sendMsg(msg);
     } else {
       console.log('ERROR: playCard card.type was invalid');
     }
-
-    this.hand.splice(this.hand.indexOf(card), 1);
-
   }
 
   // submits given winning card over pubnub game channel

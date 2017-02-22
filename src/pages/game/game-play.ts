@@ -20,7 +20,7 @@ export class GamePlay {
   PLAYER_USERNAME;     // This player's name. Name does NOT change during gameplay
 
   PubNub;              // This client's pubnub object
-  gameRenderer;        // An instantiation of the GameRenderer interface
+  GameRenderer;        // An instantiation of the GameRenderer interface
 
   deck;                // The Deck object associated with this specific game
   players = [];        // Array of players currently in the game
@@ -35,7 +35,7 @@ export class GamePlay {
               playerUsername: string,
               players: typeof Player[],
               deck: typeof Deck,
-              gameRenderer: GameRenderer
+              GameRenderer: GameRenderer
               ) {
 
     this.CHANNEL = channel;
@@ -45,7 +45,7 @@ export class GamePlay {
 
     this.players = players;
     this.deck = deck;
-    this.gameRenderer = gameRenderer;
+    this.GameRenderer = GameRenderer;
 
     this.PubNub = new PubNub({
       subscribeKey: this.SUBKEY, // always required
@@ -54,6 +54,7 @@ export class GamePlay {
       presenceTimeout: 30
     });
 
+    // TODO: switch all references to 'this' to 'gamePlay'
     var gamePlay = this;
 
     // set up listeners for different events
@@ -170,30 +171,28 @@ export class GamePlay {
   handleMsg(pubnubMsgObj) {
     console.log(pubnubMsgObj);
     var pubnubmsg = JSON.parse(pubnubMsgObj.message);
+    var content = JSON.parse(pubnubmsg.content);
 
     switch (pubnubmsg.code) {
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
-        var card = JSON.parse(pubnubmsg.content);
-        console.log('card: ');
-        console.log(card);
-        this.gameRenderer.renderWhiteCard(pubnubmsg.content);
+        this.GameRenderer.renderWhiteCard(content);
         break;
 
       case 'PLAY_BLACK_CARD':
         console.log('case: PLAY_BLACK_CARD');
-        var card = JSON.parse(pubnubmsg.content);
-        this.gameRenderer.renderBlackCard(pubnubmsg.content);
+        this.GameRenderer.renderBlackCard(content);
         break;
 
       case 'PICK_WINNING_CARD':
         console.log('case: PICK_WINNING_CARD');
-        this.gameRenderer.renderWinningCard(pubnubmsg.content);
+        this.GameRenderer.renderWinningCard(content);
         break;
 
       case 'REQUEST_CONTINUE':
         console.log('case: REQUEST_CONTINUE');
-        this.handleContinueRequest(pubnubmsg.content);
+        this.handleContinueRequest(content);
+        this.GameRenderer.renderContinueRequest(content);
         break;
 
       default:

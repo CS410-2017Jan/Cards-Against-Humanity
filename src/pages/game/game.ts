@@ -72,8 +72,8 @@ export class GamePage {
                                 deck2,
                                 gameRenderer
                                 );
-    setTimeout(this.gamePlay.startGame(), 1000);
-    //this.gamePlay.startGame();
+    //setTimeout(this.gamePlay.startGame(), 1000);
+    this.gamePlay.startGame();
   }
 }
 

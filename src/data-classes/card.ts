@@ -2,13 +2,13 @@
  * Created by jjxn on 2/19/2017.
  */
 
-type cardTypes = 'black' | 'white';
+type CardTypes = 'black' | 'white';
 
 export class Card {
-  type: cardTypes;
+  type: CardTypes;
   content: string;
 
-  constructor(type: cardTypes, content: string) {
+  constructor(type: CardTypes, content: string) {
     this.type = type;
     this.content = content;
   }

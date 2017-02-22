@@ -10,6 +10,10 @@ export abstract class GameRenderer {
   }
 
   renderWhiteCard(card: typeof Card) {
-    console.log('STUB: renderBlackCard()');
+    console.log('STUB: renderWhiteCard()');
+  }
+
+  renderWinningCard(card: typeof Card) {
+    console.log('STUB: renderWinningCard()');
   }
 }

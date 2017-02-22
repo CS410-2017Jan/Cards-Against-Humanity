@@ -35,7 +35,8 @@ export class GamePlay {
               playerUsername: string,
               players: typeof Player[],
               deck: typeof Deck,
-              gameRenderer: typeof GameRenderer) {
+              gameRenderer: GameRenderer
+              ) {
 
     this.CHANNEL = channel;
     this.SUBKEY = subkey;
@@ -53,6 +54,8 @@ export class GamePlay {
       presenceTimeout: 30
     });
 
+    var gamePlay = this;
+
     // set up listeners for different events
     this.PubNub.addListener({
       status: function(statusEvent) {
@@ -62,7 +65,7 @@ export class GamePlay {
           var newState = {
             new: 'error'
           };
-          this.PUBNUB.setState(
+          this.PubNub.setState(
             {
               state: newState
             },
@@ -72,14 +75,14 @@ export class GamePlay {
           );
         }
       },
-      message: function(message) {
-        console.log(message);
-        //renderMsg(message);
+
+      message: function(msg) {
+        gamePlay.handleMsg(msg);
       },
+
       presence: function(p) {
-        console.log(p.action);
-        //renderPresenceEvent(p);
-      }
+        gamePlay.handlePresence(p);
+      },
     });
 
     // subscribe to pubnub channel
@@ -91,7 +94,7 @@ export class GamePlay {
 
   // deals out (NUM_CARDS_HAND - 1) cards and then starts new round
   startGame() {
-    console.log('STUB: startGame()');
+    console.log('start new game');
     // deal out (NUM_CARDS_HAND - 1) cards then starts new round
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
       this.hand.push(this.deck.drawWhiteCard());
@@ -101,7 +104,7 @@ export class GamePlay {
 
   // updates gamestate and sets up new round
   newRound() {
-    console.log('starting new round stub');
+    console.log('start new round');
     this.roundNumber++;
     this.setNextJudge();
 
@@ -129,18 +132,26 @@ export class GamePlay {
   // submits the given card through a pubnub msg on the pubnub game channel
   playCard(card: Card) {
     if (card.type == 'white') {
-      var msg = new PubNubMsg('PLAY_WHITE_CARD', card.content);
+      var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(card));
       this.sendMsg(msg);
     } else if (card.type == 'black') {
-      var msg = new PubNubMsg('PLAY_BLACK_CARD', card.content);
+      var msg = new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(card));
       this.sendMsg(msg);
     } else {
       console.log('ERROR: playCard card.type was invalid');
     }
   }
 
+  // submits given winning card over pubnub game channel
   pickWinningCard(card: Card) {
-    console.log('STUB: pickWinningCard()');
+    var msg = new PubNubMsg('PICK_WINNING_CARD', card.content);
+    this.sendMsg(msg);
+  }
+
+  // requests the game continues
+  requestContinue() {
+    var msg = new PubNubMsg('REQUEST_CONTINUE', '');
+    this.sendMsg(msg);
   }
 
   //
@@ -150,10 +161,53 @@ export class GamePlay {
 
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
-    var msgStr = msg.code + ',' + msg.content;
-
     this.PubNub.publish({
       channel :  this.CHANNEL,
-      message : msgStr });
+      message : JSON.stringify(msg) });
+  }
+
+  // calls appropriate handler for given msg
+  handleMsg(pubnubMsgObj) {
+    console.log(pubnubMsgObj);
+    var pubnubmsg = JSON.parse(pubnubMsgObj.message);
+
+    switch (pubnubmsg.code) {
+      case 'PLAY_WHITE_CARD':
+        console.log('case: PLAY_WHITE_CARD');
+        var card = JSON.parse(pubnubmsg.content);
+        console.log('card: ');
+        console.log(card);
+        this.gameRenderer.renderWhiteCard(pubnubmsg.content);
+        break;
+
+      case 'PLAY_BLACK_CARD':
+        console.log('case: PLAY_BLACK_CARD');
+        var card = JSON.parse(pubnubmsg.content);
+        this.gameRenderer.renderBlackCard(pubnubmsg.content);
+        break;
+
+      case 'PICK_WINNING_CARD':
+        console.log('case: PICK_WINNING_CARD');
+        this.gameRenderer.renderWinningCard(pubnubmsg.content);
+        break;
+
+      case 'REQUEST_CONTINUE':
+        console.log('case: REQUEST_CONTINUE');
+        this.handleContinueRequest(pubnubmsg.content);
+        break;
+
+      default:
+        console.log("ERROR: default case reached in handleMsg");
+    }
+  }
+
+  //
+  handleContinueRequest(username: string) {
+    console.log('username: ' + username + ' wants to continue');
+  }
+
+  //
+  handlePresence(p: Object) {
+    console.log(p);
   }
 }

@@ -42,6 +42,8 @@ export class GamePage {
   }
 
   ionViewDidLoad() {
+    // TODO: client must wait for all other players to join before starting the game
+
     console.log('ionViewDidLoad GamePage');
 
     var card1 = new Card('white', 'test whiteCard content');
@@ -68,8 +70,10 @@ export class GamePage {
                                 players[0].username,
                                 players,
                                 deck2,
-                                gameRenderer);
-    this.gamePlay.startGame();
+                                gameRenderer
+                                );
+    setTimeout(this.gamePlay.startGame(), 1000);
+    //this.gamePlay.startGame();
   }
 }
 

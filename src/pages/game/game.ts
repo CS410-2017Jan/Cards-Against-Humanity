@@ -7,12 +7,13 @@
 
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import PubNub from 'pubnub';
+//import PubNub from 'pubnub';
 import { GamePlay } from './game-play';
 
 import { Deck } from '../../data-classes/deck.ts';
 import { Card } from '../../data-classes/card.ts';
 import { Player } from '../../data-classes/player.ts';
+import { GameRenderer } from '../../data-classes/game-renderer.ts';
 
 @Component({
   selector: 'page-game', // should this be game-page?
@@ -32,7 +33,7 @@ export class GamePage {
   // TODO: do we need the below CHANNEL? note that it is also passed to an instance of GamePlay
   CHANNEL;     // the channel name doesn't change during a game
   USERNAME;    // this client's username will not change during a game
-  PUBNUB;      // this client's pubnub object
+  //PUBNUB;      // this client's pubnub object
 
   gamePlay;    // this client's instance of the GamePlay class.
 
@@ -110,24 +111,32 @@ export class GamePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad GamePage');
 
-    var card1 = new Card('white', 'test card content');
+    var card1 = new Card('white', 'test whiteCard content');
+    var card2= new Card('white', 'test whiteCard2 content');
+    var card3= new Card('black', 'test blackCard3 content');
+    var card4= new Card('black', 'test blackCard4 content');
 
     var deck2 = new Deck('deck1');
     deck2.addCard(card1);
+    deck2.addCard(card2);
+    deck2.addCard(card3);
+    deck2.addCard(card4);
 
     var players = [];
     players.push(new Player('username1'));
     players.push(new Player('username2'));
     players.push(new Player('username3'));
 
-    var gamePlay = new GamePlay('testChannel',
-      'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
-      'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
-      players,
-      deck2);
-    gamePlay.startGame();
+    var gameRenderer = new GameRenderer();
 
-    console.log(gamePlay.drawCard());
+    var gamePlay = new GamePlay('testChannel',
+                                'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
+                                'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
+                                players[0].username,
+                                players,
+                                deck2,
+                                gameRenderer);
+    gamePlay.startGame();
   }
 
   /* Not sure we need this code here

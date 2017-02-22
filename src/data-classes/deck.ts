@@ -30,14 +30,26 @@ export class Deck {
     console.log('STUB: deck.shuffle()');
   }
 
-  // returns next card in deck that hasn't been discarded
+  // returns next white card in deck that hasn't been discarded
   // returns false if all cards have been discarded
-  drawCard() : typeof Card | false {
+  drawWhiteCard() : typeof Card | false {
+    return this.drawCard('white');
+  }
+
+  // returns next black card in deck that hasn't been discarded
+  // returns false if all cards have been discarded
+  drawBlackCard() : typeof Card | false {
+    return this.drawCard('black');
+  }
+
+  drawCard(type: string) {
     for (var i=0; i<this.cards.length; i++) {
-      // if the potential drawn card hasnt been discarded
-      if (!member(this.cards[i], this.discards)) {
-        this.discards.push(this.cards[i]);
-        return this.cards[i];
+      if (this.cards[i].type == type) {
+        // if the potential drawn card hasnt been discarded
+        if (!member(this.cards[i], this.discards)) {
+          this.discards.push(this.cards[i]);
+          return this.cards[i];
+        }
       }
     }
     // stub returns first card everytime

@@ -3,25 +3,78 @@
  */
 
 import { Card } from './card.ts';
+import { GamePage } from '../pages/game/game';
 
 export abstract class GameRenderer {
-  renderBlackCard(card: typeof Card) {
-    console.log('STUB: renderBlackCard()');
-    console.log(card);
+  GamePage;
+
+  // vars to render:
+  text = '';
+  blackCard;
+  hand;
+  cardsPlayed;
+  continueButton;
+  //continueRequest;
+  winningCard;
+  clickable;
+
+  constructor(GamePage: GamePage) {
+    this.GamePage = GamePage;
   }
 
-  renderWhiteCard(card: typeof Card) {
-    console.log('STUB: renderWhiteCard()');
-    console.log(card);
+  renderBlackCard(card: typeof Card) {
+    console.log('STUB: renderBlackCard()');
+    this.blackCard = card;
   }
 
   renderWinningCard(card: typeof Card) {
     console.log('STUB: renderWinningCard()');
-    console.log(card);
+    this.winningCard = card;
   }
 
-  renderContinueRequest(username: string) {
+  clearWinningCard() {
+    this.winningCard = false;
+  }
+
+  renderContinueButton() {
     console.log('STUB: renderContinueRequest');
-    console.log('username: ' + username + ' wants to continue');
+    this.continueButton = true;
+  }
+
+  clearContinueButton() {
+    this.continueButton = false;
+  }
+
+  renderContinueRequest() {
+    console.log('STUB: renderContinueRequest');
+    //this.continueRequest = true;
+  }
+
+  clearContinueRequest() {
+    console.log('STUB: clearContinueRequest');
+    //this.continueRequest = false;
+  }
+
+  renderHand(hand: Array<typeof Card>) {
+    this.hand = hand;
+  }
+
+  clearHand() {
+    this.hand = [];
+  }
+
+  renderCardsPlayed(cardsPlayed: Array<typeof Card>, clickable: boolean) {
+    console.log('renderCardsPlayed');
+    this.clickable = clickable;
+    this.cardsPlayed = cardsPlayed;
+  }
+
+  clearCardsPlayed() {
+    console.log('clearCardsPlayed');
+    this.cardsPlayed = [];
+  }
+
+  renderText(str: string) {
+    this.text = str;
   }
 }

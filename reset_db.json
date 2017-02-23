@@ -1,0 +1,12 @@
+{
+  "decks" : {
+    "test" : 3
+  },
+  "rooms" : {
+    "test" : 7
+  },
+  "users" : {
+    "bob" : 6,
+    "jim" : 7
+  }
+}

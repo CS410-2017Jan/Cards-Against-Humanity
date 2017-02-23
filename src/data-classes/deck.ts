@@ -66,6 +66,15 @@ export class Deck {
     this.discards = [];
   }
 
+  // prints the deck to the console
+  printDeck() {
+    console.log("Deck ID: " + this.deckID);
+    console.log("Cards:");
+    for(let c of this.cards){
+      console.log(" " + c.content);
+    }
+  }
+
 }
 
 // TODO: perhaps this can be put into a general typescript 'functions' file so that other code can access it

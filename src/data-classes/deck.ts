@@ -9,9 +9,15 @@ export class Deck {
   cards;    // array of Card
   discards;
 
-  constructor(deckID: string) {
+  constructor(deckID: string, cards?: typeof Card[]) {
     this.deckID = deckID;
-    this.cards = [];
+
+    if (cards) {
+      this.cards = cards;
+    } else {
+      this.cards = [];
+    }
+
     this.discards = [];
   }
 

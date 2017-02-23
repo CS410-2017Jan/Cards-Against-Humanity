@@ -18,16 +18,23 @@ export class ContactPage {
   }
 
   joinGame(username: string) {
-      this.navCtrl.push(GamePage, {
-        username: username,
-        channel: 'test_channel'
-      });
+    var Contact = this;
+    var ws = new DeckWebService();
+    ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) {Contact.setUpGame(username, d)});
   }
+
   // Test Method for deckWebService
   getDeck(id: string) {
     var ws = new DeckWebService();
     var text = ws.getDeck(id, (d)=>d.printDeck());
   }
 
+  setUpGame(username: string, deck: typeof Deck) {
+    this.navCtrl.push(GamePage, {
+      username: username,
+      channel: 'test_channel',
+      deck: deck
+    });
+  }
 
 }

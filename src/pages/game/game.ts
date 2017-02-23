@@ -46,7 +46,7 @@ export class GamePage {
     //this.PUBKEY = navParams.get('pubkey');
     this.CHANNEL = navParams.get('channel');
     //this.players = navParams.get('players');
-    //this.deck = navParams.get('deck');
+    this.deck = navParams.get('deck');
   }
 
   ionViewDidLoad() {
@@ -54,6 +54,7 @@ export class GamePage {
 
     console.log('ionViewDidLoad GamePage');
 
+    /* dummy dev deck
     var testDeck = new Deck('testDeck');
 
     for (var i=1; i<=50; i++) {
@@ -63,6 +64,7 @@ export class GamePage {
     for (var i=1; i<=10; i++) {
       testDeck.addCard(new Card('black', 'blackCard'+i));
     }
+    */
 
     var players = [];
     players.push(new Player('Player1'));
@@ -76,7 +78,7 @@ export class GamePage {
                                 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
                                 this.USERNAME,
                                 players,
-                                testDeck,
+                                this.deck,
                                 this.GameRenderer
                                 );
     //setTimeout(this.gamePlay.startGame(), 1000);

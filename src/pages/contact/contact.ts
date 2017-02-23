@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { GamePage } from '../../pages/game/game.ts';
 
 import { DeckWebService } from '../../providers/deck-web-service.ts';
@@ -20,11 +20,11 @@ export class ContactPage {
   }
 
   joinGame(username: string) {
-      this.navCtrl.push(GamePage, {
-        username: username,
-        channel: 'test_channel'
-      });
+    var Contact = this;
+    var ws = new DeckWebService();
+    ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) {Contact.setUpGame(username, d)});
   }
+
   // Test Method for deckWebService
   getDeck(id: string) {
     var ws = new DeckWebService();
@@ -53,5 +53,12 @@ export class ContactPage {
     }
   }
 
+  setUpGame(username: string, deck: typeof Deck) {
+    this.navCtrl.push(GamePage, {
+      username: username,
+      channel: 'test_channel',
+      deck: deck
+    });
+  }
 
 }

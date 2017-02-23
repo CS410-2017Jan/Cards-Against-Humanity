@@ -4,6 +4,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { GamePage } from '../../pages/game/game.ts';
 
 import { DeckWebService } from '../../providers/deck-web-service.ts';
+import { UserWebService } from '../../providers/user-web-service.ts';
+
 import { Deck } from '../../data-classes/deck.ts';
 
 
@@ -26,7 +28,29 @@ export class ContactPage {
   // Test Method for deckWebService
   getDeck(id: string) {
     var ws = new DeckWebService();
-    var text = ws.getDeck(id, (d)=>d.printDeck());
+    ws.getDeck(id, (d)=>d.printDeck());
+  }
+
+  // Test Methods for userWebService
+  addUser(username: string, pass: string){
+    var ws = new UserWebService();
+    ws.createUser(username,pass, console.log);
+  }
+
+  getUsers(){
+    var ws = new UserWebService();
+    ws.getAllUsers(this.printUsers);
+  }
+
+  getUser(id){
+    var ws = new UserWebService();
+    ws.getUser(id, (p) => p.print());
+  }
+
+  printUsers(users){
+    for (let p of users ){
+      p.print();
+    }
   }
 
 

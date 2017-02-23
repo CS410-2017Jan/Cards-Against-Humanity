@@ -10,6 +10,8 @@ import { Card } from '../data-classes/card.ts';
 
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
+
+  Author: toldham
 */
 @Injectable()
 export class DeckWebService {
@@ -25,23 +27,31 @@ export class DeckWebService {
     xmlHttp.onreadystatechange = function() {
       // Stuff to do if GET is successful
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-        var cards: typeof Card[] = [];
-        var JSONArray = JSON.parse(xmlHttp.responseText);
-        var blackCardsJSON = JSONArray.black;
-        var whiteCardsJSON = JSONArray.white;
-        // Add all the black cards
-        for (let c of blackCardsJSON){
-          if (c.pick == 1) {
-            cards.push(new Card("black", c.text));
+        try{
+          var cards: typeof Card[] = [];
+          var JSONArray = JSON.parse(xmlHttp.responseText);
+          var blackCardsJSON = JSONArray.black;
+          var whiteCardsJSON = JSONArray.white;
+          // Add all the black cards
+          for (let c of blackCardsJSON){
+            if (c.pick == 1) {
+              cards.push(new Card("black", c.text));
+            }
           }
+          // Add all the white cards
+          for(let c of whiteCardsJSON){
+            cards.push(new Card("white", c));
+          }
+          var deck : typeof Deck = new Deck(id);
+          deck.cards = cards;
+          callback(deck);
         }
-        // Add all the white cards
-        for(let c of whiteCardsJSON){
-          cards.push(new Card("white", c));
+        catch(ex){
+          console.log("Failed to get deck");
         }
-        var deck : typeof Deck = new Deck(id);
-        deck.cards = cards;
-        callback(deck);
+      }
+      else if (xmlHttp.readyState == 4){
+        console.log("Error: " + xmlHttp.status)
       }
     }
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/decks/" + id + ".json", true); // true for asynchronous

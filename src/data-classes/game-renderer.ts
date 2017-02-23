@@ -55,7 +55,7 @@ export abstract class GameRenderer {
     //this.continueRequest = false;
   }
 
-  renderHand(hand: [typeof Card]) {
+  renderHand(hand: Array<typeof Card>) {
     this.hand = hand;
   }
 
@@ -63,7 +63,7 @@ export abstract class GameRenderer {
     this.hand = [];
   }
 
-  renderCardsPlayed(cardsPlayed: [typeof Card], clickable: boolean) {
+  renderCardsPlayed(cardsPlayed: Array<typeof Card>, clickable: boolean) {
     console.log('renderCardsPlayed');
     this.clickable = clickable;
     this.cardsPlayed = cardsPlayed;

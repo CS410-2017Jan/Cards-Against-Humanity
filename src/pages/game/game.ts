@@ -50,8 +50,7 @@ export class GamePage {
   }
 
   ionViewDidLoad() {
-    // TODO: client must wait for all other players to join before starting the game
-
+    // TODO: players must wait for all other players to join before starting the game?
     console.log('ionViewDidLoad GamePage');
 
     /* dummy dev deck
@@ -81,7 +80,6 @@ export class GamePage {
                                 this.deck,
                                 this.GameRenderer
                                 );
-    //setTimeout(this.gamePlay.startGame(), 1000);
     this.GamePlay.startGame();
   }
 }

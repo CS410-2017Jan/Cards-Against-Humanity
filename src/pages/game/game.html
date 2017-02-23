@@ -26,13 +26,13 @@
     <ul>
       <li *ngFor="let card of this.GameRenderer.cardsPlayed; let i = index">
         <button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(card);" > {{i+1}} {{card.content}} </button>
-        <div *ngIf="!this.GameRenderer.clickable"> {{card.content}} </div>
+        <div *ngIf="!this.GameRenderer.clickable"> {{i+1}} {{card.content}} </div>
       </li>
     </ul>
 
     <ul>
       <li *ngFor="let card of this.GameRenderer.hand; let i = index">
-        <button (click)="this.GamePlay.playCard(card);" > {{card.content}} </button>
+        <button (click)="this.GamePlay.playCard(card);" > {{i+1}} {{card.content}} </button>
       </li>
     </ul>
 

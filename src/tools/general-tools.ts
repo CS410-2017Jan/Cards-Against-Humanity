@@ -9,5 +9,7 @@ export class Tools {
   static clone(x) {
     return (JSON.parse(JSON.stringify(x)));
   }
+
+  // TODO: add array remove and maybe member functions
 }
 

@@ -5,7 +5,9 @@
 type MsgCodes = 'PLAY_WHITE_CARD' |
                 'PLAY_BLACK_CARD' |
                 'PICK_WINNING_CARD' |
-                'REQUEST_CONTINUE';
+                'REQUEST_CONTINUE' |
+                'NEW_ROUND' |
+                'REQUEST_PLAY_CARD';
 
 export class PubNubMsg {
   code;

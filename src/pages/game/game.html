@@ -39,11 +39,11 @@
 
     <ul>
       <li *ngFor="let card of this.GameRenderer.hand; let i = index">
-        <button (click)="this.GamePlay.playCard(card);" > {{i+1}} {{card.content}} </button>
+        <button (click)="this.requestPlayCard(card);" > {{i+1}} {{card.content}} </button>
       </li>
     </ul>
 
-    <button *ngIf="this.GameRenderer.continueButton" (click)="this.GamePlay.requestContinue()">Continue</button>
+    <button *ngIf="this.GameRenderer.continueButton" (click)="this.requestContinue()">Continue</button>
 
   </div>
 

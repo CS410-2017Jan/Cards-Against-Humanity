@@ -7,12 +7,28 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>roomList</ion-title>
+    <ion-title>Room List</ion-title>
   </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateList()">
+    </ion-searchbar>
+  </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
 
+  <ion-list #roomList>
+
+    <ion-item-group *ngFor="let room of shownRooms" [hidden]="room.hide">
+    <button ion-item (click)="joinRoomModal(room)">
+      <h3>{{room.name}}</h3>
+    </button>
+    </ion-item-group>
+
+  </ion-list>
 </ion-content>

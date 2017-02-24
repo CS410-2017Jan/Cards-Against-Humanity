@@ -11,6 +11,8 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { RoomSetupPage } from '../pages/room-setup/room-setup';
 import { GamePage } from '../pages/game/game';
+import { WaitingRoomPage } from '../pages/waiting-room/waiting-room';
+import { RoomListPage } from '../pages/room-list/room-list';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { GamePage } from '../pages/game/game';
     HomePage,
     TabsPage,
     RoomSetupPage,
+    WaitingRoomPage,
+    RoomListPage,
     GamePage
   ],
   imports: [
@@ -34,6 +38,8 @@ import { GamePage } from '../pages/game/game';
     HomePage,
     TabsPage,
     RoomSetupPage,
+    WaitingRoomPage,
+    RoomListPage,
     GamePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]

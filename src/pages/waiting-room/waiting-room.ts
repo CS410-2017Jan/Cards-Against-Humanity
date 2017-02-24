@@ -12,8 +12,11 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'waiting-room.html'
 })
 export class WaitingRoomPage {
+  room: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.room = navParams.data;
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WaitingRoomPage');

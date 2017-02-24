@@ -43,6 +43,8 @@ export class RoomSetupPage {
       //this.room.rtype,
       //this.room.rpassword);
     }
+
+    //this.navCtrl.push(waiting-room);
   }
 
 }

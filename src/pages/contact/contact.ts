@@ -7,7 +7,8 @@ import { DeckWebService } from '../../providers/deck-web-service.ts';
 import { UserWebService } from '../../providers/user-web-service.ts';
 import { RoomWebService } from '../../providers/room-web-service.ts';
 
-import { Deck } from '../../data-classes/deck.ts';
+import { Deck } from '../../data-classes/deck';
+import { Player } from '../../data-classes/player';
 
 
 @Component({
@@ -22,8 +23,14 @@ export class ContactPage {
 
   joinGame(username: string) {
     var Contact = this;
+
+    var players = [];
+    players[0] = new Player('Player1', 'P1');
+    players[1] = new Player('Player2', 'P2');
+    players[2] = new Player('Player3', 'P3');
+
     var ws = new DeckWebService();
-    ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) {Contact.setUpGame(username, d)});
+    ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) {Contact.setUpGame(username, d, players)});
   }
 
   // Test Method for deckWebService
@@ -72,13 +79,14 @@ export class ContactPage {
     ws.joinRoom(userID, roomID, console.log, "DummyPassword");
   }
 
-  setUpGame(username: string, deck: typeof Deck) {
+  setUpGame(username: string, deck: Deck, players: Array<Player>) {
     // TODO: fix channel bug
     // Having only one channel is a serious bug... two devs can't test on one channel...
     this.navCtrl.push(GamePage, {
       username: username,
       channel: 'test_channel_2',
-      deck: deck
+      deck: deck,
+      players: players
     });
   }
 

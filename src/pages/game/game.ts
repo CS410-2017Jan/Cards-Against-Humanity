@@ -31,7 +31,7 @@ export class GamePage {
   //PUBKEY;      // PubNub connection publish key
   CHANNEL;       // PubNub channel to join
   DECK;          // Deck object to pass to GamePlay
-  //PLAYERS;     // Player object to pass to GamePlay
+  PLAYERS;     // Player object to pass to GamePlay
 
   GamePlay;      // A GamePlay singleton object
   GameRenderer;  // An instantiation of the GameRenderer abstract class
@@ -44,8 +44,10 @@ export class GamePage {
     //this.SUBKEY = navParams.get('subkey');
     //this.PUBKEY = navParams.get('pubkey');
     this.CHANNEL = navParams.get('channel');
-    //this.players = navParams.get('players');
-    this.DECK = navParams.get('deck');
+    this.PLAYERS = navParams.get('players');
+
+    var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
+    this.DECK = navParams.get('deck').deal(3)[playerIndex];
   }
 
   ionViewDidLoad() {
@@ -53,10 +55,12 @@ export class GamePage {
     console.log('ionViewDidLoad GamePage');
 
     // dev testing vars
+    /*
     var players = [];
     players.push(new Player('Player1'));
     players.push(new Player('Player2'));
     players.push(new Player('Player3'));
+    */
 
     // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
     // dev hack to get the game going. (for testing purposes obviously)
@@ -67,7 +71,7 @@ export class GamePage {
                                 'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
                                 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
                                 this.USERNAME,
-                                players,
+                                this.PLAYERS,
                                 this.DECK,
                                 this
                                 );

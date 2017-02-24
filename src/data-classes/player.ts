@@ -20,5 +20,12 @@ export class Player {
     console.log(this.username + " ID: (" + this.id + ")- " + this.score);
   }
 
+  static getPlayerIndex(players: Array<Player>, username: string) : number {
+    for (var i = 0; i < players.length; i++) {
+      if (players[i].username == username) return i;
+    }
+    return -1;
+  }
+
 }
 

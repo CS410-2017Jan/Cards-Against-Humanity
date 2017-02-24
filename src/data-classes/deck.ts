@@ -56,7 +56,7 @@ export class Deck {
     for (var i=0; i<this.cards.length; i++) {
       if (this.cards[i].type == type) {
         // if the potential drawn card hasnt been discarded
-        if (!member(this.cards[i], this.discards)) {
+        if (!Card.member(this.cards[i], this.discards)) {
           this.discard(this.cards[i]);
           return this.cards[i];
         }
@@ -69,7 +69,11 @@ export class Deck {
   // adds given card to discards array
   discard(card: typeof Card) {
     console.log('discarding card: ' + card.content);
-    this.discards.push(card);
+    if (!Card.member(card, this.discards)) {
+      this.discards.push(card);
+    } else {
+      console.log('tried to discard a card ALREADY in the discards (probably just playing a black card)');
+    }
     console.log('new discards: ');
     console.log(this.discards);
   }
@@ -89,13 +93,3 @@ export class Deck {
     }
   }
 }
-
-// TODO: perhaps this can be put into a general typescript 'functions' file so that other code can access it
-// returns true if given element is a member of the given array.
-function member(ele, array) : boolean {
-  for(var i=0; i<array.length; i++) {
-    if (array[i] == ele) return true;
-  }
-  return false;
-}
-

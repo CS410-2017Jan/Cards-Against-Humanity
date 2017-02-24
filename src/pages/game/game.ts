@@ -135,6 +135,7 @@ export class GamePage {
       case 'PLAY_BLACK_CARD':
         console.log('case: PLAY_BLACK_CARD');
         var blackCardSubmitted = content; // for readability
+        GamePlay.deck.discard(blackCardSubmitted.card);
         GamePlay.blackCard = blackCardSubmitted.card;
         GameRenderer.renderBlackCard(Tools.clone(blackCardSubmitted.card));
         break;

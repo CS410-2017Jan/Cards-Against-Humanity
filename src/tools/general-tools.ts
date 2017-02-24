@@ -13,6 +13,14 @@ export class Tools {
     return (JSON.parse(JSON.stringify(x)));
   }
 
+  // returns true if given element is a member of the given array.
+  static member(ele, array) : boolean {
+  for(var i=0; i<array.length; i++) {
+    if (array[i] == ele) return true;
+  }
+  return false;
+}
+
   // TODO: add array remove and maybe member functions
 }
 

@@ -140,7 +140,7 @@ export class GamePlay {
       var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(cardSubmission));
       this.sendMsg(msg);
 
-      var index = Card.getCardIndexIn(card, this.hand);
+      var index = Card.indexIn(card, this.hand);
       if (index != -1) {
         this.hand.splice(index, 1);
       } else {

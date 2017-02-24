@@ -17,11 +17,19 @@ export class Card {
   }
 
   // built in indexOf function isn't working
-  static getCardIndexIn(card: Card, cards: Array<Card>): number {
+  static indexIn(card: Card, cards: Array<Card>): number {
     for (var i=0; i<cards.length; i++) {
       if (cards[i].content == card.content) return i;
     }
     return -1;
+  }
+
+  // built in indexOf function isn't working
+  static member(card: Card, cards: Array<Card>): boolean {
+    for (var i=0; i<cards.length; i++) {
+      if (cards[i].content == card.content) return true;
+    }
+    return false;
   }
 }
 

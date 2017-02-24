@@ -5,6 +5,7 @@ import { GamePage } from '../../pages/game/game.ts';
 
 import { DeckWebService } from '../../providers/deck-web-service.ts';
 import { UserWebService } from '../../providers/user-web-service.ts';
+import { RoomWebService } from '../../providers/room-web-service.ts';
 
 import { Deck } from '../../data-classes/deck.ts';
 
@@ -51,6 +52,24 @@ export class ContactPage {
     for (let p of users ){
       p.print();
     }
+  }
+
+  // Tests for RoomWebService
+  addRoom(name,decks,user, password ?: string){
+    var ws = new RoomWebService();
+    ws.createRoom(name, decks,user,console.log,password);
+  }
+  getRoom(id:string){
+    var ws = new RoomWebService();
+    ws.getRoom(id, console.log);
+  }
+  getRooms(){
+    var ws = new RoomWebService();
+    ws.getAllRooms(console.log);
+  }
+  joinRoom(userID: String, roomID: String){
+    var ws = new RoomWebService();
+    ws.joinRoom(userID, roomID, console.log, "DummyPassword");
   }
 
   setUpGame(username: string, deck: typeof Deck) {

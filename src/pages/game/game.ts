@@ -70,7 +70,7 @@ export class GamePage {
     players.push(new Player('Player2'));
     players.push(new Player('Player3'));
 
-    this.GameRenderer = new GameRenderer(this);
+    this.GameRenderer = new GameRenderer();
 
     this.GamePlay = new GamePlay(this.CHANNEL,
                                 'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',

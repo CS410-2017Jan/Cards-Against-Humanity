@@ -11,7 +11,6 @@ import { CardSubmission } from './card-submission';
 import { Tools } from '../tools/general-tools';
 
 export abstract class GameRenderer {
-  GamePage;
 
   // vars to render:
   text = '';
@@ -24,8 +23,8 @@ export abstract class GameRenderer {
   clickable;
   players;
 
-  constructor(GamePage: GamePage) {
-    this.GamePage = GamePage;
+  constructor() {
+
   }
 
   renderBlackCard(card: Card) {

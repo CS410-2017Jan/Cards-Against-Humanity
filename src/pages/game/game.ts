@@ -31,7 +31,7 @@ export class GamePage {
   //PUBKEY;      // PubNub connection publish key
   CHANNEL;       // PubNub channel to join
   DECK;          // Deck object to pass to GamePlay
-  PLAYERS;     // Player object to pass to GamePlay
+  PLAYERS;       // Player object to pass to GamePlay
 
   GamePlay;      // A GamePlay singleton object
   GameRenderer;  // An instantiation of the GameRenderer abstract class
@@ -54,14 +54,6 @@ export class GamePage {
     // TODO: players must wait for all other players to join before starting the game?
     console.log('ionViewDidLoad GamePage');
 
-    // dev testing vars
-    /*
-    var players = [];
-    players.push(new Player('Player1'));
-    players.push(new Player('Player2'));
-    players.push(new Player('Player3'));
-    */
-
     // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
     // dev hack to get the game going. (for testing purposes obviously)
     this.GameRenderer = new GameRenderer();
@@ -76,7 +68,7 @@ export class GamePage {
                                 this
                                 );
 
-    // Now the fun begins...
+    // http://imgur.com/a/38VII
     this.GamePlay.startGame();
   }
 

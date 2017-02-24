@@ -2,10 +2,13 @@
  * Created by Joshua Jackson on 21-Feb-17.
  */
 
+// <reference path='../tools/general-tools.ts' />
+
 import { Card } from './card';
 import { Player } from './player';
 import { GamePage } from '../pages/game/game';
 import { CardSubmission } from './card-submission';
+import { Tools } from '../tools/general-tools';
 
 export abstract class GameRenderer {
   GamePage;
@@ -80,10 +83,13 @@ export abstract class GameRenderer {
 
   renderScores(players: Array<Player>) {
     console.log('STUB: renderScores');
-    this.players = players;
+    this.players = Tools.clone(players);
+    console.log(this.players);
   }
 
   renderText(str: string) {
     this.text = str;
   }
 }
+
+

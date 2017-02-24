@@ -3,6 +3,7 @@
  */
 
 import PubNub from 'pubnub';
+import { Tools } from '../../tools/general-tools';
 import { Deck } from '../../data-classes/deck';
 import { Card } from '../../data-classes/card';
 import { CardSubmission } from '../../data-classes/card-submission';
@@ -128,7 +129,7 @@ export class GamePlay {
       this.GameRenderer.renderText('Waiting for players to submit cards...');
     } else { // if I'm not the judge
       this.hand.push(this.deck.drawWhiteCard());
-      this.GameRenderer.renderHand(this.hand);
+      this.GameRenderer.renderHand(Tools.clone(this.hand));
       this.GameRenderer.renderText('Pick a card to play');
     }
   }
@@ -149,11 +150,13 @@ export class GamePlay {
     this.GameRenderer.clearHand();
 
     if (card.type == 'white') {
-      var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(card));
+      var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
+      var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(cardSubmission));
       this.sendMsg(msg);
       this.hand.splice(this.hand.indexOf(card), 1);
     } else if (card.type == 'black') {
-      var msg = new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(card));
+      var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
+      var msg = new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(cardSubmission));
       this.sendMsg(msg);
     } else {
       console.log('ERROR: playCard card.type was invalid');
@@ -201,17 +204,18 @@ export class GamePlay {
     switch (pubnubMsg.code) {
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
-        this.cardsPlayed.push(new CardSubmission(pubnubMsgObj.publisher, content));
+        var whiteCardSubmission = content; // for readability
+        this.cardsPlayed.push(whiteCardSubmission);
 
         console.log('cardsPlayed.length : ' + this.cardsPlayed.length);
         console.log('players.length : ' + this.players.length);
         if (this.cardsPlayed.length >= (this.players.length - 1)) {
 
           if (this.judge.username == this.PLAYER_USERNAME) {  // if we are the judge
-            this.GameRenderer.renderCardsPlayed(Clone(this.cardsPlayed), true);
+            this.GameRenderer.renderCardsPlayed(Tools.clone(this.cardsPlayed), true);
             this.GameRenderer.renderText('Pick a Winner');
           } else {
-            this.GameRenderer.renderCardsPlayed(Clone(this.cardsPlayed), false);
+            this.GameRenderer.renderCardsPlayed(Tools.clone(this.cardsPlayed), false);
             this.GameRenderer.renderText('Waiting for judge to pick winner...');
           }
         }
@@ -219,20 +223,21 @@ export class GamePlay {
 
       case 'PLAY_BLACK_CARD':
         console.log('case: PLAY_BLACK_CARD');
-        this.blackCard = content;
-        console.log(content);
-        this.GameRenderer.renderBlackCard(Clone(content));
+        var blackCardSubmission = content; // for readability
+        this.blackCard = blackCardSubmission.card;
+        console.log(blackCardSubmission);
+        this.GameRenderer.renderBlackCard(Tools.clone(blackCardSubmission.card));
         break;
 
       case 'PICK_WINNING_CARD':
         console.log('case: PICK_WINNING_CARD');
         var winningCardSubmission = content; // for readability
 
-        this.updateScores(Clone(winningCardSubmission));
-        this.GameRenderer.renderScores(Clone(this.players));
+        this.updateScores(winningCardSubmission);
+        this.GameRenderer.renderScores(Tools.clone(this.players));
         this.cardsPlayed = [];
         this.GameRenderer.clearCardsPlayed();
-        this.GameRenderer.renderWinningCard(Clone(winningCardSubmission));
+        this.GameRenderer.renderWinningCard(Tools.clone(winningCardSubmission));
         this.GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
         this.GameRenderer.renderContinueButton();
         break;
@@ -248,7 +253,7 @@ export class GamePlay {
         }
 
         this.handleContinueRequest(content);
-        this.GameRenderer.renderContinueRequest(content);
+        this.GameRenderer.renderContinueRequest(Tools.clone(content));
         break;
 
       default:
@@ -267,9 +272,3 @@ export class GamePlay {
   }
 }
 
-// TypeScript and JavaScript pass objects and arrays by Reference. Which leads to some
-// interesting errors, especially when you pass it to a render function who passes it to angular...
-// Use this function to pass objects and arrays by Value.
-function Clone(x) {
-  return (JSON.parse(JSON.stringify(x)));
-}

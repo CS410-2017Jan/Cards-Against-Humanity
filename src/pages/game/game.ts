@@ -94,7 +94,18 @@ export class GamePage {
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
     console.log(pubnubEvent);
     var pubnubMsg = JSON.parse(pubnubEvent.message);
-    var content = JSON.parse(pubnubMsg.content);
+    // check if the received msg adhers to our PubNubMsg Class
+    if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
+      var content = JSON.parse(pubnubMsg.content);
+    } else {
+      alert("receieved a PubNub message that I don't recognize. See console.");
+      console.log('pubnubEvent:');
+      console.log(pubnubEvent);
+      console.log('pubnubMsg:');
+      console.log(pubnubMsg);
+      pubnubMsg.code = 'default';
+    }
+
     var GameRenderer = this.GameRenderer;  // for readability
     var GamePlay = this.GamePlay;          // for readability
 
@@ -119,7 +130,6 @@ export class GamePage {
         console.log('case: PLAY_BLACK_CARD');
         var blackCardSubmitted = content; // for readability
         GamePlay.blackCard = blackCardSubmitted.card;
-        console.log(blackCardSubmitted);
         GameRenderer.renderBlackCard(Tools.clone(blackCardSubmitted.card));
         break;
 

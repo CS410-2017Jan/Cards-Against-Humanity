@@ -54,9 +54,11 @@ export class ContactPage {
   }
 
   setUpGame(username: string, deck: typeof Deck) {
+    // TODO: fix channel bug
+    // Having only one channel is a serious bug... two devs can't test on one channel...
     this.navCtrl.push(GamePage, {
       username: username,
-      channel: 'test_channel',
+      channel: 'test_channel_2',
       deck: deck
     });
   }

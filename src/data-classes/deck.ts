@@ -52,11 +52,12 @@ export class Deck {
   }
 
   drawCard(type: string) {
+    console.log('start drawCard');
     for (var i=0; i<this.cards.length; i++) {
       if (this.cards[i].type == type) {
         // if the potential drawn card hasnt been discarded
         if (!member(this.cards[i], this.discards)) {
-          this.discards.push(this.cards[i]);
+          this.discard(this.cards[i]);
           return this.cards[i];
         }
       }
@@ -67,11 +68,15 @@ export class Deck {
 
   // adds given card to discards array
   discard(card: typeof Card) {
+    console.log('discarding card: ' + card.content);
     this.discards.push(card);
+    console.log('new discards: ');
+    console.log(this.discards);
   }
 
   // empties the discards array
   reset() {
+    console.log('reset deck discards array');
     this.discards = [];
   }
 
@@ -83,7 +88,6 @@ export class Deck {
       console.log(" " + c.content);
     }
   }
-
 }
 
 // TODO: perhaps this can be put into a general typescript 'functions' file so that other code can access it
@@ -94,3 +98,4 @@ function member(ele, array) : boolean {
   }
   return false;
 }
+

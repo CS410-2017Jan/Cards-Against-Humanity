@@ -26,14 +26,15 @@ import { PubNubMsg } from '../../data-classes/pubnub-msg';
 // actions/implementation are in the GamePlay class.
 // ======================================================================
 export class GamePage {
-  USERNAME;    // this client's username will not change during a game
-  //SUBKEY;
-  //PUBKEY;
-  CHANNEL;
-  deck;
+  USERNAME;      // this client's username will not change during a game
+  //SUBKEY;      // PubNub connection subscription key
+  //PUBKEY;      // PubNub connection publish key
+  CHANNEL;       // PubNub channel to join
+  DECK;          // Deck object to pass to GamePlay
+  //PLAYERS;     // Player object to pass to GamePlay
 
-  GamePlay;    // this client's instance of the GamePlay class.
-  GameRenderer;
+  GamePlay;      // A GamePlay singleton object
+  GameRenderer;  // An instantiation of the GameRenderer abstract class
 
   constructor(public navCtrl: NavController, public navParams: NavParams,) {
     console.log('PARAMS: ');
@@ -44,7 +45,7 @@ export class GamePage {
     //this.PUBKEY = navParams.get('pubkey');
     this.CHANNEL = navParams.get('channel');
     //this.players = navParams.get('players');
-    this.deck = navParams.get('deck');
+    this.DECK = navParams.get('deck');
   }
 
   ionViewDidLoad() {
@@ -67,13 +68,17 @@ export class GamePage {
                                 'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
                                 this.USERNAME,
                                 players,
-                                this.deck,
+                                this.DECK,
                                 this
                                 );
 
-    // now the fun begins...
+    // Now the fun begins...
     this.GamePlay.startGame();
   }
+
+  // ======================================================================
+  // Below functions are what a user can do. The UI will tie to these functions
+  // ======================================================================
 
   // called by user clicking a button or when the judge starts
   // a round and plays a black card
@@ -88,9 +93,10 @@ export class GamePage {
     this.GamePlay.requestContinue();
   }
 
-
-  // the Game Logic handler
+  // ======================================================================
+  // The Game Logic Event Handler
   // This splendid switch makes moves and renders results
+  // ======================================================================
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
     console.log(pubnubEvent);
     var pubnubMsg = JSON.parse(pubnubEvent.message);
@@ -171,7 +177,7 @@ export class GamePage {
           this.requestPlayCard(GamePlay.deck.drawBlackCard());
           GameRenderer.renderText('Waiting for players to submit cards...');
         } else { // if I'm not the judge
-          GamePlay.hand.push(this.deck.drawWhiteCard());
+          GamePlay.hand.push(GamePlay.deck.drawWhiteCard());
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
           GameRenderer.renderText('Pick a card to play');
         }

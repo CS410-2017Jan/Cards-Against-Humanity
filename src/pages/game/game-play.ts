@@ -108,6 +108,8 @@ export class GamePlay {
     });
   }
 
+  // maybe move this to game.ts and so game-play.ts doesn't need to know about
+  // decks. This function is kinda logic anyway.
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
   startGame() {
     console.log('start new game');
@@ -137,7 +139,14 @@ export class GamePlay {
       var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
       var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(cardSubmission));
       this.sendMsg(msg);
-      this.hand.splice(this.hand.indexOf(card), 1);
+
+      var index = Card.getCardIndexIn(card, this.hand);
+      if (index != -1) {
+        this.hand.splice(index, 1);
+      } else {
+        console.log("ERROR: tried to play a card that somehow wasn't in this.hands");
+      }
+
     } else if (card.type == 'black') {
       var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
       var msg = new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(cardSubmission));

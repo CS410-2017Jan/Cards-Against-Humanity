@@ -5,6 +5,7 @@
 import PubNub from 'pubnub';
 import { Deck } from '../../data-classes/deck';
 import { Card } from '../../data-classes/card';
+import { CardSubmission } from '../../data-classes/card-submission';
 import { Player } from '../../data-classes/player';
 import { GameRenderer } from '../../data-classes/game-renderer';
 import { PubNubMsg } from '../../data-classes/pubnub-msg';
@@ -13,30 +14,33 @@ import { PubNubMsg } from '../../data-classes/pubnub-msg';
 // This Class contains the gamestate and methods to modify/play the game
 // ======================================================================
 export class GamePlay {
-  CHANNEL;             // The channel used will NOT change during gameplay
-  SUBKEY;              // The subscription key user will NOT change during gameplay
-  PUBKEY;              // The publish key user will NOT change during gameplay
-  NUM_CARDS_HAND = 5;  // The number of cards per hand does NOT change during gameplay
-  PLAYER_USERNAME;     // This player's name. Name does NOT change during gameplay
+  // constants
+  CHANNEL: string;                // The channel used will NOT change during gameplay
+  SUBKEY: string;                 // The subscription key user will NOT change during gameplay
+  PUBKEY: string;                 // The publish key user will NOT change during gameplay
+  PLAYER_USERNAME: string;        // This player's name. Name does NOT change during gameplay
+  NUM_CARDS_HAND: number;         // The number of cards per hand does NOT change during gameplay
 
-  PubNub;              // This client's pubnub object
-  GameRenderer;        // An instantiation of the GameRenderer interface
+  // Object Singletons
+  PubNub;                         // This client's pubnub object
+  GameRenderer;                   // An instantiation of the GameRenderer interface
 
-  deck;                // The Deck object associated with this specific game
-  players = [];        // Array of players currently in the game
-  cardsPlayed = [];    // Array of cards played in current round
-  hand = [];           // Array of cards
-  roundNumber = 0;     // Current round number
-  judge;               // Current judge username
-  blackCard;           // Current black card for round
-  continueCounter = 0; // Current number of players ready to continue
+  // global variables
+  deck: Deck;                     // The Deck object associated with this specific game
+  players: Array<Player>;         // Array of players currently in the game
+  hand: Array<Card>;              // Array of cards
+  roundNumber: number;            // Current round number
+  judge: Player;                  // Current judge username
+  blackCard: Card;                // Current black card for round
+  continueCounter: number;        // Current number of players ready to continue
+  cardsPlayed: Array<CardSubmission>;  // Array of cards played in current round
 
   constructor(channel: string,
               subkey: string,
               pubkey: string,
-              playerUsername: string,
-              players: typeof Player[],
-              deck: typeof Deck,
+              playerUsername: string,  // a player's username MUST be unique during a game
+              players: Array<Player>,
+              deck: Deck,
               GameRenderer: GameRenderer
               ) {
 
@@ -48,6 +52,12 @@ export class GamePlay {
     this.players = players;
     this.deck = deck;
     this.GameRenderer = GameRenderer;
+
+    this.NUM_CARDS_HAND = 5;
+    this.roundNumber = 0;
+    this.continueCounter = 0;
+    this.hand = [];
+    this.cardsPlayed = [];
 
     console.log('I am: ' + this.PLAYER_USERNAME);
 
@@ -151,8 +161,8 @@ export class GamePlay {
   }
 
   // submits given winning card over pubnub game channel
-  pickWinningCard(card: Card) {
-    var msg = new PubNubMsg('PICK_WINNING_CARD', JSON.stringify(card));
+  pickWinningCard(cardSubmission: CardSubmission) {
+    var msg = new PubNubMsg('PICK_WINNING_CARD', JSON.stringify(cardSubmission));
     this.sendMsg(msg);
   }
 
@@ -165,9 +175,15 @@ export class GamePlay {
   }
 
   //
-  updateScores() {
+  updateScores(cardSubmission: CardSubmission) {
     console.log('STUB: updateScores()');
+    for (var i=0; i<this.players.length; i++) {
+      if (this.players[i].username == cardSubmission.username) {
+        this.players[i].score++;
+      }
+    }
   }
+
 
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
@@ -185,17 +201,17 @@ export class GamePlay {
     switch (pubnubMsg.code) {
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
-        this.cardsPlayed.push(content);
+        this.cardsPlayed.push(new CardSubmission(pubnubMsgObj.publisher, content));
 
         console.log('cardsPlayed.length : ' + this.cardsPlayed.length);
         console.log('players.length : ' + this.players.length);
         if (this.cardsPlayed.length >= (this.players.length - 1)) {
 
           if (this.judge.username == this.PLAYER_USERNAME) {  // if we are the judge
-            this.GameRenderer.renderCardsPlayed(this.cardsPlayed, true);
+            this.GameRenderer.renderCardsPlayed(Clone(this.cardsPlayed), true);
             this.GameRenderer.renderText('Pick a Winner');
           } else {
-            this.GameRenderer.renderCardsPlayed(this.cardsPlayed, false);
+            this.GameRenderer.renderCardsPlayed(Clone(this.cardsPlayed), false);
             this.GameRenderer.renderText('Waiting for judge to pick winner...');
           }
         }
@@ -205,15 +221,19 @@ export class GamePlay {
         console.log('case: PLAY_BLACK_CARD');
         this.blackCard = content;
         console.log(content);
-        this.GameRenderer.renderBlackCard(content);
+        this.GameRenderer.renderBlackCard(Clone(content));
         break;
 
       case 'PICK_WINNING_CARD':
         console.log('case: PICK_WINNING_CARD');
+        var winningCardSubmission = content; // for readability
+
+        this.updateScores(Clone(winningCardSubmission));
+        this.GameRenderer.renderScores(Clone(this.players));
         this.cardsPlayed = [];
         this.GameRenderer.clearCardsPlayed();
-        this.GameRenderer.renderWinningCard(content);
-        this.GameRenderer.renderText(content.content + ' won the round!');
+        this.GameRenderer.renderWinningCard(Clone(winningCardSubmission));
+        this.GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
         this.GameRenderer.renderContinueButton();
         break;
 
@@ -245,4 +265,11 @@ export class GamePlay {
   handlePresence(p: Object) {
     console.log(p);
   }
+}
+
+// TypeScript and JavaScript pass objects and arrays by Reference. Which leads to some
+// interesting errors, especially when you pass it to a render function who passes it to angular...
+// Use this function to pass objects and arrays by Value.
+function Clone(x) {
+  return (JSON.parse(JSON.stringify(x)));
 }

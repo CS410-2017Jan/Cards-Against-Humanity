@@ -2,8 +2,10 @@
  * Created by Joshua Jackson on 21-Feb-17.
  */
 
-import { Card } from './card.ts';
+import { Card } from './card';
+import { Player } from './player';
 import { GamePage } from '../pages/game/game';
+import { CardSubmission } from './card-submission';
 
 export abstract class GameRenderer {
   GamePage;
@@ -12,22 +14,23 @@ export abstract class GameRenderer {
   text = '';
   blackCard;
   hand;
-  cardsPlayed;
+  cardsPlayed: Array<CardSubmission>;
   continueButton;
   //continueRequest;
   winningCard;
   clickable;
+  players;
 
   constructor(GamePage: GamePage) {
     this.GamePage = GamePage;
   }
 
-  renderBlackCard(card: typeof Card) {
+  renderBlackCard(card: Card) {
     console.log('STUB: renderBlackCard()');
     this.blackCard = card;
   }
 
-  renderWinningCard(card: typeof Card) {
+  renderWinningCard(card: Card) {
     console.log('STUB: renderWinningCard()');
     this.winningCard = card;
   }
@@ -55,7 +58,7 @@ export abstract class GameRenderer {
     //this.continueRequest = false;
   }
 
-  renderHand(hand: Array<typeof Card>) {
+  renderHand(hand: Array<Card>) {
     this.hand = hand;
   }
 
@@ -63,8 +66,9 @@ export abstract class GameRenderer {
     this.hand = [];
   }
 
-  renderCardsPlayed(cardsPlayed: Array<typeof Card>, clickable: boolean) {
+  renderCardsPlayed(cardsPlayed: Array<CardSubmission>, clickable: boolean) {
     console.log('renderCardsPlayed');
+    console.log(cardsPlayed);
     this.clickable = clickable;
     this.cardsPlayed = cardsPlayed;
   }
@@ -72,6 +76,11 @@ export abstract class GameRenderer {
   clearCardsPlayed() {
     console.log('clearCardsPlayed');
     this.cardsPlayed = [];
+  }
+
+  renderScores(players: Array<Player>) {
+    console.log('STUB: renderScores');
+    this.players = players;
   }
 
   renderText(str: string) {

@@ -16,6 +16,12 @@
 
   <div *ngIf="this.GameRenderer !== undefined" >
 
+    <ul>
+      <li *ngFor="let player of this.GameRenderer.players; let i = index">
+        {{player.username}}: {{player.score}}
+      </li>
+    </ul>
+
     <p>Black Card:</p>
     <div *ngIf="this.GameRenderer.blackCard !== undefined">
       {{this.GameRenderer.blackCard.content}}
@@ -24,9 +30,9 @@
     <p>TEXT: {{this.GameRenderer.text}}</p>
 
     <ul>
-      <li *ngFor="let card of this.GameRenderer.cardsPlayed; let i = index">
-        <button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(card);" > {{i+1}} {{card.content}} </button>
-        <div *ngIf="!this.GameRenderer.clickable"> {{i+1}} {{card.content}} </div>
+      <li *ngFor="let cardSubmission of this.GameRenderer.cardsPlayed; let i = index">
+        <button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);" > {{i+1}} {{cardSubmission.card.content}} </button>
+        <div *ngIf="!this.GameRenderer.clickable"> {{i+1}} {{cardSubmission.card.content}} </div>
       </li>
     </ul>
 

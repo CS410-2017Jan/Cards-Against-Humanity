@@ -33,7 +33,7 @@ export class GamePlay {
   judge: Player;                  // Current judge username
   blackCard: Card;                // Current black card for round
   continueCounter: number;        // Current number of players ready to continue
-  cardsPlayed: Array<CardSubmission>;  // Array of cards played in current round
+  cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
 
   constructor(channel: string,
               subkey: string,
@@ -57,7 +57,7 @@ export class GamePlay {
     this.roundNumber = 0;
     this.continueCounter = 0;
     this.hand = [];
-    this.cardsPlayed = [];
+    this.cardsSubmitted = [];
 
     console.log('I am: ' + this.PLAYER_USERNAME);
 
@@ -115,7 +115,12 @@ export class GamePlay {
     console.log('start new game');
     // deal out (NUM_CARDS_HAND - 1) cards then starts new round
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
-      this.hand.push(this.deck.drawWhiteCard());
+      var card = this.deck.drawWhiteCard();
+      if (card) {
+        this.hand.push(card);
+      } else {
+        console.log('ERROR: this.deck.drawWhiteCard returned false');
+      }
     }
     // start new round
     var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));

@@ -32,18 +32,20 @@ export class DeckWebService {
           var JSONArray = JSON.parse(xmlHttp.responseText);
           var blackCardsJSON = JSONArray.black;
           var whiteCardsJSON = JSONArray.white;
+
+          var deck : typeof Deck = new Deck(id);
+
           // Add all the black cards
           for (let c of blackCardsJSON){
-            if (c.pick == 1) {
-              cards.push(new Card("black", c.text));
+            if (c.pick == 1) { // only allow black cards with one '_____' slot to fill
+              deck.addCard(new Card("black", c.text));
             }
           }
           // Add all the white cards
           for(let c of whiteCardsJSON){
-            cards.push(new Card("white", c));
+            deck.addCard(new Card("white", c));
           }
-          var deck : typeof Deck = new Deck(id);
-          deck.cards = cards;
+
           callback(deck);
         }
         catch(ex){

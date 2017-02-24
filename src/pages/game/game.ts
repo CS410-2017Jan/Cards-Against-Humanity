@@ -118,15 +118,15 @@ export class GamePage {
     switch (pubnubMsg.code) {
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
-        var whiteCardSubmitted = content; // for readability
-        GamePlay.cardsPlayed.push(whiteCardSubmitted);
+        var whiteCardSubmission = content; // for readability
+        GamePlay.cardsSubmitted.push(whiteCardSubmission);
 
-        if (GamePlay.cardsPlayed.length >= (GamePlay.players.length - 1)) { // if all cards submitted
+        if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // if all cards submitted
           if (this.GamePlay.judge.username == this.GamePlay.PLAYER_USERNAME) {  // if we are the judge
-            GameRenderer.renderCardsPlayed(Tools.clone(GamePlay.cardsPlayed), true);
+            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
             GameRenderer.renderText('Pick a Winner');
           } else {
-            GameRenderer.renderCardsPlayed(Tools.clone(GamePlay.cardsPlayed), false);
+            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
             GameRenderer.renderText('Waiting for judge to pick winner...');
           }
         }
@@ -134,10 +134,10 @@ export class GamePage {
 
       case 'PLAY_BLACK_CARD':
         console.log('case: PLAY_BLACK_CARD');
-        var blackCardSubmitted = content; // for readability
-        GamePlay.deck.discard(blackCardSubmitted.card);
-        GamePlay.blackCard = blackCardSubmitted.card;
-        GameRenderer.renderBlackCard(Tools.clone(blackCardSubmitted.card));
+        var blackCard = new Card(content.card.type, content.card.content); // cast/set as Card object
+        GamePlay.deck.discard(blackCard);
+        GamePlay.blackCard = blackCard;
+        GameRenderer.renderBlackCard(Tools.clone(blackCard));
         break;
 
       case 'PICK_WINNING_CARD':
@@ -146,8 +146,8 @@ export class GamePage {
 
         GamePlay.updateScores(winningCardSubmission);
         GameRenderer.renderScores(Tools.clone(GamePlay.players));
-        GamePlay.cardsPlayed = [];
-        GameRenderer.clearCardsPlayed();
+        GamePlay.cardsSubmitted = [];
+        GameRenderer.clearCardsSubmitted();
         GameRenderer.renderWinningCard(Tools.clone(winningCardSubmission));
         GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
         GameRenderer.renderContinueButton();

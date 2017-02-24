@@ -17,7 +17,7 @@ export abstract class GameRenderer {
   text = '';
   blackCard;
   hand;
-  cardsPlayed: Array<CardSubmission>;
+  cardsSubmitted: Array<CardSubmission>;
   continueButton;
   //continueRequest;
   winningCard;
@@ -83,17 +83,17 @@ export abstract class GameRenderer {
   }
 
   // sets the vars angular uses to render this round's submitted cards
-  renderCardsPlayed(cardsPlayed: Array<CardSubmission>, clickable: boolean) {
-    console.log('STUB: renderCardsPlayed');
-    console.log(cardsPlayed);
+  renderCardsSubmitted(cardsSubmitted: Array<CardSubmission>, clickable: boolean) {
+    console.log('STUB: renderCardsSubmitted');
+    console.log(cardsSubmitted);
     this.clickable = clickable;
-    this.cardsPlayed = cardsPlayed;
+    this.cardsSubmitted = cardsSubmitted;
   }
 
   // clears the vars angular uses to render this round's submitted cards
-  clearCardsPlayed() {
-    console.log('STUB: clearCardsPlayed');
-    this.cardsPlayed = [];
+  clearCardsSubmitted() {
+    console.log('STUB: clearCardsSubmitted');
+    this.cardsSubmitted = [];
   }
 
   // sets the var angular uses to render players' scores

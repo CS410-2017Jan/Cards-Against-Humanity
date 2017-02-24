@@ -31,7 +31,7 @@
     <p>TEXT: {{this.GameRenderer.text}}</p>
 
     <ul>
-      <li *ngFor="let cardSubmission of this.GameRenderer.cardsPlayed; let i = index">
+      <li *ngFor="let cardSubmission of this.GameRenderer.cardsSubmitted; let i = index">
         <button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);" > {{i+1}} {{cardSubmission.card.content}} </button>
         <div *ngIf="!this.GameRenderer.clickable"> {{i+1}} {{cardSubmission.card.content}} </div>
       </li>

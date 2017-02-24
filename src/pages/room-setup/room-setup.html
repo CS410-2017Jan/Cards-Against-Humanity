@@ -7,12 +7,46 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>roomSetup</ion-title>
+    <ion-title>Room Setup</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
+
+  <ion-list>
+    <form #roomForm="ngForm">
+
+      <ion-item>
+      <ion-label fixed>Room Name</ion-label>
+      <ion-input type="text" [(ngModel)]="room.rname" name="rname" #rname="ngModel" ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Players</ion-label>
+        <ion-select [(ngModel)]="room.players" name="players" #players="ngModel">
+          <ion-option value="3">3</ion-option>
+          <ion-option value="4">4</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Private</ion-label>
+        <ion-toggle  value="private"[(ngModel)]="room.rtype" name="rtype" #rtype="ngModel" checked="false"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="text" [(ngModel)]="room.rpassword" name="rpassword" #rpassword="ngModel" ></ion-input>
+      </ion-item>
+
+
+    <ion-item>
+    <button ion-button (click)="onSubmit(roomForm)" type="submit" >Create Room</button>
+    </ion-item>
+
+    </form>
+  </ion-list>
+
 
 </ion-content>

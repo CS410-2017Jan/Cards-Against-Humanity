@@ -7,12 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>waitingRoom</ion-title>
+    <ion-title>Waiting Room: {{room.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
+
+  <ion-list #roomList>
+
+    <ion-item-group *ngFor="let player of shownPlayers">
+      <button ion-item >
+        <h3>{{player.name}}</h3>
+      </button>
+    </ion-item-group>
+
+  </ion-list>
 
   <button ion-button (click)="navigate('GamePage')">navigate to GamePage</button>
 

@@ -204,8 +204,8 @@ export class GamePlay {
     switch (pubnubMsg.code) {
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
-        var whiteCardSubmission = content; // for readability
-        this.cardsPlayed.push(whiteCardSubmission);
+        var whiteCardSubmitted = content; // for readability
+        this.cardsPlayed.push(whiteCardSubmitted);
 
         console.log('cardsPlayed.length : ' + this.cardsPlayed.length);
         console.log('players.length : ' + this.players.length);
@@ -223,10 +223,10 @@ export class GamePlay {
 
       case 'PLAY_BLACK_CARD':
         console.log('case: PLAY_BLACK_CARD');
-        var blackCardSubmission = content; // for readability
-        this.blackCard = blackCardSubmission.card;
-        console.log(blackCardSubmission);
-        this.GameRenderer.renderBlackCard(Tools.clone(blackCardSubmission.card));
+        var blackCardSubmitted = content; // for readability
+        this.blackCard = blackCardSubmitted.card;
+        console.log(blackCardSubmitted);
+        this.GameRenderer.renderBlackCard(Tools.clone(blackCardSubmitted.card));
         break;
 
       case 'PICK_WINNING_CARD':

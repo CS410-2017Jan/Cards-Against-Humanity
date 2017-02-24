@@ -4,6 +4,9 @@
 
 type CardTypes = 'black' | 'white';
 
+// ======================================================================
+// This Class outlines the data structure of a Card
+// ======================================================================
 export class Card {
   type: CardTypes;
   content: string;

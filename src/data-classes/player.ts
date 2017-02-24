@@ -2,6 +2,9 @@
  * Created by jjxn on 2/19/2017.
  */
 
+// ======================================================================
+// This Class outlines the data structure of a Player
+// ======================================================================
 export class Player {
   username: string;
   score: number;

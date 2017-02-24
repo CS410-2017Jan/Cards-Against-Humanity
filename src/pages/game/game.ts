@@ -20,10 +20,10 @@ import { PubNubMsg } from '../../data-classes/pubnub-msg';
 })
 
 // ======================================================================
-// this Class will instantiate a GamePlay class and then call the
-// appropriate methods on that class and then render them.
+// This Class instantiates GamePlay and GameRenderer classes and calls the
+// appropriate methods to play the game and then render the game.
 // Much of the game's logic will be in this class, whereas the game's
-// actions are in the GamePlay class.
+// actions/implementation are in the GamePlay class.
 // ======================================================================
 export class GamePage {
   USERNAME;    // this client's username will not change during a game

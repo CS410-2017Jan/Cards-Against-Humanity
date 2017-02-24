@@ -4,6 +4,9 @@
 
 import { Card } from './card.ts';
 
+// ======================================================================
+// This Class outlines the data structure and methods of a Deck
+// ======================================================================
 export class Deck {
   deckID;
   cards;    // array of Card

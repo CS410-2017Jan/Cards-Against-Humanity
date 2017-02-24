@@ -6,9 +6,11 @@ type MsgCodes = 'PLAY_WHITE_CARD' |
                 'PLAY_BLACK_CARD' |
                 'PICK_WINNING_CARD' |
                 'REQUEST_CONTINUE' |
-                'NEW_ROUND' |
-                'REQUEST_PLAY_CARD';
+                'NEW_ROUND';
 
+// ======================================================================
+// This Class outlines the data structure/protocol of a PubNubMsg we use
+// ======================================================================
 export class PubNubMsg {
   code;
   content;

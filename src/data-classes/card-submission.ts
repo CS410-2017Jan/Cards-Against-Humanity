@@ -4,6 +4,9 @@
 
 import { Card } from './card.ts';
 
+// ======================================================================
+// This Class outlines the data structure of played Card
+// ======================================================================
 export class CardSubmission {
   username: string;
   card: typeof Card;

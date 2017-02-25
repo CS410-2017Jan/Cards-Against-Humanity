@@ -21,7 +21,7 @@ export class ContactPage {
 
   }
 
-  joinGame(username: string) {
+  joinGame(username: string, channel: string) {
     var Contact = this;
 
     var players = [];
@@ -30,7 +30,7 @@ export class ContactPage {
     players[2] = new Player('Player3', 'P3');
 
     var ws = new DeckWebService();
-    ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) {Contact.setUpGame(username, d, players)});
+    ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) { Contact.setUpGame(username, d, players, channel); });
   }
 
   // Test Method for deckWebService
@@ -79,15 +79,20 @@ export class ContactPage {
     ws.joinRoom(userID, roomID, console.log, "DummyPassword");
   }
 
-  setUpGame(username: string, deck: Deck, players: Array<Player>) {
-    // TODO: fix channel bug
+  setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
     // Having only one channel is a serious bug... two devs can't test on one channel...
-    this.navCtrl.push(GamePage, {
-      username: username,
-      channel: 'test_channel_2',
-      deck: deck,
-      players: players
-    });
+
+    if (channel != undefined) {
+      this.navCtrl.push(GamePage, {
+        username: username,
+        channel: channel,
+        deck: deck,
+        players: players
+      });
+    } else {
+      alert('channel was undefined');
+    }
+
   }
 
 }

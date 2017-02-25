@@ -64,29 +64,15 @@ export class GamePage {
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(this.CHANNEL,
-                                'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
-                                'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
-                                this.USERNAME,
-                                this.PLAYERS,
-                                this.DECK,
-                                this
-                                );
+      'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
+      'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
+      this.USERNAME,
+      this.PLAYERS,
+      this.DECK,
+      this
+    );
 
     this.GamePlay.signalJoined();
-/*
-    var isStartingJudge = Player.getPlayerIndex(this.PLAYERS, this.USERNAME) == 0;
-    if (!isStartingJudge) {  // judge doesn't start game yet. Judge waits for other players
-      this.GamePlay.signalReady();
-
-    } else {
-      // check who's connected every 5 seconds
-      setInterval(GamePlay.pingPlayers(), 5000);
-    }
-
-    // http://imgur.com/a/38VII
-    this.GamePlay.startGame();
-
-    */
   }
 
   // ======================================================================
@@ -111,15 +97,11 @@ export class GamePage {
   // This splendid switch makes moves and renders results
   // ======================================================================
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
-    console.log('test1');
     console.log(pubnubEvent);
     var pubnubMsg = JSON.parse(pubnubEvent.message);
-    console.log('test2');
     // check if the received msg adhers to our PubNubMsg Class
     if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
-      console.log('test3');
       var content = JSON.parse(pubnubMsg.content);
-      console.log('test4');
     } else {
       alert("receieved a PubNub message that I don't recognize. See console.");
       console.log('pubnubEvent:');
@@ -141,7 +123,7 @@ export class GamePage {
           console.log('sendMsg START_GAME');
           GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
         } else if (this.joinedCount > this.PLAYERS.length) {
-          alert('this.joinedCount >= this.PLAYERS.length!');
+          console.log('this.joinedCount >= this.PLAYERS.length!');
         }
 
         break;

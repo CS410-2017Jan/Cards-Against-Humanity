@@ -129,11 +129,9 @@ export class Deck {
     for (var i=0; i<n; i++) {
       // the deckID's generated are OK since we're not saving these to the Database
       acc[i] = new Deck(this.deckID+'-'+(i+1), this.blackCards);
-      console.log(acc[i]);
     }
 
     for (var i=0; i<this.whiteCards.length; i++) { // for each white card
-      console.log('i % n: ' + i%n);
       acc[i % n].addCard(this.whiteCards[i])
     }
 

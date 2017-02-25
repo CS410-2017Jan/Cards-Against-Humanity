@@ -8,9 +8,10 @@
 
 <ion-content>
 
-  <button ion-button (click)="joinGame('Player1')">Join Game as Player1</button>
-  <button ion-button (click)="joinGame('Player2')">Join Game as Player2</button>
-  <button ion-button (click)="joinGame('Player3')">Join Game as Player3</button>
+  <label>Channel: </label><input id="channel" [(ngModel)]="$channel"/><br />
+  <button ion-button (click)="joinGame('Player1', $channel)">Join Game as Player1</button>
+  <button ion-button (click)="joinGame('Player2', $channel)">Join Game as Player2</button>
+  <button ion-button (click)="joinGame('Player3', $channel)">Join Game as Player3</button>
 
   <br />
 

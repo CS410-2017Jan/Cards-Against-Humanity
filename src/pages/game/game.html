@@ -16,14 +16,6 @@
 
   <div *ngIf="this.GameRenderer !== undefined" >
 
-    <button ion-button (click)="this.openScoreModal();">See Score</button>
-
-    <ul>
-      <li *ngFor="let player of this.GameRenderer.players; let i = index">
-        {{player.username}}: <ion-badge item-right>{{player.score}}</ion-badge>
-      </li>
-    </ul>
-
     <ion-card>
       <ion-card-header>
         <b>Black Card</b>
@@ -57,8 +49,11 @@
       </ion-item-sliding>
     </ion-list>
 
-    <button *ngIf="this.GameRenderer.continueButton" (click)="this.requestContinue()">Continue</button>
+    <!--<button *ngIf="this.GameRenderer.continueButton" (click)="this.requestContinue()">Continue</button>-->
 
+    <ion-fab right bottom>
+      <button ion-fab color="light" (click)="this.openScoreModal();"><ion-icon name="arrow-dropup"></ion-icon></button>
+    </ion-fab>
   </div>
 
 </ion-content>

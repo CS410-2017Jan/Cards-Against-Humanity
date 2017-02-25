@@ -229,21 +229,36 @@ export class GamePage {
     <ion-title>
       Scoreboard
     </ion-title>
+
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-toolbar>
       </ion-header>
       <ion-content>
 <ion-list>
-    <ion-item *ngFor="let player of this.params.players; let i = index">
-    {{i+1}}. {{player.username}} <ion-badge item-right>{{player.score}}</ion-badge>
+    <ion-item *ngFor="let player of this.params.get('GameRenderer').players; let i = index">
+    {{player.username}} <ion-badge item-right>{{player.score}}</ion-badge>
     </ion-item>
     </ion-list>
     </ion-content>
     `
 })
 export class ScoreModalPage {
-  constructor(public params: NavParams) {
+  //GameRenderer;
+
+  constructor(public params: NavParams, public viewCtrl: ViewController,public platform: Platform) {
     console.log('it worked!');
     console.log(params);
+
+    //this.GameRenderer = params;
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 
 }

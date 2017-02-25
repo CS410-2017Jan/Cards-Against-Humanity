@@ -41,14 +41,11 @@
       </li>
     </ul>
 
-    <ion-list *ngFor="let card of this.GameRenderer.hand; let i = index">
-      <ion-item-sliding #item>
+    <ion-list>
+      <ion-item-sliding #item *ngFor="let card of this.GameRenderer.hand; let i = index">
         <ion-item>
-          <ion-card>
-            <ion-card-content>
-              {{i+1}} {{card.content}}
-            </ion-card-content>
-          </ion-card>
+          <!--{{i+1}}-->
+           <h2>{{card.content}}</h2>
         </ion-item>
         <ion-item-options side="right">
           <button ion-button (click)="this.requestPlayCard(card);">Submit</button>

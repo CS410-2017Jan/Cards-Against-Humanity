@@ -7,12 +7,32 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>login</ion-title>
+    <ion-title>Welcome</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <form #userForm="ngForm">
+
+    <ion-item>
+      <ion-label fixed>Email</ion-label>
+      <ion-input type="email" [(ngModel)]="user.email" name="email" #email="ngModel" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="user.password" name="password" #password="ngModel" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button full (click)="clickLogin(userForm)" type="submit" >Login</button>
+</ion-item>
+    <ion-item>
+  <button ion-button full (click)="openModal()" >Sign Up</button>
+    </ion-item>
+  </form>
 
 </ion-content>

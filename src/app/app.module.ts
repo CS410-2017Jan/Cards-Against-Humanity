@@ -1,8 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-//import { FormsModule }   from '@angular/forms';
-//import { FormBuilder }   from '@angular/forms';
-//import { FormGroup }   from '@angular/forms';
 
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
@@ -12,7 +9,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { RoomSetupPage } from '../pages/room-setup/room-setup';
 import { GamePage } from '../pages/game/game';
 import { WaitingRoomPage } from '../pages/waiting-room/waiting-room';
+import { LoginPage } from '../pages/login/login';
+import { SignUpModalPage } from '../pages/login/login';
 import { RoomListPage } from '../pages/room-list/room-list';
+
 
 
 @NgModule({
@@ -25,7 +25,10 @@ import { RoomListPage } from '../pages/room-list/room-list';
     RoomSetupPage,
     WaitingRoomPage,
     RoomListPage,
-    GamePage
+    LoginPage,
+    GamePage,
+    SignUpModalPage
+
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -40,7 +43,9 @@ import { RoomListPage } from '../pages/room-list/room-list';
     RoomSetupPage,
     WaitingRoomPage,
     RoomListPage,
-    GamePage
+    LoginPage,
+    GamePage,
+    SignUpModalPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

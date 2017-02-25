@@ -44,7 +44,7 @@ export class RoomSetupPage {
       //this.room.rpassword);
     }
 
-    //this.navCtrl.push(waiting-room);
+    //this.navCtrl.push(WaitingRoomPage, roomData);
   }
 
 }

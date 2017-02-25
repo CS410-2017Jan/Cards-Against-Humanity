@@ -2,7 +2,9 @@
  * Created by Joshua Jackson on 21-Feb-17.
  */
 
-type MsgCodes = 'PLAY_WHITE_CARD' |
+type MsgCodes = 'JOINED' |
+                'START_GAME' |
+                'PLAY_WHITE_CARD' |
                 'PLAY_BLACK_CARD' |
                 'PICK_WINNING_CARD' |
                 'REQUEST_CONTINUE' |

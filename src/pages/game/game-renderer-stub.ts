@@ -1,6 +1,7 @@
 /**
  * Created by Joshua Jackson on 21-Feb-17.
  */
+import { NavController, NavParams, ToastController} from 'ionic-angular';
 
 import { IGameRenderer } from './i-game-renderer';
 import { Card } from '../../data-classes/card';
@@ -24,8 +25,7 @@ export class GameRendererStub implements IGameRenderer {
    clickable;
    players;
 
-   constructor() {
-
+   constructor(private toastCtrl: ToastController) {
    }
 
   // set the var angular uses to render the black card
@@ -103,9 +103,22 @@ export class GameRendererStub implements IGameRenderer {
     console.log(this.players);
   }
 
+  presentToast(str: string) {
+    let toast = this.toastCtrl.create({
+      message: str,
+      duration: 10000,
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'OK'
+    });
+
+    toast.present();
+  }
+
   // sets the text var angular uses to display text instructions/messages
   renderText(str: string) {
     console.log('STUB: renderText');
     this.text = str;
+    this.presentToast(str);
   }
 }

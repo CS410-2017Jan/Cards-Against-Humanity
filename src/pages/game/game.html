@@ -32,19 +32,22 @@
       </ion-card-content>
       </ion-card>
 
-    <p>TEXT: {{this.GameRenderer.text}}</p>
+    <!--<p>TEXT: {{this.GameRenderer.text}}</p>-->
 
-    <ul>
-      <li *ngFor="let cardSubmission of this.GameRenderer.cardsSubmitted; let i = index">
-        <button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);" > {{i+1}} {{cardSubmission.card.content}} </button>
-        <div *ngIf="!this.GameRenderer.clickable"> {{i+1}} {{cardSubmission.card.content}} </div>
-      </li>
-    </ul>
+    <ion-list>
+      <ion-item-sliding #item *ngFor="let cardSubmission of this.GameRenderer.cardsSubmitted; let i = index">
+        <ion-item>
+          <h2>{{cardSubmission.card.content}}</h2>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);">Select</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
 
     <ion-list>
       <ion-item-sliding #item *ngFor="let card of this.GameRenderer.hand; let i = index">
         <ion-item>
-          <!--{{i+1}}-->
            <h2>{{card.content}}</h2>
         </ion-item>
         <ion-item-options side="right">

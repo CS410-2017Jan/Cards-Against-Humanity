@@ -35,8 +35,10 @@ export class LoginPage {
       console.log("Valid form!")
     }
 
-    //userDate = getUserInfo();
+    //userData = getUserInfo();
     //this.navCtrl.push(HomePage, userData);
+
+    //user.createLogin(this.data);
 
     this.navCtrl.push(TabsPage);
   }
@@ -53,7 +55,7 @@ export class LoginPage {
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Description
+      Account Creation
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -102,6 +104,8 @@ export class SignUpModalPage {
     console.log("email: ", this.user.email,
       "# of Players: ", this.user.password
     );
+
+    //user.createAccount(this.data);
 
     this.viewCtrl.dismiss();
   }

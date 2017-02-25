@@ -1,7 +1,8 @@
 /**
  * Created by Joshua Jackson on 21-Feb-17.
  */
-import { NavController, NavParams, ToastController,AlertController} from 'ionic-angular';
+import { NavController, NavParams, ToastController,AlertController, ModalController, ViewController, Platform} from 'ionic-angular';
+import { Component } from '@angular/core';
 
 import { IGameRenderer } from './i-game-renderer';
 import { GamePage } from './game';
@@ -26,7 +27,10 @@ export class GameRendererStub implements IGameRenderer {
    clickable;
    players;
 
-   constructor(private toastCtrl: ToastController, public alertCtrl: AlertController,public gamePage:GamePage) {
+   constructor(private toastCtrl: ToastController,
+               public alertCtrl: AlertController,
+               public gamePage:GamePage,
+               public modalCtrl:ModalController) {
    }
 
   // set the var angular uses to render the black card
@@ -140,4 +144,7 @@ export class GameRendererStub implements IGameRenderer {
     this.text = str;
     this.presentToast(str);
   }
+
 }
+
+

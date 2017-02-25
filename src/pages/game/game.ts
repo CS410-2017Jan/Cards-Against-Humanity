@@ -7,7 +7,7 @@
 
 import { Tools } from '../../tools/general-tools';
 import { Component } from '@angular/core';
-import { NavController, NavParams,ToastController,AlertController } from 'ionic-angular';
+import { NavController, NavParams,ToastController,AlertController,ModalController,Platform,ViewController } from 'ionic-angular';
 import { GamePlay } from './game-play';
 import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
@@ -35,10 +35,18 @@ export class GamePage {
 
   GamePlay;      // A GamePlay singleton object
   GameRenderer;  // An instantiation of the GameRenderer abstract class
+  ScoreModal;   //Instance of score modal
 
   joinedCount;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public platform: Platform,
+              public viewCtrl: ViewController,
+              private toastCtrl: ToastController,
+              public alertCtrl: AlertController,
+              public modalCtrl: ModalController) {
+
     console.log('PARAMS: ');
     console.log(navParams);
 
@@ -60,7 +68,7 @@ export class GamePage {
 
     // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
     // dev hack to get the game going. (for testing purposes obviously)
-    this.GameRenderer = new GameRendererStub(this.toastCtrl, this.alertCtrl, this);
+    this.GameRenderer = new GameRendererStub(this.toastCtrl, this.alertCtrl, this, this.modalCtrl);
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(this.CHANNEL,
@@ -206,4 +214,36 @@ export class GamePage {
         console.log("ERROR: default case reached in handleMsg");
     }
   }
+
+  openScoreModal() {
+    let scoreModal = this.modalCtrl.create(ScoreModalPage,{"GameRenderer": this.GameRenderer});
+    scoreModal.present();
+  }
+}
+
+
+@Component({
+  template: `
+  <ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Scoreboard
+    </ion-title>
+  </ion-toolbar>
+      </ion-header>
+      <ion-content>
+<ion-list>
+    <ion-item *ngFor="let player of this.params.players; let i = index">
+    {{i+1}}. {{player.username}} <ion-badge item-right>{{player.score}}</ion-badge>
+    </ion-item>
+    </ion-list>
+    </ion-content>
+    `
+})
+export class ScoreModalPage {
+  constructor(public params: NavParams) {
+    console.log('it worked!');
+    console.log(params);
+  }
+
 }

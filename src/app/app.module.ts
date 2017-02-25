@@ -11,6 +11,7 @@ import { GamePage } from '../pages/game/game';
 import { WaitingRoomPage } from '../pages/waiting-room/waiting-room';
 import { LoginPage } from '../pages/login/login';
 import { SignUpModalPage } from '../pages/login/login';
+import { ScoreModalPage } from '../pages/game/game'
 import { RoomListPage } from '../pages/room-list/room-list';
 
 
@@ -27,7 +28,8 @@ import { RoomListPage } from '../pages/room-list/room-list';
     RoomListPage,
     LoginPage,
     GamePage,
-    SignUpModalPage
+    SignUpModalPage,
+    ScoreModalPage
 
   ],
   imports: [
@@ -45,7 +47,8 @@ import { RoomListPage } from '../pages/room-list/room-list';
     RoomListPage,
     LoginPage,
     GamePage,
-    SignUpModalPage
+    SignUpModalPage,
+    ScoreModalPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

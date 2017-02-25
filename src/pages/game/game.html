@@ -16,6 +16,8 @@
 
   <div *ngIf="this.GameRenderer !== undefined" >
 
+    <button ion-button (click)="this.openScoreModal();">See Score</button>
+
     <ul>
       <li *ngFor="let player of this.GameRenderer.players; let i = index">
         {{player.username}}: <ion-badge item-right>{{player.score}}</ion-badge>

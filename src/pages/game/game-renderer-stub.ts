@@ -109,5 +109,3 @@ export class GameRendererStub implements IGameRenderer {
     this.text = str;
   }
 }
-
-

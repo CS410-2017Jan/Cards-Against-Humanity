@@ -72,5 +72,3 @@ export class GameRendererStub implements IGameRenderer {
     console.log('STUB: renderText');
   }
 }
-
-

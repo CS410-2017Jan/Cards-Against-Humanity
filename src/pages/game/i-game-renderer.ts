@@ -52,5 +52,3 @@ export interface IGameRenderer {
   // renders text instructions
   renderText(str: string);
 }
-
-

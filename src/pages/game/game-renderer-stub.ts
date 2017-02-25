@@ -1,9 +1,10 @@
 /**
  * Created by Joshua Jackson on 21-Feb-17.
  */
-import { NavController, NavParams, ToastController} from 'ionic-angular';
+import { NavController, NavParams, ToastController,AlertController} from 'ionic-angular';
 
 import { IGameRenderer } from './i-game-renderer';
+import { GamePage } from './game';
 import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
@@ -25,7 +26,7 @@ export class GameRendererStub implements IGameRenderer {
    clickable;
    players;
 
-   constructor(private toastCtrl: ToastController) {
+   constructor(private toastCtrl: ToastController, public alertCtrl: AlertController,public gamePage:GamePage) {
    }
 
   // set the var angular uses to render the black card
@@ -46,11 +47,29 @@ export class GameRendererStub implements IGameRenderer {
     this.winningCard = false;
   }
 
+
   // sets the boolean which tells angular to render the continue button
   renderContinueButton() {
     console.log('STUB: renderContinueButton');
     this.continueButton = true;
-  }
+
+      let alert = this.alertCtrl.create({
+        title: 'Ready to move on?',
+        message: '',
+        buttons: [
+          {
+            text: 'Continue',
+            handler: () => {
+              console.log('Continue clicked');
+            }
+          }
+        ]
+      });
+
+      alert.present();
+
+    this.gamePage.requestContinue();
+    }
 
   // falsifies the boolean which tells angular to clear the continue button
   clearContinueButton() {

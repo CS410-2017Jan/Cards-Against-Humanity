@@ -14,12 +14,11 @@
 
 <ion-content padding>
 
-
   <div *ngIf="this.GameRenderer !== undefined" >
 
     <ul>
       <li *ngFor="let player of this.GameRenderer.players; let i = index">
-        {{player.username}}: {{player.score}}
+        {{player.username}}: <ion-badge item-right>{{player.score}}</ion-badge>
       </li>
     </ul>
 

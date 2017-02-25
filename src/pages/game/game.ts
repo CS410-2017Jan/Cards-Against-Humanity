@@ -7,7 +7,7 @@
 
 import { Tools } from '../../tools/general-tools';
 import { Component } from '@angular/core';
-import { NavController, NavParams,ToastController } from 'ionic-angular';
+import { NavController, NavParams,ToastController,AlertController } from 'ionic-angular';
 import { GamePlay } from './game-play';
 import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
@@ -38,7 +38,7 @@ export class GamePage {
 
   joinedCount;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController, public alertCtrl: AlertController) {
     console.log('PARAMS: ');
     console.log(navParams);
 
@@ -60,7 +60,7 @@ export class GamePage {
 
     // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
     // dev hack to get the game going. (for testing purposes obviously)
-    this.GameRenderer = new GameRendererStub(this.toastCtrl);
+    this.GameRenderer = new GameRendererStub(this.toastCtrl, this.alertCtrl, this);
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(this.CHANNEL,

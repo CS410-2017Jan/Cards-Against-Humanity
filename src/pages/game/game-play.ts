@@ -207,41 +207,9 @@ export class GamePlay {
     this.sendMsg(new PubNubMsg('JOINED', JSON.stringify(this.PLAYER_USERNAME)));
   }
 
-  /*
-
-  signalJoined() {
-    this.PubNub.setState(
-      {
-        state: {
-          "status" : "joined"
-        },
-        uuid: this.PLAYER_USERNAME,
-        channels: [this.CHANNEL]
-      },
-      function (status) {
-        // handle state setting response
-        console.log(status);
-      }
-    );
-  }
-*/
   // handles a PubNub presence event. Starts the game when enough players have joined.
   handlePresence(p) {
     console.log(p);
-    /*
-    if (p.action == 'state-change') {
-      if (p.state.status == 'joined') {
-        this.joinedCount++;
-      }
-    }
-
-    if (this.joinedCount == this.players.length) {
-      console.log('sendMsg START_GAME');
-      this.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
-    } else if (this.joinedCount > this.players.length) {
-      alert('this.joinedCount >= this.players.length!');
-    }
-    */
   }
 }
 

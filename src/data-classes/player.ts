@@ -24,6 +24,7 @@ export class Player {
     for (var i = 0; i < players.length; i++) {
       if (players[i].username == username) return i;
     }
+    console.log("ERROR: username not found in given players");
     return -1;
   }
 

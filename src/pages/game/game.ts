@@ -36,6 +36,8 @@ export class GamePage {
   GamePlay;      // A GamePlay singleton object
   GameRenderer;  // An instantiation of the GameRenderer abstract class
 
+  joinedCount;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,) {
     console.log('PARAMS: ');
     console.log(navParams);
@@ -48,6 +50,8 @@ export class GamePage {
 
     var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
     this.DECK = navParams.get('deck').deal(3)[playerIndex];
+
+    this.joinedCount = 0;
   }
 
   ionViewDidLoad() {
@@ -68,8 +72,21 @@ export class GamePage {
                                 this
                                 );
 
+    this.GamePlay.signalJoined();
+/*
+    var isStartingJudge = Player.getPlayerIndex(this.PLAYERS, this.USERNAME) == 0;
+    if (!isStartingJudge) {  // judge doesn't start game yet. Judge waits for other players
+      this.GamePlay.signalReady();
+
+    } else {
+      // check who's connected every 5 seconds
+      setInterval(GamePlay.pingPlayers(), 5000);
+    }
+
     // http://imgur.com/a/38VII
     this.GamePlay.startGame();
+
+    */
   }
 
   // ======================================================================
@@ -94,11 +111,15 @@ export class GamePage {
   // This splendid switch makes moves and renders results
   // ======================================================================
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
+    console.log('test1');
     console.log(pubnubEvent);
     var pubnubMsg = JSON.parse(pubnubEvent.message);
+    console.log('test2');
     // check if the received msg adhers to our PubNubMsg Class
     if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
+      console.log('test3');
       var content = JSON.parse(pubnubMsg.content);
+      console.log('test4');
     } else {
       alert("receieved a PubNub message that I don't recognize. See console.");
       console.log('pubnubEvent:');
@@ -112,6 +133,25 @@ export class GamePage {
     var GamePlay = this.GamePlay;          // for readability
 
     switch (pubnubMsg.code) {
+      case 'JOINED':
+        console.log('case: JOINED');
+        this.joinedCount++;
+
+        if (this.joinedCount == this.PLAYERS.length) {
+          console.log('sendMsg START_GAME');
+          GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
+        } else if (this.joinedCount > this.PLAYERS.length) {
+          alert('this.joinedCount >= this.PLAYERS.length!');
+        }
+
+        break;
+
+      case 'START_GAME':
+        console.log('case: START_GAME');
+        // http://imgur.com/a/38VII
+        this.GamePlay.startGame();
+        break;
+
       case 'PLAY_WHITE_CARD':
         console.log('case: PLAY_WHITE_CARD');
         var whiteCardSubmission = content; // for readability

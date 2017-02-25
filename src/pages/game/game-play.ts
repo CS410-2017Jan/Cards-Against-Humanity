@@ -34,6 +34,7 @@ export class GamePlay {
   blackCard: Card;                // Current black card for round
   continueCounter: number;        // Current number of players ready to continue
   cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
+  joinedCount: number;
 
   constructor(channel: string,
               subkey: string,
@@ -58,6 +59,7 @@ export class GamePlay {
     this.continueCounter = 0;
     this.hand = [];
     this.cardsSubmitted = [];
+    this.joinedCount = 0;
 
     console.log('I am: ' + this.PLAYER_USERNAME);
 
@@ -108,6 +110,12 @@ export class GamePlay {
     });
   }
 
+  // sends PubNubMsg indicating that this player is ready to start the game
+  // signalReady() {
+  //   var msg = new PubNubMsg('READY', 'null');  // TODO: is null necessary?
+  //   this.sendMsg(msg);
+  // }
+
   // maybe move this to game.ts and so game-play.ts doesn't need to know about
   // decks. This function is kinda logic anyway.
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
@@ -123,7 +131,7 @@ export class GamePlay {
       }
     }
     // start new round
-    var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+    var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));  // TODO: is null necessary?
     this.Game.handleEvent({message:newRoundMsg});
   }
 
@@ -140,6 +148,8 @@ export class GamePlay {
 
   // submits the given card through a pubnub msg on the pubnub game channel
   playCard(card: Card) {
+    console.log('playCard card:');
+    console.log(card);
     if (card.type == 'white') {
       var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
       var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(cardSubmission));
@@ -191,9 +201,47 @@ export class GamePlay {
       message : JSON.stringify(msg) });
   }
 
-  // TODO: do this. this function. just do it.
-  handlePresence(p: Object) {
+  // sends PubNub message indicating player has joined the game
+  signalJoined() {
+    console.log('signalJoined');
+    this.sendMsg(new PubNubMsg('JOINED', JSON.stringify(this.PLAYER_USERNAME)));
+  }
+
+  /*
+
+  signalJoined() {
+    this.PubNub.setState(
+      {
+        state: {
+          "status" : "joined"
+        },
+        uuid: this.PLAYER_USERNAME,
+        channels: [this.CHANNEL]
+      },
+      function (status) {
+        // handle state setting response
+        console.log(status);
+      }
+    );
+  }
+*/
+  // handles a PubNub presence event. Starts the game when enough players have joined.
+  handlePresence(p) {
     console.log(p);
+    /*
+    if (p.action == 'state-change') {
+      if (p.state.status == 'joined') {
+        this.joinedCount++;
+      }
+    }
+
+    if (this.joinedCount == this.players.length) {
+      console.log('sendMsg START_GAME');
+      this.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
+    } else if (this.joinedCount > this.players.length) {
+      alert('this.joinedCount >= this.players.length!');
+    }
+    */
   }
 }
 

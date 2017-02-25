@@ -2,31 +2,31 @@
  * Created by Joshua Jackson on 21-Feb-17.
  */
 
-import { Card } from './card';
-import { Player } from './player';
-import { CardSubmission } from './card-submission';
-import { Tools } from '../tools/general-tools';
+import { IGameRenderer } from './i-game-renderer';
+import { Card } from '../../data-classes/card';
+import { Player } from '../../data-classes/player';
+import { CardSubmission } from '../../data-classes/card-submission';
+import { Tools } from '../../tools/general-tools';
 
 // ======================================================================
-// This Class is more like an interface, but with stubs. So it's an
-// abstract class which renders game events
+// This Class a development stub implementation of the interface IGameRenderer
 // ======================================================================
-export abstract class GameRenderer {
+export class GameRendererStub implements IGameRenderer {
 
   // vars to render using angular:
-  text = '';
-  blackCard;
-  hand;
-  cardsSubmitted: Array<CardSubmission>;
-  continueButton;
-  //continueRequest;
-  winningCard;
-  clickable;
-  players;
+   text = '';
+   blackCard;
+   hand;
+   cardsSubmitted: Array<CardSubmission>;
+   continueButton;
+   //continueRequest;
+   winningCard;
+   clickable;
+   players;
 
-  constructor() {
-    // this is an abstract class. you should not instantiate an abstract class. don't do it.
-  }
+   constructor() {
+
+   }
 
   // set the var angular uses to render the black card
   renderBlackCard(card: Card) {
@@ -58,17 +58,17 @@ export abstract class GameRenderer {
     this.continueButton = false;
   }
 
-  // called when some player requests continuing
-  renderContinueRequest() {
-    console.log('STUB: renderContinueRequest');
-    //this.continueRequest = true;
-  }
-
-  // not currently in use
-  clearContinueRequest() {
-    console.log('STUB: clearContinueRequest');
-    //this.continueRequest = false;
-  }
+  // // called when some player requests continuing
+  // renderContinueRequest() {
+  //   console.log('STUB: renderContinueRequest');
+  //   //this.continueRequest = true;
+  // }
+  //
+  // // not currently in use
+  // clearContinueRequest() {
+  //   console.log('STUB: clearContinueRequest');
+  //   //this.continueRequest = false;
+  // }
 
   // sets the hand var angular uses to render this player's hand of cards
   renderHand(hand: Array<Card>) {

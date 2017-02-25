@@ -11,7 +11,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { GamePlay } from './game-play';
 import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
-import { GameRenderer } from '../../data-classes/game-renderer.ts';
+import { GameRendererStub } from './game-renderer-stub';
 import { PubNubMsg } from '../../data-classes/pubnub-msg';
 
 @Component({
@@ -60,7 +60,7 @@ export class GamePage {
 
     // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
     // dev hack to get the game going. (for testing purposes obviously)
-    this.GameRenderer = new GameRenderer();
+    this.GameRenderer = new GameRendererStub();
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(this.CHANNEL,

@@ -102,10 +102,10 @@ export class GamePage implements IGameRenderer {
     this.GamePlay.requestContinue();
   }
 
-  openScoreModal() {
-    let scoreModal = this.modalCtrl.create(ScoreModalPage,{"GameRenderer": this.GameRenderer});
-    scoreModal.present();
-  }
+  // openScoreModal() {
+  //   let scoreModal = this.modalCtrl.create(ScoreModalPage,{"GameRenderer": this.GameRenderer});
+  //   scoreModal.present();
+  // }
 
   // ======================================================================
   // Below functions implement the interface: IGameRender

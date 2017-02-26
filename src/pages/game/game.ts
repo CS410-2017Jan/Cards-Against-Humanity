@@ -36,7 +36,7 @@ export class GamePage implements IGameRenderer {
   PLAYERS;       // Player object to pass to GamePlay
 
   GamePlay;      // A GamePlay singleton object
-  GameRenderer;  // An instantiation of the GameRenderer abstract class
+  //GameRenderer;  // An instantiation of the GameRenderer abstract class
   ScoreModal;   //Instance of score modal
 
   joinedCount;
@@ -115,18 +115,12 @@ export class GamePage implements IGameRenderer {
   text = '';
   blackCard;
   hand;
-  cardsSubmitted: Array<CardSubmission>;
+  cardsPlayed: Array<CardSubmission>;
   continueButton;
   //continueRequest;
   winningCard;
   clickable;
   players;
-
-  // constructor(private toastCtrl: ToastController,
-  //             public alertCtrl: AlertController,
-  //             public gamePage:GamePage,
-  //             public modalCtrl:ModalController) {
-  // }
 
   // set the var angular uses to render the black card
   renderBlackCard(card: Card) {
@@ -150,23 +144,6 @@ export class GamePage implements IGameRenderer {
   renderContinueButton() {
     console.log('STUB: renderContinueButton');
     this.continueButton = true;
-
-    let alert = this.alertCtrl.create({
-      title: 'Ready to move on?',
-      message: '',
-      buttons: [
-        {
-          text: 'Continue',
-          handler: () => {
-            console.log('Continue clicked');
-          }
-        }
-      ]
-    });
-
-    alert.present();
-
-    this.requestContinue();
   }
 
   // falsifies the boolean which tells angular to clear the continue button
@@ -175,17 +152,17 @@ export class GamePage implements IGameRenderer {
     this.continueButton = false;
   }
 
-  // // called when some player requests continuing
-  // renderContinueRequest() {
-  //   console.log('STUB: renderContinueRequest');
-  //   //this.continueRequest = true;
-  // }
-  //
-  // // not currently in use
-  // clearContinueRequest() {
-  //   console.log('STUB: clearContinueRequest');
-  //   //this.continueRequest = false;
-  // }
+  // called when some player requests continuing
+  renderContinueRequest() {
+    console.log('STUB: renderContinueRequest');
+    //this.continueRequest = true;
+  }
+
+  // not currently in use
+  clearContinueRequest() {
+    console.log('STUB: clearContinueRequest');
+    //this.continueRequest = false;
+  }
 
   // sets the hand var angular uses to render this player's hand of cards
   renderHand(hand: Array<Card>) {
@@ -200,17 +177,17 @@ export class GamePage implements IGameRenderer {
   }
 
   // sets the vars angular uses to render this round's submitted cards
-  renderCardsSubmitted(cardsSubmitted: Array<CardSubmission>, clickable: boolean) {
+  renderCardsSubmitted(cardsPlayed: Array<CardSubmission>, clickable: boolean) {
     console.log('STUB: renderCardsSubmitted');
-    console.log(cardsSubmitted);
+    console.log(cardsPlayed);
     this.clickable = clickable;
-    this.cardsSubmitted = cardsSubmitted;
+    this.cardsPlayed = cardsPlayed;
   }
 
   // clears the vars angular uses to render this round's submitted cards
   clearCardsSubmitted() {
     console.log('STUB: clearCardsSubmitted');
-    this.cardsSubmitted = [];
+    this.cardsPlayed = [];
   }
 
   // sets the var angular uses to render players' scores
@@ -220,24 +197,139 @@ export class GamePage implements IGameRenderer {
     console.log(this.players);
   }
 
-  presentToast(str: string) {
-    let toast = this.toastCtrl.create({
-      message: str,
-      duration: 10000,
-      position: 'bottom',
-      showCloseButton: true,
-      closeButtonText: 'OK'
-    });
-
-    toast.present();
-  }
-
   // sets the text var angular uses to display text instructions/messages
   renderText(str: string) {
     console.log('STUB: renderText');
     this.text = str;
-    this.presentToast(str);
   }
+
+  // // vars to render using angular:
+  // text = '';
+  // blackCard;
+  // hand;
+  // cardsSubmitted: Array<CardSubmission>;
+  // continueButton;
+  // //continueRequest;
+  // winningCard;
+  // clickable;
+  // players;
+  //
+  // // constructor(private toastCtrl: ToastController,
+  // //             public alertCtrl: AlertController,
+  // //             public gamePage:GamePage,
+  // //             public modalCtrl:ModalController) {
+  // // }
+  //
+  // // set the var angular uses to render the black card
+  // renderBlackCard(card: Card) {
+  //   console.log('STUB: renderBlackCard()');
+  //   this.blackCard = card;
+  // }
+  //
+  // // sets the var angular uses to render the winning card
+  // renderWinningCard(card: Card) {
+  //   console.log('STUB: renderWinningCard()');
+  //   this.winningCard = card;
+  // }
+  //
+  // // clears the var angular uses to render the winning card
+  // clearWinningCard() {
+  //   console.log('STUB: clearWinningCard');
+  //   this.winningCard = false;
+  // }
+  //
+  // // sets the boolean which tells angular to render the continue button
+  // renderContinueButton() {
+  //   console.log('STUB: renderContinueButton');
+  //   this.continueButton = true;
+  //
+  //   let alert = this.alertCtrl.create({
+  //     title: 'Ready to move on?',
+  //     message: '',
+  //     buttons: [
+  //       {
+  //         text: 'Continue',
+  //         handler: () => {
+  //           console.log('Continue clicked');
+  //         }
+  //       }
+  //     ]
+  //   });
+  //
+  //   alert.present();
+  //
+  //   this.requestContinue();
+  // }
+  //
+  // // falsifies the boolean which tells angular to clear the continue button
+  // clearContinueButton() {
+  //   console.log('STUB: clearContinueButton');
+  //   this.continueButton = false;
+  // }
+  //
+  // // // called when some player requests continuing
+  // // renderContinueRequest() {
+  // //   console.log('STUB: renderContinueRequest');
+  // //   //this.continueRequest = true;
+  // // }
+  // //
+  // // // not currently in use
+  // // clearContinueRequest() {
+  // //   console.log('STUB: clearContinueRequest');
+  // //   //this.continueRequest = false;
+  // // }
+  //
+  // // sets the hand var angular uses to render this player's hand of cards
+  // renderHand(hand: Array<Card>) {
+  //   console.log('STUB: renderHand');
+  //   this.hand = hand;
+  // }
+  //
+  // // clears the hand var angular uses to render this player's hand of cards
+  // clearHand() {
+  //   console.log('STUB: clearHand');
+  //   this.hand = [];
+  // }
+  //
+  // // sets the vars angular uses to render this round's submitted cards
+  // renderCardsSubmitted(cardsSubmitted: Array<CardSubmission>, clickable: boolean) {
+  //   console.log('STUB: renderCardsSubmitted');
+  //   console.log(cardsSubmitted);
+  //   this.clickable = clickable;
+  //   this.cardsSubmitted = cardsSubmitted;
+  // }
+  //
+  // // clears the vars angular uses to render this round's submitted cards
+  // clearCardsSubmitted() {
+  //   console.log('STUB: clearCardsSubmitted');
+  //   this.cardsSubmitted = [];
+  // }
+  //
+  // // sets the var angular uses to render players' scores
+  // renderScores(players: Array<Player>) {
+  //   console.log('STUB: renderScores');
+  //   this.players = Tools.clone(players);
+  //   console.log(this.players);
+  // }
+  //
+  // presentToast(str: string) {
+  //   let toast = this.toastCtrl.create({
+  //     message: str,
+  //     duration: 10000,
+  //     position: 'bottom',
+  //     showCloseButton: true,
+  //     closeButtonText: 'OK'
+  //   });
+  //
+  //   toast.present();
+  // }
+  //
+  // // sets the text var angular uses to display text instructions/messages
+  // renderText(str: string) {
+  //   console.log('STUB: renderText');
+  //   this.text = str;
+  //   this.presentToast(str);
+  // }
 }
 
 

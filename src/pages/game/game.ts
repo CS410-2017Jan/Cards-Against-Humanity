@@ -39,13 +39,13 @@ export class GamePage implements IGameRenderer {
   //GameRenderer;  // An instantiation of the GameRenderer abstract class
   ScoreModal;   //Instance of score modal
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public platform: Platform,
-              public viewCtrl: ViewController,
-              private toastCtrl: ToastController,
-              public alertCtrl: AlertController,
-              public modalCtrl: ModalController) {
+  constructor(public navCtrl:NavController,
+              public navParams:NavParams,
+              public platform:Platform,
+              public viewCtrl:ViewController,
+              private toastCtrl:ToastController,
+              public alertCtrl:AlertController,
+              public modalCtrl:ModalController) {
 
     console.log('PARAMS: ');
     console.log(navParams);
@@ -87,7 +87,7 @@ export class GamePage implements IGameRenderer {
 
   // called by user clicking a button or when the judge starts
   // a round and plays a black card
-  requestPlayCard(card: Card) {
+  requestPlayCard(card:Card) {
     this.clearHand();
     this.GamePlay.playCard(card);
   }
@@ -98,10 +98,10 @@ export class GamePage implements IGameRenderer {
     this.GamePlay.requestContinue();
   }
 
-  // openScoreModal() {
-  //   let scoreModal = this.modalCtrl.create(ScoreModalPage,{"GameRenderer": this.GameRenderer});
-  //   scoreModal.present();
-  // }
+  openScoreModal() {
+    let scoreModal = this.modalCtrl.create(ScoreModalPage,{"players": this.players});
+    scoreModal.present();
+  }
 
   // ======================================================================
   // Below functions implement the interface: IGameRender
@@ -111,7 +111,7 @@ export class GamePage implements IGameRenderer {
   text = '';
   blackCard;
   hand;
-  cardSubmissions: Array<CardSubmission>;
+  cardSubmissions:Array<CardSubmission>;
   continueButton;
   //continueRequest;
   winningCard;
@@ -119,13 +119,13 @@ export class GamePage implements IGameRenderer {
   players;
 
   // set the var angular uses to render the black card
-  renderBlackCard(card: Card) {
+  renderBlackCard(card:Card) {
     console.log('STUB: renderBlackCard()');
     this.blackCard = card;
   }
 
   // sets the var angular uses to render the winning card
-  renderWinningCard(card: Card) {
+  renderWinningCard(card:Card) {
     console.log('STUB: renderWinningCard()');
     this.winningCard = card;
   }
@@ -140,6 +140,23 @@ export class GamePage implements IGameRenderer {
   renderContinueButton() {
     console.log('STUB: renderContinueButton');
     this.continueButton = true;
+
+       let alert = this.alertCtrl.create({
+         title: 'Ready to move on?',
+         message: '',
+         buttons: [
+           {
+             text: 'Continue',
+             handler: () => {
+               console.log('Continue clicked');
+             }
+           }
+         ]
+       });
+
+       alert.present();
+
+    this.requestContinue();
   }
 
   // falsifies the boolean which tells angular to clear the continue button
@@ -161,7 +178,7 @@ export class GamePage implements IGameRenderer {
   }
 
   // sets the hand var angular uses to render this player's hand of cards
-  renderHand(hand: Array<Card>) {
+  renderHand(hand:Array<Card>) {
     console.log('STUB: renderHand');
     this.hand = hand;
   }
@@ -173,7 +190,7 @@ export class GamePage implements IGameRenderer {
   }
 
   // sets the vars angular uses to render this round's submitted cards
-  renderCardsSubmitted(cardsPlayed: Array<CardSubmission>, clickable: boolean) {
+  renderCardsSubmitted(cardsPlayed:Array<CardSubmission>, clickable:boolean) {
     console.log('STUB: renderCardsSubmitted');
     console.log(cardsPlayed);
     this.clickable = clickable;
@@ -187,17 +204,31 @@ export class GamePage implements IGameRenderer {
   }
 
   // sets the var angular uses to render players' scores
-  renderScores(players: Array<Player>) {
+  renderScores(players:Array<Player>) {
     console.log('STUB: renderScores');
     this.players = Tools.clone(players);
     console.log(this.players);
   }
 
+  presentToast(str:string) {
+    let toast = this.toastCtrl.create({
+      message: str,
+      duration: 10000,
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'OK'
+    });
+
+    toast.present();
+  }
+
   // sets the text var angular uses to display text instructions/messages
-  renderText(str: string) {
+  renderText(str:string) {
     console.log('STUB: renderText');
     this.text = str;
+    this.presentToast(str);
   }
+}
 
   // // vars to render using angular:
   // text = '';
@@ -308,39 +339,30 @@ export class GamePage implements IGameRenderer {
   //   console.log(this.players);
   // }
   //
-  // presentToast(str: string) {
-  //   let toast = this.toastCtrl.create({
-  //     message: str,
-  //     duration: 10000,
-  //     position: 'bottom',
-  //     showCloseButton: true,
-  //     closeButtonText: 'OK'
-  //   });
-  //
-  //   toast.present();
-  // }
-  //
-  // // sets the text var angular uses to display text instructions/messages
-  // renderText(str: string) {
-  //   console.log('STUB: renderText');
-  //   this.text = str;
-  //   this.presentToast(str);
-  // }
-}
 
 
 @Component({
   template: `
   <ion-header>
   <ion-toolbar>
+
     <ion-title>
       Scoreboard
     </ion-title>
+
+     <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-toolbar>
       </ion-header>
+
       <ion-content>
 <ion-list>
-    <ion-item *ngFor="let player of this.params.players; let i = index">
+    <ion-item *ngFor="let player of  this.params.get('players'); let i = index">
     {{i+1}}. {{player.username}} <ion-badge item-right>{{player.score}}</ion-badge>
     </ion-item>
     </ion-list>
@@ -348,9 +370,11 @@ export class GamePage implements IGameRenderer {
     `
 })
 export class ScoreModalPage {
-  constructor(public params: NavParams) {
+  constructor(public params: NavParams,public viewCtrl: ViewController,public platform: Platform) {
     console.log('it worked!');
-    console.log(params);
   }
 
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
 }

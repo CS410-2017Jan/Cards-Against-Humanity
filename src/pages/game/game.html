@@ -12,96 +12,87 @@
 
 </ion-header>
 
-<ion-content padding>
+<!--<ion-content padding>-->
 
-  <!--Basic Game Render Stub Template. DO NOT CHANGE-->
-  <div *ngIf="this !== undefined" >
+  <!--&lt;!&ndash;Basic Game Render Stub Template. DO NOT CHANGE&ndash;&gt;-->
+  <!--<div *ngIf="this !== undefined" >-->
 
-    <p>Scores:</p>
-    <div *ngIf="this.players !== undefined">
-      <ul>
-        <li *ngFor="let player of this.players; let i = index">
-          {{player.score}}
-        </li>
-      </ul>
-    </div>
-
-
-    <p>Black Card:</p>
-    <div *ngIf="this.blackCard !== undefined">
-      {{this.blackCard.content}}
-    </div>
-
-    <p>TEXT: {{this.text}}</p>
-
-    <ul>
-      <li *ngFor="let cardSubmission of this.cardSubmissions; let i = index">
-        <button *ngIf="this.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);" > {{i+1}} {{cardSubmission.card.content}} </button>
-        <div *ngIf="!this.clickable"> {{i+1}} {{cardSubmission.card.content}} </div>
-      </li>
-    </ul>
-
-    <ul>
-      <li *ngFor="let card of this.hand; let i = index">
-        <button (click)="this.requestPlayCard(card);" > {{i+1}} {{card.content}} </button>
-      </li>
-    </ul>
-
-    <button *ngIf="this.continueButton" (click)="this.requestContinue()">Continue</button>
-
-  </div>
-  <!--END of Basic Game Render Stub Template-->
+    <!--<p>Scores:</p>-->
+    <!--<div *ngIf="this.players !== undefined">-->
+      <!--<ul>-->
+        <!--<li *ngFor="let player of this.players; let i = index">-->
+          <!--{{player.score}}-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</div>-->
 
 
+    <!--<p>Black Card:</p>-->
+    <!--<div *ngIf="this.blackCard !== undefined">-->
+      <!--{{this.blackCard.content}}-->
+    <!--</div>-->
 
-
-
-
-  <!--<div *ngIf="this.GameRenderer !== undefined" >-->
-
-    <!--<button ion-button (click)="this.openScoreModal();">See Score</button>-->
+    <!--<p>TEXT: {{this.text}}</p>-->
 
     <!--<ul>-->
-      <!--<li *ngFor="let player of this.GameRenderer.players; let i = index">-->
-        <!--{{player.username}}: <ion-badge item-right>{{player.score}}</ion-badge>-->
+      <!--<li *ngFor="let cardSubmission of this.cardSubmissions; let i = index">-->
+        <!--<button *ngIf="this.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);" > {{i+1}} {{cardSubmission.card.content}} </button>-->
+        <!--<div *ngIf="!this.clickable"> {{i+1}} {{cardSubmission.card.content}} </div>-->
       <!--</li>-->
     <!--</ul>-->
 
-    <!--<ion-card>-->
-      <!--<ion-card-header>-->
-        <!--<b>Black Card</b>-->
-        <!--</ion-card-header>-->
-      <!--<ion-card-content *ngIf="this.GameRenderer.blackCard !== undefined">-->
-      <!--{{this.GameRenderer.blackCard.content}}-->
-      <!--</ion-card-content>-->
-      <!--</ion-card>-->
+    <!--<ul>-->
+      <!--<li *ngFor="let card of this.hand; let i = index">-->
+        <!--<button (click)="this.requestPlayCard(card);" > {{i+1}} {{card.content}} </button>-->
+      <!--</li>-->
+    <!--</ul>-->
 
-    <!--&lt;!&ndash;<p>TEXT: {{this.GameRenderer.text}}</p>&ndash;&gt;-->
-
-    <!--<ion-list>-->
-      <!--<ion-item-sliding #item *ngFor="let cardSubmission of this.GameRenderer.cardSubmissions; let i = index">-->
-        <!--<ion-item>-->
-          <!--<h2>{{cardSubmission.card.content}}</h2>-->
-        <!--</ion-item>-->
-        <!--<ion-item-options side="right">-->
-          <!--<button ion-button *ngIf="this.GameRenderer.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);">Select</button>-->
-        <!--</ion-item-options>-->
-      <!--</ion-item-sliding>-->
-    <!--</ion-list>-->
-
-    <!--<ion-list>-->
-      <!--<ion-item-sliding #item *ngFor="let card of this.GameRenderer.hand; let i = index">-->
-        <!--<ion-item>-->
-           <!--<h2>{{card.content}}</h2>-->
-        <!--</ion-item>-->
-        <!--<ion-item-options side="right">-->
-          <!--<button ion-button (click)="this.requestPlayCard(card);">Submit</button>-->
-        <!--</ion-item-options>-->
-      <!--</ion-item-sliding>-->
-    <!--</ion-list>-->
-
-    <!--<button *ngIf="this.GameRenderer.continueButton" (click)="this.requestContinue()">Continue</button>-->
+    <!--<button *ngIf="this.continueButton" (click)="this.requestContinue()">Continue</button>-->
 
   <!--</div>-->
+  <!--&lt;!&ndash;END of Basic Game Render Stub Template&ndash;&gt;-->
+
+
+
+<ion-content>
+  <div *ngIf="this !== undefined" >
+
+    <ion-card>
+      <ion-card-header>
+        <b>Black Card</b>
+        </ion-card-header>
+      <ion-card-content *ngIf="this.blackCard !== undefined">
+      {{this.blackCard.content}}
+      </ion-card-content>
+      </ion-card>
+
+
+    <ion-list>
+      <ion-item-sliding #item *ngFor="let cardSubmission of this.cardSubmissions; let i = index">
+        <ion-item>
+          <h2>{{this.cardSubmission.card.content}}</h2>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button *ngIf="this.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);">Select</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-list>
+      <ion-item-sliding #item *ngFor="let card of this.hand; let i = index">
+        <ion-item>
+           <h2>{{card.content}}</h2>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button (click)="this.requestPlayCard(card);">Submit</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab right bottom>
+      <button ion-fab color="light" (click)="this.openScoreModal();"><ion-icon name="people"></ion-icon></button>
+    </ion-fab>
+
+  </div>
 
 </ion-content>

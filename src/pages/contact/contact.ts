@@ -9,6 +9,7 @@ import { RoomWebService } from '../../providers/room-web-service.ts';
 
 import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
+import {Room} from "../../data-classes/room";
 
 
 @Component({
@@ -66,6 +67,11 @@ export class ContactPage {
     var ws = new RoomWebService();
     ws.createRoom(name, decks,user,console.log,password);
   }
+  addRoomUsingRoomObj(name,decks,user, password ?: string){
+    var room = new Room(decks, true, name, password, 3);
+    var player = new Player("Scott", user);
+    room.createRoom(player);
+  }
   getRoom(id:string){
     var ws = new RoomWebService();
     ws.getRoom(id, console.log);
@@ -77,6 +83,13 @@ export class ContactPage {
   joinRoom(userID: String, roomID: String){
     var ws = new RoomWebService();
     ws.joinRoom(userID, roomID, console.log, "DummyPassword");
+  }
+  joinRoomUsingRoomObj(userID: String, roomID: String){
+    var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
+    var tempArr = [];
+    tempArr.push(tempDeck);
+    var room = new Room(tempArr, true, "Sonalee Test Room", "TESTING123", 3, "-Kdvroht_5kX5-aJ9pvw");
+    room.addPlayer("-KdmfM5UiRVjgOo4HPBW", function(response){alert(response);}, "TESTING123");
   }
 
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {

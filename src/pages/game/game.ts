@@ -5,14 +5,16 @@
  Ionic pages and navigation.
 */
 
-import { Tools } from '../../tools/general-tools';
+
 import { Component } from '@angular/core';
 import { NavController, NavParams,ToastController,AlertController,ModalController,Platform,ViewController } from 'ionic-angular';
+import { Tools } from '../../tools/general-tools';
 import { GamePlay } from './game-play';
 import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
-import { GameRendererStub } from './game-renderer-stub';
-import { PubNubMsg } from '../../data-classes/pubnub-msg';
+import { CardSubmission } from '../../data-classes/card-submission';
+import { IGameRenderer } from './i-game-renderer';
+//import { GameRendererStub } from './game-renderer-stub';
 
 @Component({
   selector: 'page-game', // should this be game-page?
@@ -25,7 +27,7 @@ import { PubNubMsg } from '../../data-classes/pubnub-msg';
 // Much of the game's logic will be in this class, whereas the game's
 // actions/implementation are in the GamePlay class.
 // ======================================================================
-export class GamePage {
+export class GamePage implements IGameRenderer {
   USERNAME;      // this client's username will not change during a game
   //SUBKEY;      // PubNub connection subscription key
   //PUBKEY;      // PubNub connection publish key
@@ -68,7 +70,7 @@ export class GamePage {
 
     // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
     // dev hack to get the game going. (for testing purposes obviously)
-    this.GameRenderer = new GameRendererStub(this.toastCtrl, this.alertCtrl, this, this.modalCtrl);
+    //this.GameRenderer = new GameRendererStub(this.toastCtrl, this.alertCtrl, this, this.modalCtrl);
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(this.CHANNEL,
@@ -90,134 +92,151 @@ export class GamePage {
   // called by user clicking a button or when the judge starts
   // a round and plays a black card
   requestPlayCard(card: Card) {
-    this.GameRenderer.clearHand();
+    this.clearHand();
     this.GamePlay.playCard(card);
   }
 
   // called by user clicking a button to request continuing the game
   requestContinue() {
-    this.GameRenderer.clearContinueButton();
+    this.clearContinueButton();
     this.GamePlay.requestContinue();
-  }
-
-  // ======================================================================
-  // The Game Logic Event Handler
-  // This splendid switch makes moves and renders results
-  // ======================================================================
-  handleEvent(pubnubEvent) { // the parameter type is set by pubnub
-    console.log(pubnubEvent);
-    var pubnubMsg = JSON.parse(pubnubEvent.message);
-    // check if the received msg adhers to our PubNubMsg Class
-    if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
-      var content = JSON.parse(pubnubMsg.content);
-    } else {
-      alert("receieved a PubNub message that I don't recognize. See console.");
-      console.log('pubnubEvent:');
-      console.log(pubnubEvent);
-      console.log('pubnubMsg:');
-      console.log(pubnubMsg);
-      pubnubMsg.code = 'default';
-    }
-
-    var GameRenderer = this.GameRenderer;  // for readability
-    var GamePlay = this.GamePlay;          // for readability
-
-    switch (pubnubMsg.code) {
-      case 'JOINED':
-        console.log('case: JOINED');
-        this.joinedCount++;
-
-        if (this.joinedCount == this.PLAYERS.length) {
-          console.log('sendMsg START_GAME');
-          GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
-        } else if (this.joinedCount > this.PLAYERS.length) {
-          console.log('this.joinedCount >= this.PLAYERS.length!');
-        }
-
-        break;
-
-      case 'START_GAME':
-        console.log('case: START_GAME');
-        // http://imgur.com/a/38VII
-        this.GamePlay.startGame();
-        break;
-
-      case 'PLAY_WHITE_CARD':
-        console.log('case: PLAY_WHITE_CARD');
-        var whiteCardSubmission = content; // for readability
-        GamePlay.cardsSubmitted.push(whiteCardSubmission);
-
-        if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // if all cards submitted
-          if (this.GamePlay.judge.username == this.GamePlay.PLAYER_USERNAME) {  // if we are the judge
-            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
-            GameRenderer.renderText('Pick a Winner');
-          } else {
-            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
-            GameRenderer.renderText('Waiting for judge to pick winner...');
-          }
-        }
-        break;
-
-      case 'PLAY_BLACK_CARD':
-        console.log('case: PLAY_BLACK_CARD');
-        var blackCard = new Card(content.card.type, content.card.content); // cast/set as Card object
-        GamePlay.deck.discard(blackCard);
-        GamePlay.blackCard = blackCard;
-        GameRenderer.renderBlackCard(Tools.clone(blackCard));
-        break;
-
-      case 'PICK_WINNING_CARD':
-        console.log('case: PICK_WINNING_CARD');
-        var winningCardSubmission = content; // for readability
-
-        GamePlay.updateScores(winningCardSubmission);
-        GameRenderer.renderScores(Tools.clone(GamePlay.players));
-        GamePlay.cardsSubmitted = [];
-        GameRenderer.clearCardsSubmitted();
-        GameRenderer.renderWinningCard(Tools.clone(winningCardSubmission));
-        GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
-        GameRenderer.renderContinueButton();
-        break;
-
-      case 'REQUEST_CONTINUE':
-        console.log('case: REQUEST_CONTINUE');
-        GamePlay.continueCounter++;
-        // TODO: what if someone exits the game and doesn't click "continue"?
-        if (GamePlay.continueCounter >= GamePlay.players.length) {
-          GamePlay.continueCounter = 0;
-          GameRenderer.clearContinueButton();
-
-          // start new round
-          var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
-          this.handleEvent({message:newRoundMsg});
-        }
-
-        //GameRenderer.renderContinueRequest(Tools.clone(content));
-        break;
-
-      case 'NEW_ROUND':
-        console.log('case: NEW_ROUND');
-        GamePlay.roundNumber++;
-        GamePlay.setNextJudge();
-
-        if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) { // if I'm the judge
-          this.requestPlayCard(GamePlay.deck.drawBlackCard());
-          GameRenderer.renderText('Waiting for players to submit cards...');
-        } else { // if I'm not the judge
-          GamePlay.hand.push(GamePlay.deck.drawWhiteCard());
-          GameRenderer.renderHand(Tools.clone(GamePlay.hand));
-          GameRenderer.renderText('Pick a card to play');
-        }
-        break;
-
-      default:
-        console.log("ERROR: default case reached in handleMsg");
-    }
   }
 
   openScoreModal() {
     let scoreModal = this.modalCtrl.create(ScoreModalPage,{"GameRenderer": this.GameRenderer});
     scoreModal.present();
+  }
+
+  // ======================================================================
+  // Below functions implement the interface: IGameRender
+  // ======================================================================
+
+  // vars to render using angular:
+  text = '';
+  blackCard;
+  hand;
+  cardsSubmitted: Array<CardSubmission>;
+  continueButton;
+  //continueRequest;
+  winningCard;
+  clickable;
+  players;
+
+  // constructor(private toastCtrl: ToastController,
+  //             public alertCtrl: AlertController,
+  //             public gamePage:GamePage,
+  //             public modalCtrl:ModalController) {
+  // }
+
+  // set the var angular uses to render the black card
+  renderBlackCard(card: Card) {
+    console.log('STUB: renderBlackCard()');
+    this.blackCard = card;
+  }
+
+  // sets the var angular uses to render the winning card
+  renderWinningCard(card: Card) {
+    console.log('STUB: renderWinningCard()');
+    this.winningCard = card;
+  }
+
+  // clears the var angular uses to render the winning card
+  clearWinningCard() {
+    console.log('STUB: clearWinningCard');
+    this.winningCard = false;
+  }
+
+  // sets the boolean which tells angular to render the continue button
+  renderContinueButton() {
+    console.log('STUB: renderContinueButton');
+    this.continueButton = true;
+
+    let alert = this.alertCtrl.create({
+      title: 'Ready to move on?',
+      message: '',
+      buttons: [
+        {
+          text: 'Continue',
+          handler: () => {
+            console.log('Continue clicked');
+          }
+        }
+      ]
+    });
+
+    alert.present();
+
+    this.requestContinue();
+  }
+
+  // falsifies the boolean which tells angular to clear the continue button
+  clearContinueButton() {
+    console.log('STUB: clearContinueButton');
+    this.continueButton = false;
+  }
+
+  // // called when some player requests continuing
+  // renderContinueRequest() {
+  //   console.log('STUB: renderContinueRequest');
+  //   //this.continueRequest = true;
+  // }
+  //
+  // // not currently in use
+  // clearContinueRequest() {
+  //   console.log('STUB: clearContinueRequest');
+  //   //this.continueRequest = false;
+  // }
+
+  // sets the hand var angular uses to render this player's hand of cards
+  renderHand(hand: Array<Card>) {
+    console.log('STUB: renderHand');
+    this.hand = hand;
+  }
+
+  // clears the hand var angular uses to render this player's hand of cards
+  clearHand() {
+    console.log('STUB: clearHand');
+    this.hand = [];
+  }
+
+  // sets the vars angular uses to render this round's submitted cards
+  renderCardsSubmitted(cardsSubmitted: Array<CardSubmission>, clickable: boolean) {
+    console.log('STUB: renderCardsSubmitted');
+    console.log(cardsSubmitted);
+    this.clickable = clickable;
+    this.cardsSubmitted = cardsSubmitted;
+  }
+
+  // clears the vars angular uses to render this round's submitted cards
+  clearCardsSubmitted() {
+    console.log('STUB: clearCardsSubmitted');
+    this.cardsSubmitted = [];
+  }
+
+  // sets the var angular uses to render players' scores
+  renderScores(players: Array<Player>) {
+    console.log('STUB: renderScores');
+    this.players = Tools.clone(players);
+    console.log(this.players);
+  }
+
+  presentToast(str: string) {
+    let toast = this.toastCtrl.create({
+      message: str,
+      duration: 10000,
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'OK'
+    });
+
+    toast.present();
+  }
+
+  // sets the text var angular uses to display text instructions/messages
+  renderText(str: string) {
+    console.log('STUB: renderText');
+    this.text = str;
+    this.presentToast(str);
   }
 }
 

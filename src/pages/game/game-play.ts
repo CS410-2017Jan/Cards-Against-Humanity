@@ -3,12 +3,14 @@
  */
 
 import PubNub from 'pubnub';
+import { Tools } from '../../tools/general-tools';
 import { Deck } from '../../data-classes/deck';
 import { Card } from '../../data-classes/card';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { Player } from '../../data-classes/player';
 import { PubNubMsg } from '../../data-classes/pubnub-msg';
-import { GamePage } from "./game";
+import {IGameRenderer} from "./i-game-renderer";
+//import { GamePage } from "./game";
 
 // ======================================================================
 // This Class contains the gamestate and methods to modify/play the game
@@ -23,7 +25,8 @@ export class GamePlay {
 
   // Object Singletons
   PubNub;                         // This client's pubnub object
-  Game;                           // Game singleton reference
+  GameRenderer;                   // GameRenderer singleton reference
+  // Game;                           // Game singleton reference
 
   // global variables
   deck: Deck;                     // The Deck object associated with this specific game
@@ -42,7 +45,8 @@ export class GamePlay {
               playerUsername: string,  // a player's username MUST be unique during a game
               players: Array<Player>,
               deck: Deck,
-              Game: GamePage
+              gameRenderer: IGameRenderer
+              //Game: GamePage
               ) {
 
     this.CHANNEL = channel;
@@ -52,7 +56,8 @@ export class GamePlay {
 
     this.players = players;
     this.deck = deck;
-    this.Game = Game;
+    this.GameRenderer = gameRenderer;
+    //this.Game = Game;
 
     this.NUM_CARDS_HAND = 5;
     this.roundNumber = 0;
@@ -95,7 +100,7 @@ export class GamePlay {
 
       message: function(msg) {
         //GamePlay.handleMsg(msg);
-        Game.handleEvent(msg);
+        GamePlay.handleEvent(msg);
       },
 
       presence: function(p) {
@@ -132,7 +137,7 @@ export class GamePlay {
     }
     // start new round
     var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));  // TODO: is null necessary?
-    this.Game.handleEvent({message:newRoundMsg});
+    this.handleEvent({message:newRoundMsg});
   }
 
   // updates the judge field to the appropriate next judge
@@ -210,6 +215,126 @@ export class GamePlay {
   // handles a PubNub presence event. Starts the game when enough players have joined.
   handlePresence(p) {
     console.log(p);
+  }
+
+  // ======================================================================
+  // The Game Logic Event Handler
+  // This splendid switch makes moves and renders results
+  // ======================================================================
+  handleEvent(pubnubEvent) { // the parameter type is set by pubnub
+    console.log(pubnubEvent);
+    var pubnubMsg = JSON.parse(pubnubEvent.message);
+    // check if the received msg adhers to our PubNubMsg Class
+    if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
+      var content = JSON.parse(pubnubMsg.content);
+    } else {
+      alert("receieved a PubNub message that I don't recognize. See console.");
+      console.log('pubnubEvent:');
+      console.log(pubnubEvent);
+      console.log('pubnubMsg:');
+      console.log(pubnubMsg);
+      pubnubMsg.code = 'default';
+    }
+
+    var GameRenderer = this.GameRenderer;  // for readability
+    var GamePlay = this;          // for readability
+
+    switch (pubnubMsg.code) {
+      case 'JOINED':
+        console.log('case: JOINED');
+        this.joinedCount++;
+
+        if (this.joinedCount == GamePlay.players.length) {
+          console.log('sendMsg START_GAME');
+          GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
+        } else if (this.joinedCount > GamePlay.players.length) {
+          console.log('this.joinedCount >= this.PLAYERS.length!');
+        }
+
+        break;
+
+      case 'START_GAME':
+        console.log('case: START_GAME');
+        // http://imgur.com/a/38VII
+        GamePlay.startGame();
+        break;
+
+      case 'PLAY_WHITE_CARD':
+        console.log('case: PLAY_WHITE_CARD');
+        var whiteCardSubmission = content; // for readability
+        GamePlay.cardsSubmitted.push(whiteCardSubmission);
+
+        if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // if all cards submitted
+          if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
+            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
+            GameRenderer.renderText('Pick a Winner');
+          } else {
+            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
+            GameRenderer.renderText('Waiting for judge to pick winner...');
+          }
+        }
+        break;
+
+      case 'PLAY_BLACK_CARD':
+        console.log('case: PLAY_BLACK_CARD');
+        var blackCard = new Card(content.card.type, content.card.content); // cast/set as Card object
+        GamePlay.deck.discard(blackCard);
+        GamePlay.blackCard = blackCard;
+        GameRenderer.renderBlackCard(Tools.clone(blackCard));
+        break;
+
+      case 'PICK_WINNING_CARD':
+        console.log('case: PICK_WINNING_CARD');
+        var winningCardSubmission = content; // for readability
+
+        GamePlay.updateScores(winningCardSubmission);
+        GameRenderer.renderScores(Tools.clone(GamePlay.players));
+        GamePlay.cardsSubmitted = [];
+        GameRenderer.clearCardsSubmitted();
+        GameRenderer.renderWinningCard(Tools.clone(winningCardSubmission));
+        GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
+        GameRenderer.renderContinueButton();
+        break;
+
+      case 'REQUEST_CONTINUE':
+        console.log('case: REQUEST_CONTINUE');
+        GamePlay.continueCounter++;
+        // TODO: what if someone exits the game and doesn't click "continue"?
+        if (GamePlay.continueCounter >= GamePlay.players.length) {
+          GamePlay.continueCounter = 0;
+          GameRenderer.clearContinueButton();
+
+          // start new round
+          var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+          this.handleEvent({message:newRoundMsg});
+        }
+
+        //GameRenderer.renderContinueRequest(Tools.clone(content));
+        break;
+
+      case 'NEW_ROUND':
+        console.log('case: NEW_ROUND');
+        GamePlay.roundNumber++;
+        GamePlay.setNextJudge();
+
+        if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) { // if I'm the judge
+          GameRenderer.requestPlayCard(GamePlay.deck.drawBlackCard());
+          GameRenderer.renderText('Waiting for players to submit cards...');
+        } else { // if I'm not the judge
+          var card = GamePlay.deck.drawWhiteCard();
+          if (card != false) {
+            GamePlay.hand.push();
+          } else {
+            console.log('ERROR: tried to draw a white card but received false');
+          }
+          GameRenderer.renderHand(Tools.clone(GamePlay.hand));
+          GameRenderer.renderText('Pick a card to play');
+        }
+        break;
+
+      default:
+        console.log("ERROR: default case reached in handleMsg");
+    }
   }
 }
 

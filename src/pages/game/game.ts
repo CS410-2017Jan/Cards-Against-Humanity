@@ -39,8 +39,6 @@ export class GamePage implements IGameRenderer {
   //GameRenderer;  // An instantiation of the GameRenderer abstract class
   ScoreModal;   //Instance of score modal
 
-  joinedCount;
-
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public platform: Platform,
@@ -60,8 +58,6 @@ export class GamePage implements IGameRenderer {
 
     var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
     this.DECK = navParams.get('deck').deal(3)[playerIndex];
-
-    this.joinedCount = 0;
   }
 
   ionViewDidLoad() {

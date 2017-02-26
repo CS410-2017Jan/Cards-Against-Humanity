@@ -115,6 +115,10 @@ export class GamePlay {
     });
   }
 
+  // ======================================================================
+  // Functions below
+  // ======================================================================
+
   // sends PubNubMsg indicating that this player is ready to start the game
   // signalReady() {
   //   var msg = new PubNubMsg('READY', 'null');  // TODO: is null necessary?

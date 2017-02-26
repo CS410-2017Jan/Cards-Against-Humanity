@@ -14,7 +14,18 @@
 
 <ion-content padding>
 
+  <!--Basic Game Render Stub Template. DO NOT CHANGE-->
   <div *ngIf="this !== undefined" >
+
+    <p>Scores:</p>
+    <div *ngIf="this.players !== undefined">
+      <ul>
+        <li *ngFor="let player of this.players; let i = index">
+          {{player.score}}
+        </li>
+      </ul>
+    </div>
+
 
     <p>Black Card:</p>
     <div *ngIf="this.blackCard !== undefined">
@@ -39,6 +50,12 @@
     <button *ngIf="this.continueButton" (click)="this.requestContinue()">Continue</button>
 
   </div>
+  <!--END of Basic Game Render Stub Template-->
+
+
+
+
+
 
   <!--<div *ngIf="this.GameRenderer !== undefined" >-->
 

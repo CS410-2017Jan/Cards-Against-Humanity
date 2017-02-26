@@ -24,19 +24,19 @@
     <p>TEXT: {{this.text}}</p>
 
     <ul>
-      <li *ngFor="let card of this.cardsPlayed; let i = index">
-        <button *ngIf="this.clickable" (click)="this.GamePlay.pickWinningCard(card);" > {{i+1}} {{card.content}} </button>
-        <div *ngIf="!this.clickable"> {{i+1}} {{card.content}} </div>
+      <li *ngFor="let cardSubmission of this.cardSubmissions; let i = index">
+        <button *ngIf="this.clickable" (click)="this.GamePlay.pickWinningCard(cardSubmission);" > {{i+1}} {{cardSubmission.card.content}} </button>
+        <div *ngIf="!this.clickable"> {{i+1}} {{cardSubmission.card.content}} </div>
       </li>
     </ul>
 
     <ul>
       <li *ngFor="let card of this.hand; let i = index">
-        <button (click)="this.GamePlay.playCard(card);" > {{i+1}} {{card.content}} </button>
+        <button (click)="this.requestPlayCard(card);" > {{i+1}} {{card.content}} </button>
       </li>
     </ul>
 
-    <button *ngIf="this.continueButton" (click)="this.GamePlay.requestContinue()">Continue</button>
+    <button *ngIf="this.continueButton" (click)="this.requestContinue()">Continue</button>
 
   </div>
 
@@ -62,7 +62,7 @@
     <!--&lt;!&ndash;<p>TEXT: {{this.GameRenderer.text}}</p>&ndash;&gt;-->
 
     <!--<ion-list>-->
-      <!--<ion-item-sliding #item *ngFor="let cardSubmission of this.GameRenderer.cardsSubmitted; let i = index">-->
+      <!--<ion-item-sliding #item *ngFor="let cardSubmission of this.GameRenderer.cardSubmissions; let i = index">-->
         <!--<ion-item>-->
           <!--<h2>{{cardSubmission.card.content}}</h2>-->
         <!--</ion-item>-->

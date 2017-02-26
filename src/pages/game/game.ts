@@ -115,7 +115,7 @@ export class GamePage implements IGameRenderer {
   text = '';
   blackCard;
   hand;
-  cardsPlayed: Array<CardSubmission>;
+  cardSubmissions: Array<CardSubmission>;
   continueButton;
   //continueRequest;
   winningCard;
@@ -181,13 +181,13 @@ export class GamePage implements IGameRenderer {
     console.log('STUB: renderCardsSubmitted');
     console.log(cardsPlayed);
     this.clickable = clickable;
-    this.cardsPlayed = cardsPlayed;
+    this.cardSubmissions = Tools.clone(cardsPlayed);
   }
 
   // clears the vars angular uses to render this round's submitted cards
   clearCardsSubmitted() {
     console.log('STUB: clearCardsSubmitted');
-    this.cardsPlayed = [];
+    this.cardSubmissions = [];
   }
 
   // sets the var angular uses to render players' scores
@@ -207,7 +207,7 @@ export class GamePage implements IGameRenderer {
   // text = '';
   // blackCard;
   // hand;
-  // cardsSubmitted: Array<CardSubmission>;
+  // cardSubmissions: Array<CardSubmission>;
   // continueButton;
   // //continueRequest;
   // winningCard;
@@ -292,17 +292,17 @@ export class GamePage implements IGameRenderer {
   // }
   //
   // // sets the vars angular uses to render this round's submitted cards
-  // renderCardsSubmitted(cardsSubmitted: Array<CardSubmission>, clickable: boolean) {
+  // renderCardsSubmitted(cardSubmissions: Array<CardSubmission>, clickable: boolean) {
   //   console.log('STUB: renderCardsSubmitted');
-  //   console.log(cardsSubmitted);
+  //   console.log(cardSubmissions);
   //   this.clickable = clickable;
-  //   this.cardsSubmitted = cardsSubmitted;
+  //   this.cardSubmissions = cardSubmissions;
   // }
   //
   // // clears the vars angular uses to render this round's submitted cards
   // clearCardsSubmitted() {
   //   console.log('STUB: clearCardsSubmitted');
-  //   this.cardsSubmitted = [];
+  //   this.cardSubmissions = [];
   // }
   //
   // // sets the var angular uses to render players' scores

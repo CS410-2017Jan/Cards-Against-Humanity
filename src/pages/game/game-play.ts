@@ -327,7 +327,7 @@ export class GamePlay {
         } else { // if I'm not the judge
           var card = GamePlay.deck.drawWhiteCard();
           if (card != false) {
-            GamePlay.hand.push();
+            GamePlay.hand.push(card);
           } else {
             console.log('ERROR: tried to draw a white card but received false');
           }

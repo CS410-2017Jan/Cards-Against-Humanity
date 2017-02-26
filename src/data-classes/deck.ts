@@ -80,10 +80,13 @@ export class Deck {
         // if the potential drawn card hasnt been discarded
         if (!Card.member(cards[i], this.discards)) {
           this.discard(cards[i]);
+          console.log('drawCard returning:');
+          console.log(cards[i]);
           return cards[i];
         }
       }
     }
+    console.log('ERROR: drawCard returning false');
     // stub returns first card everytime
     return false;
   }
@@ -92,14 +95,10 @@ export class Deck {
   discard(card: Card) {
     console.log('discarding card: ' + card.content);
     if (!Card.member(card, this.discards)) {
-      console.log('pushing card:');
-      console.log(card);
       this.discards.push(card);
     } else {
       console.log('tried to discard a card ALREADY in the discards (probably just playing a black card)');
     }
-    console.log('new discards: ');
-    console.log(this.discards);
   }
 
   // empties the discards array

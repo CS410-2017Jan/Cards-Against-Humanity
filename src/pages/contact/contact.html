@@ -23,12 +23,19 @@
   <button ion-button (click)="getUser('-KdgbXUFsXcpHoqAOO1X')">Test Get User by ID</button>
   <br />
 
-  <button ion-button (click)="addRoomUsingRoomObj('Sonalee Test Room', ['-KdfzixNq1S7IF_LGlCj'],'-KdgbXUFsXcpHoqAOO1X', 'TESTING123')">Test Add Room using Room class</button>
   <button ion-button (click)="addRoom('test room', ['-KdfzixNq1S7IF_LGlCj'],'-KdgbXUFsXcpHoqAOO1X', 'cpsc410rocks')">Test Add Room</button>
   <button ion-button (click)="getRoom('-KdlnkB7A6azsa9PldEI')">Test Get Room</button>
   <button ion-button (click)="getRooms()">Test Get All Rooms</button>
-  <button ion-button (click)="joinRoomUsingRoomObj('-KdhH7dakbniGSJjeDar','-KdlnkB7A6azsa9PldEI')">Test Join Room Using Room Class</button>
   <button ion-button (click)="joinRoom('-KdgbXUFsXcpHoqAOO1X','-KdlnkB7A6azsa9PldEI')">Test Join Room</button>
   <button ion-button (click)="leaveRoom('-KdgbXUFsXcpHoqAOO1X','-KdlnkB7A6azsa9PldEI')">Test Leave Room</button>
+
+  <button ion-button (click)="addRoomUsingFacade('FACADE Test Room', ['-KdfzixNq1S7IF_LGlCj'],true, 'TESTING123')">Test Add Room Using Room Facade</button>
+  <button ion-button (click)="getRoomUsingFacade('-KdlnkB7A6azsa9PldEI')">Test Get Room Using Room Facade</button>
+  <button ion-button (click)="getRoomsUsingFacade()">Test Get Rooms Using Room Facade</button>
+  <button ion-button (click)="joinRoomUsingFacade('-KdgbXUFsXcpHoqAOO1X')">Test Join Room Using Room Facade</button>
+  <button ion-button (click)="leaveRoomUsingFacade('-KdgbXUFsXcpHoqAOO1X')">Test Leave Room Using Room Facade</button>
+
+
+
 
 </ion-content>

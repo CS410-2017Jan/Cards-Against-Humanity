@@ -24,7 +24,7 @@ export class RoomWebService {
   // Adds the player specified by the ID to the room specified by the ID, only if there is space left in that room. Password is optional
   // Then calls the callback with the new list of players in the room by id
   // returns undefined if there is a problem
-  // 
+  //
   // Note- This needs to be updated with password authentication. Password currently does nothing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   joinRoom(userID: string, roomID: string, callback: (s:string)=>void){
   	// First we need to get the room we're joining to make sure it's all gucci
@@ -39,7 +39,7 @@ export class RoomWebService {
   			var data: string[] = [];
   			var players : Player[] = r.players;
   			for(let p in players){
-  				if(players[p].id = userID){
+  				if(players[p].id == userID){
   					// can't add a duplicate
   					callback("Error: Already in room");
   					return;
@@ -79,7 +79,7 @@ export class RoomWebService {
   		// Must have failed to find room
   		callback(undefined);
   	}
-  	
+
   }
 
   // Removes the specified user from the room and calls the callback on the updated room object
@@ -88,12 +88,12 @@ export class RoomWebService {
   	try{
   		// Get the room
   		this.getRoom(roomID, (r : Room)=>{
-  		
-  			
+
+
   			var xmlHttp = new XMLHttpRequest();
   			var data: string[] = [];
   			var players : Player[] = r.players;
-  			if(players.length = 1){
+  			if(players.length == 1){
   				// Can't have last player leave
   				callback("Error: Last player cannot leave room");
   				return;
@@ -130,11 +130,8 @@ export class RoomWebService {
   		// Must have failed to find room
   		callback(undefined);
   	}
-  	
+
   }
-
-
-
 
   // Gets a room by ID and calls the callback on the returned JSON string
   getRoom(id:string, callback: (Room) => void){
@@ -193,7 +190,6 @@ export class RoomWebService {
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms.json", true); // true for asynchronous
     xmlHttp.send(null);
   }
-
 
   // Creates a room with an optional password, and add the user who sent this to the room
   createRoom(name: string, decks: Array<Deck>, userID: string, callback: (id: string)=> void, password ?: string){
@@ -254,7 +250,7 @@ export class RoomWebService {
   			// Try loading from cache
   			var deck = dws.getDeckFromCache(deckID);
   			if (deck == undefined){
-  				// We have a problem- get the deck from the server 
+  				// We have a problem- get the deck from the server
   				neededWeb = true;
  				deckPromise = new Promise(function(resolve, reject) {
   					dws.getDeck(deckID, d => {resolve(d)});
@@ -276,7 +272,7 @@ export class RoomWebService {
   			// Try loading from cache
   			var user = uws.getUserFromCache(userID);
   			if (user == undefined){
-  				// We have a problem- get the user from the server 
+  				// We have a problem- get the user from the server
   				neededWeb = true;
  				userPromise = new Promise(function(resolve, reject) {
   					uws.getUser(userID, u => {resolve(u)});
@@ -298,7 +294,7 @@ export class RoomWebService {
   		}
   		// if we didn't have to, call the callback
   		else{
-  			
+
   			callback(new Room(decks, isLocked, name, password, size, roomID, users));
 
   		}

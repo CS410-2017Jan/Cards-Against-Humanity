@@ -93,19 +93,11 @@ export class ContactPage {
   }
 
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
-    // Having only one channel is a serious bug... two devs can't test on one channel...
+    var room = new Room([deck], false, 'testRoom', 'password', 3, channel, players);
 
-    if (channel != undefined) {
       this.navCtrl.push(GamePage, {
         username: username,
-        channel: channel,
-        deck: deck,
-        players: players
+        room: room
       });
-    } else {
-      alert('channel was undefined');
     }
-
-  }
-
 }

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, NavParams, LoadingController } from 'ionic-angular';
 
+import { GamePage } from '../../pages/game/game.ts';
 /*
   Generated class for the WaitingRoom page.
 
@@ -40,6 +41,17 @@ export class WaitingRoomPage {
 
     //this.shownRooms = data.shownRooms;
     console.log('List of players updated!');
+  }
+
+  // sets the appropriate params and navigates to the GamePage
+  joinGame() {
+    var username; // TODO: need to set username here
+    if (username != undefined) {
+      this.navCtrl.push(GamePage, {
+        username: username,
+        room: this
+      });
+    }
   }
 
   //Checks to see if enough players are there to start the game

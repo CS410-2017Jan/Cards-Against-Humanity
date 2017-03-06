@@ -50,14 +50,19 @@ export class GamePage implements IGameRenderer {
     console.log('PARAMS: ');
     console.log(navParams);
 
+    var room = navParams.get('room');
+    console.log('passed room:');
+    console.log(room);
+
     this.USERNAME = navParams.get('username');
     //this.SUBKEY = navParams.get('subkey');
     //this.PUBKEY = navParams.get('pubkey');
-    this.CHANNEL = navParams.get('channel');
-    this.PLAYERS = navParams.get('players');
+    this.CHANNEL = 'game_'+room.id;
+    this.PLAYERS = room.players;
 
     var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
-    this.DECK = navParams.get('deck').deal(3)[playerIndex];
+    var numPlayers = room.size;
+    this.DECK = room.decks[0].deal(numPlayers)[playerIndex];
   }
 
   ionViewDidLoad() {

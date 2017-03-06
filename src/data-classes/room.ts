@@ -121,5 +121,4 @@ export class Room {
       " isLocked: " + this.isLocked + " Name: " + this.name + " Password: " +
       this.password + " Size: " + this.size);
   }
-
 }

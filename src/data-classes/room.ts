@@ -68,7 +68,7 @@ export class Room {
     var RoomList = this;
     var rs = new RoomWebService();
     if (password) {
-      rs.joinRoom(userID, this.id, function(d)  {fn(RoomList.onSuccessfulJoin(d))}, password);
+      rs.joinRoom(userID, this.id, function(d)  {fn(RoomList.onSuccessfulJoin(d))});
       //return this.isJoinSuccess;
     } else {
       rs.joinRoom(userID, this.id, function(d)  {fn(RoomList.onSuccessfulJoin(d))});

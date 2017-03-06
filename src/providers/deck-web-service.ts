@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 //import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { Deck } from '../data-classes/deck.ts';
-import { Card } from '../data-classes/card.ts';
+import { Deck } from '../data-classes/deck';
+import { Card } from '../data-classes/card';
 
 /*
   Generated class for the DeckWebService provider.
@@ -20,8 +20,8 @@ export class DeckWebService {
   constructor() {
   }
 
-  // Gets all cards in the deck specified by the ID: throws exception if not found
-  getDeck(id:string, callback: (deck: typeof Deck) => void){
+  // Gets all cards in the deck specified by the ID from DB: throws exception if not found
+  getDeck(id:string, callback: (deck: Deck) => void){
 
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -33,7 +33,7 @@ export class DeckWebService {
           var blackCardsJSON = JSONArray.black;
           var whiteCardsJSON = JSONArray.white;
 
-          var deck : typeof Deck = new Deck(id);
+          var deck : Deck = new Deck(id);
 
           // Add all the black cards
           for (let c of blackCardsJSON){
@@ -46,6 +46,10 @@ export class DeckWebService {
             deck.addCard(new Card("white", c));
           }
 
+          // Add this deck to the cache since we have it
+          var ws = new DeckWebService();
+          ws.addDeckToCache(deck);
+          
           callback(deck);
         }
         catch(ex){
@@ -60,6 +64,49 @@ export class DeckWebService {
     xmlHttp.send(null);
 
 
+  }
+
+  // Gets a deck from the cache, returning undefined if not found
+  getDeckFromCache(id) : Deck{
+    var JSONObject;
+    try{
+      JSONObject = JSON.parse(sessionStorage.getItem("deckCache"));
+      // Check if the deck is in the cache
+      if (JSONObject[id] != undefined){
+        return(JSONObject[id]);
+      }
+      else{
+        return undefined;
+      }
+
+    }
+    catch(ex){
+      // Failed to parse JSON probably because our cache is empty
+      return undefined;
+    }
+    
+  }
+
+  // Adds one deck to the deck cache
+  addDeckToCache(deck: Deck){
+    var JSONObject;
+    try{
+      JSONObject = JSON.parse(sessionStorage.getItem("deckCache"));
+      // Check if this deck is already in the cache, if so remove them
+      if (JSONObject[deck.deckID] != undefined){
+        delete JSONObject[deck.deckID];
+      }
+
+    }
+    catch(ex){
+      // Failed to parse JSON probably because our cache is empty
+      JSONObject = JSON.parse("{}");
+    }
+    // Add User to JSON Object and save it to cache
+    JSONObject[deck.deckID] = deck;
+    sessionStorage.setItem("deckCache", JSON.stringify(JSONObject));
+
+    //console.log(sessionStorage.getItem("deckCache"));
   }
 
 }

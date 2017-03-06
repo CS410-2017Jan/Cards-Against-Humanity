@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+
 import 'rxjs/add/operator/map';
 
 import {Player} from "../data-classes/player";
+
 
 /*
   Generated class for the UserWebService provider.
@@ -13,14 +15,18 @@ import {Player} from "../data-classes/player";
   author: toldham
 */
 @Injectable()
+
 export class UserWebService {
 
-  constructor() {
+  
 
+  constructor() {
+   
   }
 
   // Gets List of all users
   getAllUsers(callback: (p: Array<Player>) => void){
+    
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
       // Stuff to do if GET is successful
@@ -46,7 +52,7 @@ export class UserWebService {
     xmlHttp.send(null);
   }
 
-  // Gets a user by ID
+  // Gets a user by ID from the database
   getUser(id, callback: (p: Player) => void) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
@@ -54,8 +60,13 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try{
           var JSONArray = JSON.parse(xmlHttp.responseText);
+          var player = new Player(JSONArray.username, id)
+          // Add this player to the cache since we have them
+          var ws = new UserWebService();
+          ws.addUserToCache(player);
+
           // Make the player and call the callback on them
-          callback(new Player(JSONArray.username, id));
+          callback(player);
         }
         catch (ex){
           console.log("Player not found");
@@ -67,6 +78,53 @@ export class UserWebService {
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + ".json", true);
     xmlHttp.send(null);
+
+  }
+
+  // Gets a user from the cache, returning undefined if not found
+  getUserFromCache(id) : Player{
+    var JSONObject;
+    try{
+      JSONObject = JSON.parse(sessionStorage.getItem("userCache"));
+      //console.log(JSONObject)
+      // Check if the user is in the cache
+      if (JSONObject[id] != undefined){
+        return(JSONObject[id]);
+      }
+      else{
+
+        return undefined;
+      }
+
+    }
+    catch(ex){
+      // Failed to parse JSON probably because our cache is empty
+      //console.log("Empty cache")
+      return undefined;
+    }
+    
+  }
+
+  // Adds one user to the user cache
+  addUserToCache(user: Player){
+    var JSONObject;
+    try{
+      JSONObject = JSON.parse(sessionStorage.getItem("userCache"));
+      // Check if this user is already in the cache, if so remove them
+      if (JSONObject[user.id] != undefined){
+        delete JSONObject[user.id];
+      }
+
+    }
+    catch(ex){
+      // Failed to parse JSON probably because our cache is empty
+      JSONObject = JSON.parse("{}");
+    }
+    // Add User to JSON Object and save it to cache
+    JSONObject[user.id] = user;
+    sessionStorage.setItem("userCache", JSON.stringify(JSONObject));
+
+    console.log(JSON.parse(sessionStorage.getItem("userCache")));
 
   }
 

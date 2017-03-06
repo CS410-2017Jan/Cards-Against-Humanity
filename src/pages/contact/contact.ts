@@ -74,7 +74,7 @@ export class ContactPage {
   }
   getRoom(id:string){
     var ws = new RoomWebService();
-    ws.getRoom(id, console.log);
+    ws.getRoom(id, function(r){console.log(r)});
   }
   getRooms(){
     var ws = new RoomWebService();
@@ -82,7 +82,11 @@ export class ContactPage {
   }
   joinRoom(userID: String, roomID: String){
     var ws = new RoomWebService();
-    ws.joinRoom(userID, roomID, console.log, "DummyPassword");
+    ws.joinRoom(userID, roomID, console.log);
+  }
+  leaveRoom(userID: String, roomID: String){
+    var ws = new RoomWebService();
+    ws.leaveRoom(userID, roomID, console.log);
   }
   joinRoomUsingRoomObj(userID: String, roomID: String){
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');

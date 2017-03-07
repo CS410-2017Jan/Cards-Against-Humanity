@@ -26,17 +26,15 @@ export class RoomFacade {
     rs.getAllRooms(function(rooms) {callback(rooms)});
   }
 
+  // TODO: Extend functionality for 1+ deck
   // Calls callback with Room
   createRoom(name: string, user: Player, isLocked: boolean, callback, password?: string) {
     var rs = new RoomWebService();
     var facade = this;
-    var decks = [];
-    var deck = new Deck('-KdfzixNq1S7IF_LGlCj');
-    decks.push(deck);
     if (password) {
-      rs.createRoom(name, decks, user.id, function(roomID) {callback(facade.createRoomObject(roomID, name, user, isLocked, password))}, password);
+      rs.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function(roomID) {callback(facade.createRoomObject(roomID, name, user, isLocked, password))}, password);
     } else {
-      rs.createRoom(name, decks, user.id, function(roomID) {callback(facade.createRoomObject(roomID, name, user, isLocked))});
+      rs.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function(roomID) {callback(facade.createRoomObject(roomID, name, user, isLocked))});
     }
   }
 
@@ -65,8 +63,19 @@ export class RoomFacade {
   private createRoomObject(roomID: string, name: string, player: Player, isLocked: boolean, password?: string) : Room {
     var ds = new DeckWebService();
     var decks = [];
-    var deck = ds.getDeckFromCache("-KdfzixNq1S7IF_LGlCj"); // TODO: extend functionality for 1+ deck
-    decks.push(deck);
+    var deckID = '-KdfzixNq1S7IF_LGlCj';
+    var deckPromise : Promise<void>;
+    var deck = ds.getDeckFromCache(deckID); // TODO: extend functionality for 1+ deck
+
+    if (deck == undefined){
+      deckPromise = new Promise(function(resolve, reject) {
+        ds.getDeck(deckID, d => {resolve(d)});
+      }).then(function(result){
+        decks.push(result);
+      })
+    } else{
+      decks.push(deck);
+    }
 
     var players = [];
     players.push(player)

@@ -192,7 +192,7 @@ export class RoomWebService {
   }
 
   // Creates a room with an optional password, and add the user who sent this to the room
-  createRoom(name: string, decks: Array<Deck>, userID: string, callback: (id: string)=> void, password ?: string){
+  createRoom(name: string, decks: Array<string>, userID: string, callback: (id: string)=> void, password ?: string){
     var hasPassword = !(password == undefined);
 
     // Set up data to be posted

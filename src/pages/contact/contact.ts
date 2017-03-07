@@ -85,7 +85,6 @@ export class ContactPage {
     ws.leaveRoom(userID, roomID, console.log);
   }
 
-
   // Tests for RoomFacade
   addRoomUsingFacade(name: string, userID: string, isLocked: boolean, password?: string){
     var player = new Player("Scott", userID);

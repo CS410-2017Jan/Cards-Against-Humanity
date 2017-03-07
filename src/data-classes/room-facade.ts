@@ -8,7 +8,7 @@ import {Deck} from "./deck";
  */
 
 // ======================================================================
-// This Class outlines the data structure of a RoomList
+// This Class outlines the methods of RoomFacade
 // ======================================================================
 export class RoomFacade {
 
@@ -40,7 +40,7 @@ export class RoomFacade {
     }
   }
 
-  // Calls callback with updated Room
+  // Calls callback with updated Room after player is added
   joinRoom(room: Room, userID: string, callback: any, password?: string) {
     if (password) {
       room.addPlayer(userID, callback, password);
@@ -49,8 +49,17 @@ export class RoomFacade {
     }
   }
 
+  // Calls callback with updated Room after player leaves
   removePlayer(room: Room, userID: string, callback) {
     room.removePlayer(userID, callback);
+  }
+
+  // Calls get Room and returns true if the room is at capacity
+  isRoomReady(roomID, callback) {
+    var facade = this;
+    this.getRoom(roomID, function(room: Room) {
+      callback(room.isRoomReady());
+    });
   }
 
   private createRoomObject(roomID: string, name: string, player: Player, isLocked: boolean, password?: string) : Room {

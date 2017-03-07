@@ -116,6 +116,10 @@ export class ContactPage {
     var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
     facade.removePlayer(room, userID, console.log);
   }
+  isRoomReadyUsingFacade(roomID: string) {
+    var facade = new RoomFacade();
+    facade.isRoomReady(roomID, console.log);
+  }
 
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
     var room = new Room([deck], false, 'testRoom', 'password', 3, channel, players);

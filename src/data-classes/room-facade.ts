@@ -52,6 +52,11 @@ export class RoomFacade {
     room.removePlayer(userID, callback);
   }
 
+  // Returns true if supplied password is correct
+  attemptRoomPassword(room: Room, password: string) {
+    return room.password == password;
+  }
+
   // Calls get Room and returns true if the room is at capacity
   isRoomReady(roomID, callback) {
     var facade = this;
@@ -78,7 +83,7 @@ export class RoomFacade {
     }
 
     var players = [];
-    players.push(player)
+    players.push(player);
     var room = new Room(decks, isLocked, name, password, 3, roomID, players);
     return room;
   }

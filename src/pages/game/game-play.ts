@@ -322,10 +322,9 @@ export class GamePlay {
 
         // check if game ended
         if (GamePlay.isGameOver()) {
-          GameRenderer.renderText(GamePlay.getLeadingPlayer().score + ' won the game!');
+          GameRenderer.renderText(GamePlay.getLeadingPlayer().username + ' won the game!');
           GameRenderer.renderGameOver(Tools.clone(GamePlay.players));
         } else {
-
           GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
           GameRenderer.renderContinueButton();
         }

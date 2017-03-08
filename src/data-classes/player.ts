@@ -9,11 +9,13 @@ export class Player {
   username: string;
   score: number;
   id: string;
+  email: string;
 
-  constructor(username: string, id?: string) {
+  constructor(username: string, id?: string, email?: string) {
     this.username = username;
     this.score = 0;
     this.id = id;
+    this.email = email;
   }
   // Prints information about the player to the console
   print(){

@@ -35,7 +35,7 @@ export class UserWebService {
           var JSONArray = JSON.parse(xmlHttp.responseText);
           var users : Player[] = [];
           for(let id in JSONArray){
-            users.push(new Player(JSONArray[id].username, id));
+            users.push(new Player(JSONArray[id].username, id, JSONArray[id].email ));
           }
           // Got all of them, call the callback
           callback(users);
@@ -60,7 +60,7 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try{
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          var player = new Player(JSONArray.username, id)
+          var player = new Player(JSONArray.username, id, JSONArray.email)
           // Add this player to the cache since we have them
           var ws = new UserWebService();
           ws.addUserToCache(player);
@@ -129,12 +129,14 @@ export class UserWebService {
   }
 
   // Creates new User and calls the given callback with the user's assigned ID
-  createUser(username: string, password: string, callback: (id: string)=> void){
+  createUser(username: string, password: string, email: string, callback: (id: string)=> void){
     // Set up data to be posted
     var data = {};
     data["username"] = username;
     data["password"] = password;
-    data["image"] = {'url':''}
+    data["image"] = {'url':''};
+    data["email"] = email;
+
 
     // Get it ready to send
     var xmlHttp = new XMLHttpRequest();

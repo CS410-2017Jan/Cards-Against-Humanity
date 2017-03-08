@@ -42,9 +42,9 @@ export class ContactPage {
   }
 
   // Test Methods for userWebService
-  addUser(username: string, pass: string){
+  addUser(username: string, pass: string, email: string){
     var ws = new UserWebService();
-    ws.createUser(username,pass, console.log);
+    ws.createUser(username,pass,email, console.log);
   }
 
   getUsers(){

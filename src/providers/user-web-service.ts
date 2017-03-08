@@ -18,6 +18,11 @@ import {Player} from "../data-classes/player";
 
 export class UserWebService {
 
+  AUTH_API_KEY = "AIzaSyDPItjle-Fe8L__6SxkZFE71Of0NDBY0u0";
+  REGISTRATION_URL = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=";
+  LOGIN_URL = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=";
+  ACCOUNT_INFO_URL = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=<my-firebase-api-key>";
+
   
 
   constructor() {
@@ -130,39 +135,105 @@ export class UserWebService {
 
   // Creates new User and calls the given callback with the user's assigned ID
   createUser(username: string, password: string, email: string, callback: (id: string)=> void){
-    // Set up data to be posted
-    var data = {};
-    data["username"] = username;
-    data["password"] = password;
-    data["image"] = {'url':''};
-    data["email"] = email;
+    // Try creating the firebase user first
+    this.createFirebaseUser(email, password, function (success: boolean) {
+      // Check if it worked
+      if(success){
+        // Set up data to be posted
+        var data = {};
+        data["username"] = username;
+        data["password"] = password;
+        data["image"] = {'url':''};
+        data["email"] = email;
 
+
+        // Get it ready to send
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+
+          // Stuff to do if POST is successful
+          if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            try{
+              // We should be done, call the callback with the returned name (which is the ID)
+               var JSONArray = JSON.parse(xmlHttp.responseText);
+              callback(JSONArray.name)
+            }
+            catch(ex){
+              console.log("Failed to create user");
+            }
+          }
+          else if (xmlHttp.readyState == 4){
+            console.log("Error: " + xmlHttp.status)
+          }
+        };
+        xmlHttp.open("POST", "https://cards-against-humanity-d6aec.firebaseio.com/users.json", true);
+        xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        // Send the request
+        xmlHttp.send(JSON.stringify(data));
+      }
+      else{
+        console.log("Failed to create user")
+        callback(undefined);
+      }
+
+    })
+
+  }
+
+  // Caches the auth token in the browser cache
+  cacheToken(token: string){
+    sessionStorage.setItem("authToken", token);
+  }
+
+  // Retrieves the auth token from the cache 
+  getToken(token: string): string{
+    return sessionStorage.getItem("authToken");
+  }
+
+  // Creates a user in the firebase users (different from our user db) and calls the callback with true if it succeeded
+  createFirebaseUser(email: string, password: string, callback: (b: boolean)=> void){
+    // Set up data to be posted
+    var data = {}
+    data["email"] = email;
+    data["password"] = password;
+    data["returnSecureToken"] = true;
 
     // Get it ready to send
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
-
-      // Stuff to do if POST is successful
+      // Stuff to do if POST succeeded
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
         try{
-          // We should be done, call the callback with the returned name (which is the ID)
+          // Response is back, double check it worked
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          callback(JSONArray.name)
+          if(JSONArray["idToken"]){
+            // It worked- cache the token and call the callback with true
+            var ws = new UserWebService();
+            ws.cacheToken(JSONArray["idToken"]);
+            console.log("Success");
+            callback(true);
+          }
+          else{
+            // We failed for some reason
+            console.log("Received response but failed to create firebase user");
+            callback(false);
+          }
+          
         }
         catch(ex){
-          console.log("Failed to create user");
+          console.log("Failed to create firebase user");
+          callback(false);
         }
       }
       else if (xmlHttp.readyState == 4){
         console.log("Error: " + xmlHttp.status)
+        callback(false);
       }
-    };
-    xmlHttp.open("POST", "https://cards-against-humanity-d6aec.firebaseio.com/users.json", true);
+    }
+    xmlHttp.open("POST", this.REGISTRATION_URL + this.AUTH_API_KEY, true);
     xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     // Send the request
     xmlHttp.send(JSON.stringify(data));
-
-
   }
 
   // Authenticates the user- calls the callback with true if the user's credentials were correct

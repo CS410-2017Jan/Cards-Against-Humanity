@@ -71,4 +71,9 @@ export class GameRendererStub implements IGameRenderer {
   renderText(str: string) {
     console.log('STUB: renderText');
   }
+
+  //
+  renderGameOver(players: Array<Player>) {
+    console.log('STUB: renderGameOver');
+  }
 }

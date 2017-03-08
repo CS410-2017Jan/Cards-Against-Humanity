@@ -163,4 +163,9 @@ export class UserWebService {
 
   }
 
+  // Authenticates the user- calls the callback with true if the user's credentials were correct
+  logInUser(email: string, password: string, callback: (success: boolean)=>void){
+    // stub
+    callback(true);
+  }
 }

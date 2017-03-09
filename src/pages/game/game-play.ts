@@ -297,7 +297,7 @@ export class GamePlay {
             GameRenderer.renderText('Pick a Winner');
           } else {
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
-            GameRenderer.renderText('Waiting for '+GamePlay.judge.username+' to pick winner...');
+            GameRenderer.renderText('Waiting for judge to pick winner...');
           }
         }
         break;
@@ -362,7 +362,7 @@ export class GamePlay {
             console.log('ERROR: tried to draw a white card but received false');
           }
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
-          GameRenderer.renderText('Pick a card to play for ' + GamePlay.judge.username);
+          GameRenderer.renderText('Pick a card to play');
         }
         break;
 

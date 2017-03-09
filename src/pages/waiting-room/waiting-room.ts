@@ -52,7 +52,7 @@ export class WaitingRoomPage {
   joinGame() {
     var userWS = new UserWebService();
     var loggedInUser = userWS.getLoggedInUser();
-    var userName = loggedInUser.id;
+    var userName = loggedInUser.username;
 
       this.navCtrl.push(GamePage, {
         username: userName,

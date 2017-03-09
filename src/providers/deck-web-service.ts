@@ -49,7 +49,7 @@ export class DeckWebService {
           // Add this deck to the cache since we have it
           var ws = new DeckWebService();
           ws.addDeckToCache(deck);
-          
+
           callback(deck);
         }
         catch(ex){
@@ -67,13 +67,14 @@ export class DeckWebService {
   }
 
   // Gets a deck from the cache, returning undefined if not found
-  getDeckFromCache(id) : Deck{
+  getDeckFromCache(id) : Deck {
     var JSONObject;
     try{
       JSONObject = JSON.parse(sessionStorage.getItem("deckCache"));
       // Check if the deck is in the cache
       if (JSONObject[id] != undefined){
-        return(JSONObject[id]);
+        return new Deck(JSONObject.deckID, JSONObject.blackCards, JSONObject.whiteCards);
+        //return(JSONObject[id]);
       }
       else{
         return undefined;
@@ -84,7 +85,7 @@ export class DeckWebService {
       // Failed to parse JSON probably because our cache is empty
       return undefined;
     }
-    
+
   }
 
   // Adds one deck to the deck cache

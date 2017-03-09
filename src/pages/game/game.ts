@@ -11,6 +11,7 @@ import { NavController, NavParams,ToastController,AlertController,ModalControlle
 import { Tools } from '../../tools/general-tools';
 import { GamePlay } from './game-play';
 import { Card } from '../../data-classes/card';
+import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
@@ -59,11 +60,29 @@ export class GamePage implements IGameRenderer {
     //this.SUBKEY = navParams.get('subkey');
     //this.PUBKEY = navParams.get('pubkey');
     this.CHANNEL = 'game_'+room.id;
-    this.PLAYERS = room.players;
+
+    this.PLAYERS = [];
+    for (var i=0; i<room.players.length; i++) {
+      this.PLAYERS.push(new Player(room.players[i].username,
+                                    room.players[i].id,
+                                    room.players[i].email ));
+    }
+
+    console.log('====================================================HERE');
+    console.log(this.PLAYERS);
+
+    //this.PLAYERS = room.players;
+
+    console.log('====================================================HERE');
+    console.log(this.USERNAME);
 
     var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
     var numPlayers = room.size;
-    this.DECK = room.decks[0].deal(numPlayers)[playerIndex];
+
+    var tempDeck = new Deck(room.decks[0].deckID, room.decks[0].blackCards, room.decks[0].whiteCards);
+
+    //this.DECK = tempDeck;
+    this.DECK = tempDeck.deal(numPlayers)[playerIndex];
   }
 
   ionViewDidLoad() {

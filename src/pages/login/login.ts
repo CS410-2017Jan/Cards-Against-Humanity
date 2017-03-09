@@ -105,7 +105,7 @@ export class LoginPage {
 `
 })
 export class SignUpModalPage {
-  user:{email?: string, password?:string, username?:string} = {};
+  user:{email?: string, username?:string, password?:string} = {};
   submitted = false;
 
   constructor(

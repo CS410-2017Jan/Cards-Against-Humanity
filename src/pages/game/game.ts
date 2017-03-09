@@ -334,7 +334,7 @@ export class EndGameModalPage {
   }
 
   dismiss() {
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(TabsPage);
     this.viewCtrl.dismiss();
   }
 }

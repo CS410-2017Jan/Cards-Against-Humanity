@@ -188,7 +188,7 @@ export class RoomWebService {
   }
 
   // Gets all rooms and calls the callback on the returned JSON string
-  getAllRooms(callback: (obj) => void){
+  getAllRooms(callback: (any) => void){
 
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -200,8 +200,11 @@ export class RoomWebService {
           var toAdd;
           // Iterate across all rooms
           for(let r in JSONArray){
-          	toAdd = {}
-          	toAdd[JSONArray[r].name] = r;
+          	toAdd = {};
+            toAdd.name = JSONArray[r].name;
+            toAdd.isLocked = JSONArray[r].isLocked;
+            toAdd.password = JSONArray[r].password;
+            toAdd.id = r;
           	returnList.push(toAdd);
           }
           callback(returnList);

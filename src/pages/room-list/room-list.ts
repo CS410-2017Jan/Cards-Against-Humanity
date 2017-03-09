@@ -3,6 +3,8 @@ import { AlertController, App, FabContainer, ItemSliding, List, ModalController,
 import { NgForm } from '@angular/forms';
 import { WaitingRoomPage } from '../waiting-room/waiting-room';
 import { RoomFacade } from '../../data-classes/room-facade';
+import {Room} from "../../data-classes/room";
+import {UserWebService} from "../../providers/user-web-service";
 
 /*
   Generated class for the RoomList page.
@@ -34,48 +36,39 @@ export class RoomListPage {
     this.roomList && this.roomList.closeSlidingItems();
 
     var that = this;
-    this.roomCtrl.getRooms(that.updateRoomList);
-
-    //Test data until method to actually get real data
-    this.shownRooms = [
-      {"name": "Test1" },
-      {"name": "Test2" },
-      {"name": "Test3" }
-    ];
+    this.roomCtrl.getRooms(function(rooms){that.updateRoomList(rooms)});
 
     console.log('List of rooms updated!');
   }
 
 
-  updateRoomList(rooms: Array<any>){
+  updateRoomList(rooms: any){
     console.log('updateRoomList()');
     try {
       console.log(rooms);
       this.listOfRooms = rooms;
       console.log('shown 2', this.listOfRooms);
+      console.log(this.listOfRooms[0].name);
     }
     catch(ex)
     {console.log(ex);}
   }
 
 
-  clickJoinRoom(roomData: any){
-    if (roomData.isLocked){
-      this.joinRoomAlert(roomData);
-    }
+  clickJoinRoom(room: any){
+    if (room.isLocked){
 
-    //Only here for testing purposes.
-    if (roomData.name = "Test2"){
-      this.joinRoomAlert(roomData);
+      var that = this;
+      this.roomCtrl.getRoom(room.id, function(r){that.joinRoomAlert(r)});
     }
 
     else
-      this.goToWaitingRoom(roomData);
+      this.goToWaitingRoom(room);
   }
 
 
 
-  joinRoomAlert(roomData:any) {
+  joinRoomAlert(room:Room) {
     let alert = this.alertCtrl.create({
       title: 'Join',
       inputs: [
@@ -96,10 +89,15 @@ export class RoomListPage {
         {
           text: 'Join',
           handler: data => {
-            if (this.roomCtrl.attemptRoomPassword(roomData,data.password)) {
-              //this.joinRoom("this.room", "this.user.id", this.goToWaitingRoom,data.password);
+            if (this.roomCtrl.attemptRoomPassword(room,data.password)) {
+              var userWS = new UserWebService();
+              var loggedInUser = userWS.getLoggedInUser();
+              var userId = loggedInUser.id;
+
+              var that = this;
+              this.roomCtrl.joinRoom(room,userId, function(r){that.goToWaitingRoom(r)});
             } else {
-              // invalid login
+              alert.dismiss();
               return false;
             }
           }
@@ -111,7 +109,7 @@ export class RoomListPage {
 
   //Passing the room object as a navparm into the waitingroompage
   goToWaitingRoom(room:any){
-  //  //this.navCtrl.push(WaitingRoomPage, room);
+  this.navCtrl.push(WaitingRoomPage, room);
   }
 
 

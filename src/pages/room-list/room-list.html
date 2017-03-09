@@ -24,7 +24,7 @@
 
   <ion-list #roomList>
 
-    <button ion-item  *ngFor="let room of shownRooms" [hidden]="room.hide" (click)="joinRoomModal(room)">
+    <button ion-item  *ngFor="let room of shownRooms" [hidden]="room.hide" (click)="clickJoinRoom(room)">
       <h3>{{room.name}}</h3>
     </button>
 

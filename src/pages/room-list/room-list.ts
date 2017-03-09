@@ -23,7 +23,7 @@ export class RoomListPage {
   public shownRooms: any;
   listOfRooms:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade, public alertCtrl: AlertController) {}
 
   ionViewDidEnter() {
     console.log('ionViewDidLoad RoomListPage');
@@ -58,15 +58,62 @@ export class RoomListPage {
   }
 
 
-  joinRoomModal(roomData: any){
-    if (roomData.name == "Test2"){
-      //Enter Password Modal will appear
-      //Replace Test2 with field: Type
+  clickJoinRoom(roomData: any){
+    if (roomData.isLocked){
+      this.joinRoomAlert(roomData);
     }
+
+    //Only here for testing purposes.
+    if (roomData.name = "Test2"){
+      this.joinRoomAlert(roomData);
+    }
+
     else
       this.navCtrl.push(WaitingRoomPage, roomData);
+
+    //this.joinRoom("this.room", "this.user.id", this.goToWaitingRoom);
   }
 
+
+
+  joinRoomAlert(roomData:any) {
+    let alert = this.alertCtrl.create({
+      title: 'Join',
+      inputs: [
+        {
+          name: 'password',
+          placeholder: 'Password',
+          type: 'password'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Join',
+          handler: data => {
+            if (this.roomCtrl.attemptRoomPassword(roomData,data.password)) {
+              //this.joinRoom("this.room", "this.user.id", this.goToWaitingRoom,data.password);
+            } else {
+              // invalid login
+              return false;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  //Passing the room object as a navparm into the waitingroompage
+  //goToWaitingRoom(room:any){
+  //  //this.navCtrl.push(WaitingRoomPage, room);
+  //}
 
 
 }

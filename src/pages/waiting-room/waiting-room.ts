@@ -34,9 +34,7 @@ export class WaitingRoomPage {
     this.roomCtrl.getRoom(this.room.id,function(r){
       that.shownPlayers = r.players;
       that.room = r;
-      if (that.gameStarted = false){
-        setTimeout(that.updatePlayerList(),5000
-        );}
+      setTimeout(that.updatePlayerList(),5000);
       console.log('List of players updated: ', that.shownPlayers);
     });
 
@@ -65,7 +63,6 @@ export class WaitingRoomPage {
         console.log("not ready", this.room.players);
         setTimeout(that.initializeGame(), 5000);
       } else {
-        that.gameStarted = true;
         console.log("Can init");
         that.joinGame();
       }

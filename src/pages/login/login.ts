@@ -3,6 +3,8 @@ import { ModalController, Platform, NavParams, ViewController,NavController} fro
 import { NgForm } from '@angular/forms';
 import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
+import {UserWebService} from "../../providers/user-web-service";
+
 
 /*
   Generated class for the Login page.
@@ -20,6 +22,7 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {}
 
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
@@ -35,13 +38,20 @@ export class LoginPage {
       console.log("Valid form!")
     }
 
-    //userData = getUserInfo();
-    //this.navCtrl.push(HomePage, userData);
 
-    //user.createLogin(this.data);
-
-    this.navCtrl.push(TabsPage);
+    this.navCtrl.push(TabsPage); //Here temporarily
+    //var userWS = new UserWebService();
+    //userWS.logInUser(this.user.email, this.user.password, this.handleLogin);
   }
+
+  //handleLogin(b:boolean){
+  //  if (b) {
+  //    console.log("User had logged in!");
+  //    var this =
+  //    this.navCtrl.push(TabsPage);
+  //}
+
+  //}
 
   openModal() {
     let modal = this.modalCtrl.create(SignUpModalPage);
@@ -75,12 +85,17 @@ export class LoginPage {
     </ion-item>
 
     <ion-item>
+      <ion-label fixed>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="user.username" name="username" #username="ngModel" ></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-label fixed>Password</ion-label>
       <ion-input type="password" [(ngModel)]="user.password" name="password" #password="ngModel" ></ion-input>
     </ion-item>
 
     <ion-item>
-      <button ion-button full (click)="clickCreateAccount(userForm)" type="submit" >Login</button>
+      <button ion-button full (click)="clickCreateAccount(userForm)" type="submit" >Signup</button>
 </ion-item>
 
 </form>
@@ -89,7 +104,7 @@ export class LoginPage {
 `
 })
 export class SignUpModalPage {
-  user:{email?: string, password?:string} = {};
+  user:{email?: string, password?:string, username?:string} = {};
   submitted = false;
 
   constructor(
@@ -99,15 +114,20 @@ export class SignUpModalPage {
   ) {}
 
   clickCreateAccount(form:NgForm) {
-    console.log("Account create clicked!")
+    console.log("Account create clicked!");
 
     console.log("email: ", this.user.email,
       "# of Players: ", this.user.password
     );
 
-    //user.createAccount(this.data);
+    var userWS = new UserWebService();
+    var that = this;
+    userWS.createUser(this.user.username, this.user.password, this.user.email, function(s: string){that.userCreatedSuccess(s)});
+  }
 
-    this.viewCtrl.dismiss();
+  userCreatedSuccess(id:string){
+    console.log("Account create clicked!", id);
+    that.viewCtrl.dismiss();
   }
 
   dismiss() {

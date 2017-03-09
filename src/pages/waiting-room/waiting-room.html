@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Waiting Room: {{room.name}}</ion-title>
+    <ion-title>{{room.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -18,7 +18,7 @@
 
     <ion-item-group *ngFor="let player of shownPlayers">
       <button ion-item >
-        <h3>{{player.name}}</h3>
+        <h3>{{player.username}}</h3>
       </button>
     </ion-item-group>
 

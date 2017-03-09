@@ -63,7 +63,8 @@ export class RoomListPage {
     }
 
     else
-      this.goToWaitingRoom(room);
+      var that = this;
+      this.roomCtrl.getRoom(room.id, function(r){that.goToWaitingRoom(r)});
   }
 
 

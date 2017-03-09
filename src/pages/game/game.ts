@@ -16,6 +16,7 @@ import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
 import {HomePage} from "../home/home";
+import {TabsPage} from "../tabs/tabs";
 //import { GameRendererStub } from './game-renderer-stub';
 
 @Component({

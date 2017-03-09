@@ -69,9 +69,7 @@ export class RoomListPage {
     }
 
     else
-      this.navCtrl.push(WaitingRoomPage, roomData);
-
-    //this.joinRoom("this.room", "this.user.id", this.goToWaitingRoom);
+      goToWaitingRoom(roomData);
   }
 
 

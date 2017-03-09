@@ -20,7 +20,7 @@ export class WaitingRoomPage {
   }
 
   //Runs everytime a player joins the room
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     console.log('ionViewDidLoad WaitingRoomPage');
     this.updatePlayerList();
     this.initializeGame();

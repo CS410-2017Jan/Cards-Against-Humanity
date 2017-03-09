@@ -14,6 +14,11 @@ import { SignUpModalPage } from '../pages/login/login';
 import { ScoreModalPage } from '../pages/game/game'
 import { RoomListPage } from '../pages/room-list/room-list';
 
+import { RoomFacade } from '../data-classes/room-facade';
+import { Player } from "../data-classes/player";
+
+
+
 
 
 @NgModule({
@@ -50,6 +55,6 @@ import { RoomListPage } from '../pages/room-list/room-list';
     SignUpModalPage,
     ScoreModalPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, RoomFacade]
 })
 export class AppModule {}

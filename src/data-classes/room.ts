@@ -95,7 +95,7 @@ export class Room {
     }
   }
 
-  isRoomReady() : Boolean {
+  isRoomReady() : boolean {
     if (this.players.length == this.size) {
       return true;
     } else {

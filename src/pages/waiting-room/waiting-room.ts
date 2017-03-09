@@ -25,20 +25,28 @@ export class WaitingRoomPage {
   ionViewDidEnter() {
     console.log('ionViewDidLoad WaitingRoomPage');
     this.updatePlayerList();
-    this.initializeGame();
+    //this.initializeGame();
   }
 
   //Updates the list of players in the room
   updatePlayerList(){
     var that = this;
-    this.roomCtrl.getRoom(this.room.id,function(r){
-      that.shownPlayers = r.players;
-      that.room = r;
-      setTimeout(that.updatePlayerList(),5000);
-      console.log('List of players updated: ', that.shownPlayers);
-    });
 
-  }
+      this.roomCtrl.getRoom(this.room.id,function(r){
+        that.shownPlayers = r.players;
+        that.room = r;
+
+        if (that.room.isRoomReady() == false) {
+          setTimeout(that.updatePlayerList(), 5000);
+        }
+        else{
+          that.joinGame();
+        }
+
+        console.log('List of players updated: ', that.shownPlayers);
+      });
+    }
+
 
   // sets the appropriate params and navigates to the GamePage
   joinGame() {

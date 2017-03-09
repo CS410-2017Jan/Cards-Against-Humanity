@@ -1,13 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, NavParams, LoadingController } from 'ionic-angular';
-
+import { RoomFacade } from '../../data-classes/room-facade';
 import { GamePage } from '../../pages/game/game.ts';
-/*
-  Generated class for the WaitingRoom page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   selector: 'page-waiting-room',
   templateUrl: 'waiting-room.html'
@@ -55,12 +51,19 @@ export class WaitingRoomPage {
   }
 
   //Checks to see if enough players are there to start the game
-  initializeGame(){
-
-    //if (shownPlayers.count = 3){
-      //Send the player to the GamePage with either the room or player data
-      //this.navCtrl.push(GamePage, roomDate);
-    //}
-}
+  initializeGame() {
+    console.log("Initialize Game Attempt");
+    //var facade = new RoomFacade();
+    //var that = this;
+    //facade.isRoomReady(this.room.id, function (result) {
+    //  if (result != true) {
+    //    console.log("not ready");
+    //    setTimeout(that.initializeGame(), 5000);
+    //  } else {
+    //    console.log("Can init");
+    //    that.joinGame();
+    //  }
+    //});
+  }
 
 }

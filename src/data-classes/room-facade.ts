@@ -22,6 +22,7 @@ export class RoomFacade {
 
   // Calls callback with Array<Room>
   getRooms(callback) {
+    console.log('getRooms()');
     var rs = new RoomWebService();
     rs.getAllRooms(function(rooms) {callback(rooms)});
   }

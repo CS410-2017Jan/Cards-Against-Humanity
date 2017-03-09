@@ -27,6 +27,7 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
+
   clickLogin(form:NgForm) {
     this.submitted = true;
 
@@ -38,20 +39,20 @@ export class LoginPage {
       console.log("Valid form!")
     }
 
+    //this.navCtrl.push(TabsPage); //Here temporarily
 
-    this.navCtrl.push(TabsPage); //Here temporarily
-    //var userWS = new UserWebService();
-    //userWS.logInUser(this.user.email, this.user.password, this.handleLogin);
+    var userWS = new UserWebService();
+    var that = this;
+    userWS.logInUser(this.user.email, this.user.password, function(b: boolean){that.handleLogin(b)});
   }
 
-  //handleLogin(b:boolean){
-  //  if (b) {
-  //    console.log("User had logged in!");
-  //    var this =
-  //    this.navCtrl.push(TabsPage);
-  //}
+  handleLogin(b:boolean){
+    if (b) {
+      console.log("User had logged in!");
+      this.navCtrl.push(TabsPage);
+  }
 
-  //}
+  }
 
   openModal() {
     let modal = this.modalCtrl.create(SignUpModalPage);
@@ -127,7 +128,7 @@ export class SignUpModalPage {
 
   userCreatedSuccess(id:string){
     console.log("Account create clicked!", id);
-    that.viewCtrl.dismiss();
+    this.viewCtrl.dismiss();
   }
 
   dismiss() {

@@ -12,7 +12,7 @@ import {UserWebService} from "../../providers/user-web-service";
 export class WaitingRoomPage {
 
   @ViewChild('playerList', { read: List }) playerList: List;
-
+  gameStarted: boolean = false;
   room: any;
   shownPlayers: any = [];
 
@@ -24,7 +24,7 @@ export class WaitingRoomPage {
   //Runs everytime a player joins the room
   ionViewDidEnter() {
     console.log('ionViewDidLoad WaitingRoomPage');
-    //this.updatePlayerList();
+    this.updatePlayerList();
     this.initializeGame();
   }
 
@@ -34,8 +34,10 @@ export class WaitingRoomPage {
     this.roomCtrl.getRoom(this.room.id,function(r){
       that.shownPlayers = r.players;
       that.room = r;
-      setTimeout(that.updatePlayerList(),5000);
-      console.log('List of players updated!', that.shownPlayers);
+      if (that.gameStarted = false){
+        setTimeout(that.updatePlayerList(),5000
+        );}
+      console.log('List of players updated: ', that.shownPlayers);
     });
 
   }
@@ -60,9 +62,10 @@ export class WaitingRoomPage {
     var that = this;
     facade.isRoomReady(this.room.id, function (result) {
       if (result != true) {
-        console.log("not ready");
+        console.log("not ready", this.room.players);
         setTimeout(that.initializeGame(), 5000);
       } else {
+        that.gameStarted = true;
         console.log("Can init");
         that.joinGame();
       }

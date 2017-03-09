@@ -57,15 +57,28 @@ export class RoomListPage {
 
   clickJoinRoom(room: any){
     if (room.isLocked){
-
       var that = this;
       this.roomCtrl.getRoom(room.id, function(r){that.joinRoomAlert(r)});
     }
 
-    else
+    else {
+      var userWS = new UserWebService();
+      var loggedInUser = userWS.getLoggedInUser();
+      var userId = loggedInUser.id;
+
       var that = this;
-      this.roomCtrl.getRoom(room.id, function(r){that.goToWaitingRoom(r)});
-  }
+      this.roomCtrl.getRoom(room.id, function (r) {
+        that.roomCtrl.joinRoom(r, userId, function (m) {
+        })
+      });
+      var that = this;
+      this.roomCtrl.getRoom(room.id, function (r) {
+        that.goToWaitingRoom(r)
+      });
+    }
+        };
+
+
 
 
 
@@ -96,7 +109,13 @@ export class RoomListPage {
               var userId = loggedInUser.id;
 
               var that = this;
-              this.roomCtrl.joinRoom(room,userId, function(r){that.goToWaitingRoom(r)});
+              this.roomCtrl.joinRoom(room,userId, function(r){});
+
+              var that = this;
+              this.roomCtrl.getRoom(room.id, function (r) {
+                that.goToWaitingRoom(r)
+              });
+
             } else {
               alert.dismiss();
               return false;
@@ -110,6 +129,8 @@ export class RoomListPage {
 
   //Passing the room object as a navparm into the waitingroompage
   goToWaitingRoom(room:any){
+    console.log('goToWaitingRoom()');
+    console.log(room);
   this.navCtrl.push(WaitingRoomPage, room);
   }
 

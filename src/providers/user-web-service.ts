@@ -25,15 +25,15 @@ export class UserWebService {
   LOGIN_URL = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=";
   ACCOUNT_INFO_URL = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=<my-firebase-api-key>";
 
-  
+
 
   constructor() {
-   
+
   }
 
   // Gets List of all users
   getAllUsers(callback: (p: Array<Player>) => void){
-    
+
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
       // Stuff to do if GET is successful
@@ -109,7 +109,7 @@ export class UserWebService {
       //console.log("Empty cache")
       return undefined;
     }
-    
+
   }
 
   // Adds one user to the user cache
@@ -189,11 +189,11 @@ export class UserWebService {
     this.getUserByEmail(email, function(u: Player){
       sessionStorage.setItem("loggedInUser", JSON.stringify({"email": email, "password": password, "username": u.username, "id": u.id}));
     })
-    
+
   }
 
   // Retrieves logged in user from the browser cache as an object with parameters email and password
-  getLoggedInUser(): Object{
+  getLoggedInUser(): any{
     return JSON.parse(sessionStorage.getItem("loggedInUser"));
   }
 
@@ -214,10 +214,10 @@ export class UserWebService {
           // Response is back, double check it worked
           var JSONArray = JSON.parse(xmlHttp.responseText);
           if(JSONArray["idToken"]){
-            // It worked- call the callback with true and store the logged in user  
+            // It worked- call the callback with true and store the logged in user
             var ws = new UserWebService();
             ws.cacheLoggedInUser(email, password);
-            
+
             console.log("Success");
             callback(true);
           }
@@ -226,7 +226,7 @@ export class UserWebService {
             console.log("Received response but failed to create firebase user");
             callback(false);
           }
-          
+
         }
         catch(ex){
           console.log("Failed to create firebase user");
@@ -272,7 +272,7 @@ export class UserWebService {
             console.log("Login Failed");
             callback(false);
           }
-          
+
         }
         catch(ex){
           console.log("Login Failed");

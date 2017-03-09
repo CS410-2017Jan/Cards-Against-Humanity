@@ -27,7 +27,7 @@ export class RoomWebService {
   //
   // Note- This needs to be updated with password authentication. Password currently does nothing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   joinRoom(userID: string, roomID: string, callback: (s:string)=>void){
-  	
+
   	try{
   		// First Authenticate to ensure we're logged in
   		var ws = new UserWebService();
@@ -87,7 +87,7 @@ export class RoomWebService {
   		});
   	})
 
-  		
+
   	}
   	catch(ex){
   		// Must have failed to find room or failed to log in
@@ -98,7 +98,7 @@ export class RoomWebService {
 
   // Removes the specified user from the room and calls the callback on the updated room object
   leaveRoom(userID: string, roomID: string, callback: (s:string)=>void){
-  	
+
   	try{
   		// first check that we're authenticated
   		var ws = new UserWebService();
@@ -151,7 +151,7 @@ export class RoomWebService {
     			xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     			xmlHttp.send(JSON.stringify(data));})
   			});
-  		
+
   	}
   	catch(ex){
   		// Must have failed to find room
@@ -255,6 +255,7 @@ export class RoomWebService {
 	        }
 	        catch(ex){
 	          console.log("Failed to create room");
+            console.log(ex);
 	        }
 	      }
 	      else if (xmlHttp.readyState == 4){
@@ -267,7 +268,7 @@ export class RoomWebService {
 	    xmlHttp.send(JSON.stringify(data));
   	})
 
-    
+
   }
 
   // Creates a Room object from a JSON String and roomID and then calls a callback on that room

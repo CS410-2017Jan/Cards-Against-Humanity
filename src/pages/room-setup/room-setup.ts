@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { RoomFacade } from '../../data-classes/room-facade';
+import {UserWebService} from "../../providers/user-web-service";
+import {WaitingRoomPage} from "../waiting-room/waiting-room";
+import {Player} from "../../data-classes/player";
+import {Room} from "../../data-classes/room";
+
 
 /*
  Generated class for the RoomSetup page.
@@ -42,15 +47,22 @@ export class RoomSetupPage {
 
     }
 
+    var userWS = new UserWebService();
+    var loggedInUser = userWS.getLoggedInUser();
+    console.log('user: ',loggedInUser);
 
-    //this.roomCtrl.createRoom(this.room.rname, "Test Person",this.room.type,this.room.rpassword);
-    //this.joinRoom("this.room", this.goToWaitingRoom,"this.room.password");
+    var userEmail = loggedInUser.email;
+    var that = this;
+
+    userWS.getUserByEmail(userEmail, function(p:Player)
+    {(that.roomCtrl.createRoom(that.room.rname,p,that.room.rtype,
+      function(r:Room){that.goToWaitingRoom(r)},that.room.rpassword))});
 
   }
 
   //Passing the room object as a navparm into the waitingroompage
-  //goToWaitingRoom(room:any){
-  //  //this.navCtrl.push(WaitingRoomPage, room);
-  //}
+  goToWaitingRoom(room:any){
+    this.navCtrl.push(WaitingRoomPage, room);
+  }
 
 }

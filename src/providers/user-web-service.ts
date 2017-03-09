@@ -299,4 +299,37 @@ export class UserWebService {
           callback(success);
       });
   }
+
+  // Finds the first Player in the DB with the given email and returns it, returns undefined if not found
+  getUserByEmail(email: string, callback: (p: Player)=> void){
+    // first we need to get all users
+    this.getAllUsers(function (users: Array<Player>){
+      // now we need to search this returned users list for the user in question
+      try{
+        // Search the users list for the right email
+        var foundUser;
+        for(let u of users){
+          if (u.email == email){
+            foundUser = u;
+            break;
+          }
+        }
+        if (foundUser == null){
+          // user not found
+          console.log("User with email " + email + " not found.");
+          callback(undefined);
+        }
+        else{
+          // user found
+          callback(foundUser);
+        }
+      }
+      catch(ex){
+        // We messed up somewhere
+        console.log("Encountered exception while finding user by email: " + ex.message);
+        callback(undefined);
+      }
+    })
+
+  }
 }

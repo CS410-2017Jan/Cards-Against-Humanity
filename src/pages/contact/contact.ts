@@ -126,6 +126,12 @@ export class ContactPage {
     ws.logInUser(email, password, console.log);
   }
 
+  // Find user by email test
+  testFBE(email: string){
+    var ws = new UserWebService();
+    ws.getUserByEmail(email, console.log);
+  }
+
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
     var room = new Room([deck], false, 'testRoom', 'password', 3, channel, players);
 

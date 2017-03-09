@@ -185,7 +185,11 @@ export class UserWebService {
 
   // Caches the logged in user in the browser cache
   cacheLoggedInUser(email: string, password: string){
-    sessionStorage.setItem("loggedInUser", JSON.stringify({"email": email, "password": password}));
+    // we need to first get the player object from the db for this email
+    this.getUserByEmail(email, function(u: Player){
+      sessionStorage.setItem("loggedInUser", JSON.stringify({"email": email, "password": password, "username": u.username, "id": u.id}));
+    })
+    
   }
 
   // Retrieves logged in user from the browser cache as an object with parameters email and password

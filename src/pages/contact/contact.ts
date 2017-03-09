@@ -99,6 +99,15 @@ export class ContactPage {
     var facade = new RoomFacade();
     facade.getRooms(function(r){console.log("Got Rooms: " + JSON.stringify(r))});
   }
+  attemptPasswordUsingFacade() {
+    var facade = new RoomFacade();
+    var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
+    var tempArr = [];
+    tempArr.push(tempDeck);
+    var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
+    console.log("Expect true :" + facade.attemptRoomPassword(room, "TESTING123"));
+    console.log("Expect false :" + facade.attemptRoomPassword(room, "FAIL"));
+  }
   joinRoomUsingFacade(userID: string){
     var facade = new RoomFacade();
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');

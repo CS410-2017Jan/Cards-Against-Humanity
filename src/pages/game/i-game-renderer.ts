@@ -51,4 +51,7 @@ export interface IGameRenderer {
 
   // renders text instructions
   renderText(str: string);
+
+  // renders the Game Over state
+  renderGameOver(players: Array<Player>);
 }

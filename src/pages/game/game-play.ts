@@ -22,6 +22,7 @@ export class GamePlay {
   PUBKEY: string;                 // The publish key user will NOT change during gameplay
   PLAYER_USERNAME: string;        // This player's name. Name does NOT change during gameplay
   NUM_CARDS_HAND: number;         // The number of cards per hand does NOT change during gameplay
+  NUM_WINNING_POINTS: number;     // The numebr of points a player needs to win the game
 
   // Object Singletons
   PubNub;                         // This client's pubnub object
@@ -59,7 +60,8 @@ export class GamePlay {
     this.GameRenderer = gameRenderer;
     //this.Game = Game;
 
-    this.NUM_CARDS_HAND = 5;
+    this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
+    this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
     this.roundNumber = 0;
     this.continueCounter = 0;
     this.hand = [];
@@ -203,6 +205,27 @@ export class GamePlay {
     }
   }
 
+  // returns boolean indicating if a player has scored enough points to win the game
+  isGameOver() : boolean {
+    for (var i=0; i<this.players.length; i++) {
+      if (this.players[i].score >= this.NUM_WINNING_POINTS) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // returns the player with the current highest score
+  getLeadingPlayer() : Player {
+    var leader = this.players[0];
+    for (var i=0; i<this.players.length; i++) {
+      if (this.players[i].score >= leader.score) {
+        leader = this.players[i];
+      }
+    }
+    return leader;
+  }
+
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
     this.PubNub.publish({
@@ -241,7 +264,7 @@ export class GamePlay {
     }
 
     var GameRenderer = this.GameRenderer;  // for readability
-    var GamePlay = this;          // for readability
+    var GamePlay = this;                   // for readability
 
     switch (pubnubMsg.code) {
       case 'JOINED':
@@ -274,7 +297,7 @@ export class GamePlay {
             GameRenderer.renderText('Pick a Winner');
           } else {
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
-            GameRenderer.renderText('Waiting for judge to pick winner...');
+            GameRenderer.renderText('Waiting for '+GamePlay.judge.username+' to pick winner...');
           }
         }
         break;
@@ -296,8 +319,15 @@ export class GamePlay {
         GamePlay.cardsSubmitted = [];
         GameRenderer.clearCardsSubmitted();
         GameRenderer.renderWinningCard(Tools.clone(winningCardSubmission));
-        GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
-        GameRenderer.renderContinueButton();
+
+        // check if game ended
+        if (GamePlay.isGameOver()) {
+          GameRenderer.renderText(GamePlay.getLeadingPlayer().username + ' won the game!');
+          GameRenderer.renderGameOver(Tools.clone(GamePlay.players));
+        } else {
+          GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
+          GameRenderer.renderContinueButton();
+        }
         break;
 
       case 'REQUEST_CONTINUE':
@@ -332,7 +362,7 @@ export class GamePlay {
             console.log('ERROR: tried to draw a white card but received false');
           }
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
-          GameRenderer.renderText('Pick a card to play');
+          GameRenderer.renderText('Pick a card to play for ' + GamePlay.judge.username);
         }
         break;
 

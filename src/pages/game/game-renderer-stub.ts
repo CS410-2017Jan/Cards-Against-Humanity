@@ -145,6 +145,11 @@ export class GameRendererStub implements IGameRenderer {
     this.presentToast(str);
   }
 
+  // render the Game Over state
+  renderGameOver(players: Array<Player>) {
+
+  }
+
 }
 
 

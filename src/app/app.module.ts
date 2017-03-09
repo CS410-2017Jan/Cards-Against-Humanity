@@ -16,6 +16,7 @@ import { RoomListPage } from '../pages/room-list/room-list';
 
 import { RoomFacade } from '../data-classes/room-facade';
 import { Player } from "../data-classes/player";
+import {EndGameModalPage} from "../pages/game/game";
 
 
 
@@ -34,7 +35,8 @@ import { Player } from "../data-classes/player";
     LoginPage,
     GamePage,
     SignUpModalPage,
-    ScoreModalPage
+    ScoreModalPage,
+    EndGameModalPage
 
   ],
   imports: [
@@ -53,7 +55,8 @@ import { Player } from "../data-classes/player";
     LoginPage,
     GamePage,
     SignUpModalPage,
-    ScoreModalPage
+    ScoreModalPage,
+    EndGameModalPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, RoomFacade]
 })

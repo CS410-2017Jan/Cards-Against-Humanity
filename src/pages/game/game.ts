@@ -14,6 +14,7 @@ import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
+import {HomePage} from "../home/home";
 //import { GameRendererStub } from './game-renderer-stub';
 
 @Component({
@@ -236,7 +237,8 @@ export class GamePage implements IGameRenderer {
 
   // STUB atm
   renderGameOver(players: Array<Player>) {
-    // TODO: this function
+    let gameEndModal = this.modalCtrl.create(EndGameModalPage,{"players": this.players});
+    gameEndModal.present();
   }
 }
 
@@ -275,6 +277,45 @@ export class ScoreModalPage {
   }
 
   dismiss() {
+    this.viewCtrl.dismiss();
+  }
+}
+
+@Component({
+  template: `
+  <ion-header>
+  <ion-toolbar>
+
+    <ion-title>
+      GAME OVER!
+    </ion-title>
+
+     <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+<ion-list>
+    <ion-item *ngFor="let player of  this.params.get('players'); let i = index">
+    {{i+1}}. {{player.username}} <ion-badge item-right>{{player.score}}</ion-badge>
+    </ion-item>
+    </ion-list>
+    </ion-content>
+    `
+})
+export class EndGameModalPage {
+  constructor(public params: NavParams,public viewCtrl: ViewController,public platform: Platform, public navCtrl: NavController) {
+    console.log('it worked!');
+  }
+
+  dismiss() {
+    this.navCtrl.push(HomePage);
     this.viewCtrl.dismiss();
   }
 }

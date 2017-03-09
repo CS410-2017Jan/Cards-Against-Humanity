@@ -46,6 +46,7 @@ export class RoomListPage {
     console.log('List of rooms updated!');
   }
 
+
   updateRoomList(rooms: Array<any>){
     console.log('updateRoomList()');
     try {
@@ -69,7 +70,7 @@ export class RoomListPage {
     }
 
     else
-      goToWaitingRoom(roomData);
+      this.goToWaitingRoom(roomData);
   }
 
 
@@ -109,9 +110,9 @@ export class RoomListPage {
   }
 
   //Passing the room object as a navparm into the waitingroompage
-  //goToWaitingRoom(room:any){
+  goToWaitingRoom(room:any){
   //  //this.navCtrl.push(WaitingRoomPage, room);
-  //}
+  }
 
 
 }

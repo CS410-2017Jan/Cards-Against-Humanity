@@ -43,7 +43,7 @@ export class WaitingRoomPage {
           that.joinGame();
         }
 
-        console.log('List of players updated: ', that.shownPlayers);
+        //console.log('List of players updated: ', that.shownPlayers);
       });
     }
 

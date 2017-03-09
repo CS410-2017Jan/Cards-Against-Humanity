@@ -120,6 +120,12 @@ export class ContactPage {
     facade.isRoomReady(roomID, console.log);
   }
 
+  // Authentication test
+  testAuth(email: string, password: string){
+    var ws = new UserWebService();
+    ws.logInUser(email, password, console.log);
+  }
+
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
     var room = new Room([deck], false, 'testRoom', 'password', 3, channel, players);
 

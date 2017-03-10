@@ -294,7 +294,7 @@ export class RoomWebService {
   		for(let deckID of deckStrings){
   			// Try loading from cache
   			var deck = dws.getDeckFromCache(deckID);
-  			if (deck == undefined){
+  			if (true){
   				// We have a problem- get the deck from the server
   				neededWeb = true;
  				deckPromise = new Promise(function(resolve, reject) {
@@ -305,7 +305,7 @@ export class RoomWebService {
 			}
 			else{
 				// Deck was in cache
-				decks.push(deck);
+				//decks.push(deck);
 			}
   		}
 

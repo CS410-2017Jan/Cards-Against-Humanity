@@ -3,14 +3,14 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GamePage } from '../../pages/game/game.ts';
 
-import { DeckWebService } from '../../providers/deck-web-service.ts';
-import { UserWebService } from '../../providers/user-web-service.ts';
-import { RoomWebService } from '../../providers/room-web-service.ts';
+import { DeckWebService } from '../../providers/web-services/deck-web-service.ts';
+import { UserWebService } from '../../providers/web-services/user-web-service.ts';
+import { RoomWebService } from '../../providers/web-services/room-web-service.ts';
 
 import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
 import {Room} from "../../data-classes/room";
-import {RoomFacade} from "../../data-classes/room-facade";
+import {RoomFacade} from "../../providers/facades/room-facade";
 
 
 @Component({

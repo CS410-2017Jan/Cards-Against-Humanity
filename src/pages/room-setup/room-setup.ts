@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { RoomFacade } from '../../data-classes/room-facade';
-import {UserWebService} from "../../providers/user-web-service";
+import { RoomFacade } from '../../providers/facades/room-facade';
+import {UserWebService} from "../../providers/web-services/user-web-service";
 import {WaitingRoomPage} from "../waiting-room/waiting-room";
 import {Player} from "../../data-classes/player";
 import {Room} from "../../data-classes/room";

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {Deck} from "../data-classes/deck";
-import {Room} from "../data-classes/room";
-import {Player} from "../data-classes/player";
-import {DeckWebService} from "../providers/deck-web-service";
-import {UserWebService} from "../providers/user-web-service";
+import {Deck} from "../../data-classes/deck";
+import {Room} from "../../data-classes/room";
+import {Player} from "../../data-classes/player";
+import {DeckWebService} from "./deck-web-service";
+import {UserWebService} from "./user-web-service";
 
 /*
   Generated class for the RoomWebService provider.

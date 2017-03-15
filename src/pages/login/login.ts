@@ -3,7 +3,7 @@ import { ModalController, Platform, NavParams, ViewController,NavController} fro
 import { NgForm } from '@angular/forms';
 import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
-import {UserWebService} from "../../providers/user-web-service";
+import {UserWebService} from "../../providers/web-services/user-web-service";
 
 
 /*

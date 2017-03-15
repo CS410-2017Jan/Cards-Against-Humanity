@@ -14,7 +14,7 @@ import { SignUpModalPage } from '../pages/login/login';
 import { ScoreModalPage } from '../pages/game/game'
 import { RoomListPage } from '../pages/room-list/room-list';
 
-import { RoomFacade } from '../data-classes/room-facade';
+import { RoomFacade } from '../providers/facades/room-facade';
 import { Player } from "../data-classes/player";
 import {EndGameModalPage} from "../pages/game/game";
 

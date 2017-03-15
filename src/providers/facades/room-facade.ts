@@ -1,8 +1,8 @@
-import {RoomWebService} from "../providers/room-web-service";
-import {Room} from "./room";
-import {DeckWebService} from "../providers/deck-web-service";
-import {Player} from "./player";
-import {Deck} from "./deck";
+import {RoomWebService} from "../web-services/room-web-service";
+import {Room} from "../../data-classes/room";
+import {DeckWebService} from "../web-services/deck-web-service";
+import {Player} from "../../data-classes/player";
+import {Deck} from "../../data-classes/deck";
 /**
  * Created by Sonalee Shah on 3/4/2017.
  */

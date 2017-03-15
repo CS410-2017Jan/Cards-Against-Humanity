@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
-import {Player} from "../data-classes/player";
+import {Player} from "../../data-classes/player";
 
 
 /*

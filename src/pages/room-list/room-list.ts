@@ -2,9 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, LoadingController, NavParams } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { WaitingRoomPage } from '../waiting-room/waiting-room';
-import { RoomFacade } from '../../data-classes/room-facade';
+import { RoomFacade } from '../../providers/facades/room-facade';
 import {Room} from "../../data-classes/room";
-import {UserWebService} from "../../providers/user-web-service";
+import {UserWebService} from "../../providers/web-services/user-web-service";
 
 /*
   Generated class for the RoomList page.

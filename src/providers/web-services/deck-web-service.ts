@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 //import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { Deck } from '../data-classes/deck';
-import { Card } from '../data-classes/card';
+import { Deck } from '../../data-classes/deck';
+import { Card } from '../../data-classes/card';
 
 /*
   Generated class for the DeckWebService provider.

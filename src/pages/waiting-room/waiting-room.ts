@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { RoomFacade } from '../../data-classes/room-facade';
+import { RoomFacade } from '../../providers/facades/room-facade';
 import { GamePage } from '../../pages/game/game.ts';
-import {UserWebService} from "../../providers/user-web-service";
+import {UserWebService} from "../../providers/web-services/user-web-service";
 
 
 @Component({

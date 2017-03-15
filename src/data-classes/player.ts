@@ -2,7 +2,7 @@
  * Created by jjxn on 2/19/2017.
  */
 
-import { User } from "./user";
+import { User } from './user';
 
 // ======================================================================
 // This Class outlines the data structure of a Player
@@ -17,7 +17,7 @@ export class Player extends User {
 
   // Prints information about the player to the console
   print(){
-    console.log(this.username + " ID: (" + this.id + ")- " + this.score);
+    console.log(this.username + ' ID: (' + this.id + ')- ' + this.score);
   }
 
   // return int index of player corresponding to the given username in
@@ -26,7 +26,7 @@ export class Player extends User {
     for (var i = 0; i < players.length; i++) {
       if (players[i].username == username) return i;
     }
-    console.log("ERROR: username not found in given players");
+    console.log('ERROR: username not found in given players');
     return -1;
   }
 

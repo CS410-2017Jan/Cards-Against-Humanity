@@ -14,8 +14,8 @@ import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
-import {HomePage} from "../home/home";
-import {TabsPage} from "../tabs/tabs";
+import {HomePage} from '../home/home';
+import {TabsPage} from '../tabs/tabs';
 
 @Component({
   selector: 'page-game', // should this be game-page?
@@ -227,7 +227,7 @@ export class GamePage implements IGameRenderer {
 
   // TODO: STUB atm
   renderGameOver(players: Array<Player>) {
-    let gameEndModal = this.modalCtrl.create(EndGameModalPage,{'players': this.players});
+    let gameEndModal = this.modalCtrl.create(EndGameModalPage,{"players": this.players});
     gameEndModal.present();
   }
 }

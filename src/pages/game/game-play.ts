@@ -9,7 +9,7 @@ import { Card } from '../../data-classes/card';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { Player } from '../../data-classes/player';
 import { PubNubMsg } from '../../data-classes/pubnub-msg';
-import { IGameRenderer } from "./i-game-renderer";
+import { IGameRenderer } from './i-game-renderer';
 
 // ======================================================================
 // This Class contains the gamestate and methods to modify/play the game.
@@ -327,7 +327,7 @@ export class GamePlay {
       case 'REQUEST_CONTINUE':
         console.log('case: REQUEST_CONTINUE');
         GamePlay.continueCounter++;
-        // TODO: what if someone exits the game and doesn't click "continue"?
+        // TODO: what if someone exits the game and doesn't click 'continue'?
         if (GamePlay.continueCounter >= GamePlay.players.length) {
           GamePlay.continueCounter = 0;
           GameRenderer.clearContinueButton();
@@ -361,7 +361,7 @@ export class GamePlay {
         break;
 
       default:
-        console.log("ERROR: default case reached in handleMsg");
+        console.log('ERROR: default case reached in handleMsg');
     }
   }
 }

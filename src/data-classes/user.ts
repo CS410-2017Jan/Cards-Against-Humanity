@@ -18,7 +18,7 @@ export class User {
 
   // Prints information about the user to the console
   print() {
-    console.log(this.username + "Email: " + this.email + " ID: (" + this.id + ")");
+    console.log(this.username + 'Email: ' + this.email + ' ID: (' + this.id + ')');
   }
 
 }

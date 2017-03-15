@@ -11,13 +11,11 @@ import { NavController, NavParams,ToastController,AlertController,ModalControlle
 import { Tools } from '../../tools/general-tools';
 import { GamePlay } from './game-play';
 import { Card } from '../../data-classes/card';
-import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
 import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
-//import { GameRendererStub } from './game-renderer-stub';
 
 @Component({
   selector: 'page-game', // should this be game-page?
@@ -25,22 +23,21 @@ import {TabsPage} from "../tabs/tabs";
 })
 
 // ======================================================================
-// This Class instantiates GamePlay and GameRenderer classes and calls the
+// This Class instantiates GamePlay singleton classes and calls the
 // appropriate methods to play the game and then render the game.
-// Much of the game's logic will be in this class, whereas the game's
-// actions/implementation are in the GamePlay class.
+// This class implements the IGameRenderer interface in order to render the
+// elements of the game after making moves using the GamePlay singleton
 // ======================================================================
 export class GamePage implements IGameRenderer {
   USERNAME;      // this client's username will not change during a game
-  //SUBKEY;      // PubNub connection subscription key
-  //PUBKEY;      // PubNub connection publish key
+  // SUBKEY;     // PubNub connection subscription key
+  // PUBKEY;     // PubNub connection publish key
   CHANNEL;       // PubNub channel to join
   DECK;          // Deck object to pass to GamePlay
   PLAYERS;       // Player object to pass to GamePlay
 
   GamePlay;      // A GamePlay singleton object
-  //GameRenderer;  // An instantiation of the GameRenderer abstract class
-  ScoreModal;   //Instance of score modal
+  ScoreModal;    // Instance of score modal
 
   constructor(public navCtrl:NavController,
               public navParams:NavParams,
@@ -58,41 +55,21 @@ export class GamePage implements IGameRenderer {
     console.log(room);
 
     this.USERNAME = navParams.get('username');
-    //this.SUBKEY = navParams.get('subkey');
-    //this.PUBKEY = navParams.get('pubkey');
+    // this.SUBKEY = navParams.get('subkey');
+    // this.PUBKEY = navParams.get('pubkey');
     this.CHANNEL = 'game_'+room.id;
 
-    this.PLAYERS = [];
-    for (var i=0; i<room.players.length; i++) {
-      this.PLAYERS.push(new Player(room.players[i].username,
-                                    room.players[i].id,
-                                    room.players[i].email ));
-    }
+    this.PLAYERS = Player.createPlayersFromUsers(room.users);
 
-    console.log('====================================================HERE');
-    console.log(this.PLAYERS);
-
-    //this.PLAYERS = room.players;
-
-    console.log('====================================================HERE');
-    console.log(this.USERNAME);
-
-    var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
-    var numPlayers = room.size;
-
-    var tempDeck = new Deck(room.decks[0].deckID, room.decks[0].blackCards, room.decks[0].whiteCards);
-
-    //this.DECK = tempDeck;
-    this.DECK = tempDeck.deal(numPlayers)[playerIndex];
+    // below 3 lines are a hack to deal with bad deck typing from the cache
+    // var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
+    // var tempDeck = new Deck(room.decks[0].deckID, room.decks[0].blackCards, room.decks[0].whiteCards);
+    // this.DECK = tempDeck.deal(room.size)[playerIndex];
+    this.DECK = room.decks[0];
   }
 
   ionViewDidLoad() {
-    // TODO: players must wait for all other players to join before starting the game?
     console.log('ionViewDidLoad GamePage');
-
-    // a GameRenderer is an abstract class, so me instantiating an abstract class is just a
-    // dev hack to get the game going. (for testing purposes obviously)
-    //this.GameRenderer = new GameRendererStub(this.toastCtrl, this.alertCtrl, this, this.modalCtrl);
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(this.CHANNEL,
@@ -134,15 +111,15 @@ export class GamePage implements IGameRenderer {
   // ======================================================================
 
   // vars to render using angular:
-  text = '';
-  blackCard;
-  hand;
-  cardSubmissions:Array<CardSubmission>;
-  continueButton;
+  text: string = '';
+  blackCard: Card;
+  hand: Array<Card>;
+  cardSubmissions: Array<CardSubmission>;
+  continueButton: boolean;
   //continueRequest;
-  winningCard;
-  clickable;
-  players;
+  winningCard; // TODO: please type this
+  clickable: boolean;
+  players: Array<Player>;
 
   // set the var angular uses to render the black card
   renderBlackCard(card:Card) {
@@ -167,27 +144,26 @@ export class GamePage implements IGameRenderer {
     console.log('STUB: renderContinueButton');
     this.continueButton = true;
 
-       let alert = this.alertCtrl.create({
-         title: 'Ready to move on?',
-         message: '',
-         buttons: [
-           {
-             text: 'Continue',
-             handler: () => {
-               console.log('Continue clicked');
-             }
-           }
-         ]
-       });
+    let alert = this.alertCtrl.create({
+      title: 'Ready to move on?',
+      message: '',
+      buttons: [
+        {
+          text: 'Continue',
+          handler: () => {
+           console.log('Continue clicked');
+          }
+        }
+      ]
+    });
 
-       alert.present();
+    alert.present();
 
     this.requestContinue();
   }
 
   // falsifies the boolean which tells angular to clear the continue button
   clearContinueButton() {
-    console.log('STUB: clearContinueButton');
     this.continueButton = false;
   }
 
@@ -205,19 +181,16 @@ export class GamePage implements IGameRenderer {
 
   // sets the hand var angular uses to render this player's hand of cards
   renderHand(hand:Array<Card>) {
-    console.log('STUB: renderHand');
     this.hand = hand;
   }
 
   // clears the hand var angular uses to render this player's hand of cards
   clearHand() {
-    console.log('STUB: clearHand');
     this.hand = [];
   }
 
   // sets the vars angular uses to render this round's submitted cards
-  renderCardsSubmitted(cardsPlayed:Array<CardSubmission>, clickable:boolean) {
-    console.log('STUB: renderCardsSubmitted');
+  renderCardsSubmitted(cardsPlayed: Array<CardSubmission>, clickable: boolean) {
     console.log(cardsPlayed);
     this.clickable = clickable;
     this.cardSubmissions = Tools.clone(cardsPlayed);
@@ -225,18 +198,16 @@ export class GamePage implements IGameRenderer {
 
   // clears the vars angular uses to render this round's submitted cards
   clearCardsSubmitted() {
-    console.log('STUB: clearCardsSubmitted');
     this.cardSubmissions = [];
   }
 
   // sets the var angular uses to render players' scores
-  renderScores(players:Array<Player>) {
-    console.log('STUB: renderScores');
+  renderScores(players: Array<Player>) {
     this.players = Tools.clone(players);
     console.log(this.players);
   }
 
-  presentToast(str:string) {
+  presentToast(str: string) {
     let toast = this.toastCtrl.create({
       message: str,
       duration: 10000,
@@ -249,15 +220,14 @@ export class GamePage implements IGameRenderer {
   }
 
   // sets the text var angular uses to display text instructions/messages
-  renderText(str:string) {
-    console.log('STUB: renderText');
+  renderText(str: string) {
     this.text = str;
     this.presentToast(str);
   }
 
-  // STUB atm
+  // TODO: STUB atm
   renderGameOver(players: Array<Player>) {
-    let gameEndModal = this.modalCtrl.create(EndGameModalPage,{"players": this.players});
+    let gameEndModal = this.modalCtrl.create(EndGameModalPage,{'players': this.players});
     gameEndModal.present();
   }
 }

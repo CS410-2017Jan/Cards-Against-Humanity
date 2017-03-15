@@ -1,7 +1,8 @@
-import {User} from "./user";
 /**
  * Created by jjxn on 2/19/2017.
  */
+
+import { User } from "./user";
 
 // ======================================================================
 // This Class outlines the data structure of a Player
@@ -9,8 +10,8 @@ import {User} from "./user";
 export class Player extends User {
   score: number;
 
-  constructor(username: string, id?: string, email?: string) {
-    super(username, id, email);
+  constructor(username: string, id?: string) {
+    super(username, id);
     this.score = 0;
   }
 
@@ -19,7 +20,9 @@ export class Player extends User {
     console.log(this.username + " ID: (" + this.id + ")- " + this.score);
   }
 
-  static getPlayerIndex(players: Array<Player>, username: string) : number {
+  // return int index of player corresponding to the given username in
+  // the given array of players. returns -1 on error.
+  static getPlayerIndex(players: Array<Player>, username: string): number {
     for (var i = 0; i < players.length; i++) {
       if (players[i].username == username) return i;
     }
@@ -27,4 +30,12 @@ export class Player extends User {
     return -1;
   }
 
+  // creates a player for each user in given array of users
+  static createPlayersFromUsers(users: Array<User>): Array<Player> {
+    var players: Array<Player> = [];
+    for (let user of users) {
+      players.push(new Player(user.username, user.id));
+    }
+    return players;
+  }
 }

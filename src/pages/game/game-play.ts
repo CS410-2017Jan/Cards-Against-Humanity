@@ -9,11 +9,11 @@ import { Card } from '../../data-classes/card';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { Player } from '../../data-classes/player';
 import { PubNubMsg } from '../../data-classes/pubnub-msg';
-import {IGameRenderer} from "./i-game-renderer";
-//import { GamePage } from "./game";
+import { IGameRenderer } from "./i-game-renderer";
 
 // ======================================================================
-// This Class contains the gamestate and methods to modify/play the game
+// This Class contains the gamestate and methods to modify/play the game.
+// This Class also includes the game logic loop.
 // ======================================================================
 export class GamePlay {
   // constants
@@ -22,12 +22,11 @@ export class GamePlay {
   PUBKEY: string;                 // The publish key user will NOT change during gameplay
   PLAYER_USERNAME: string;        // This player's name. Name does NOT change during gameplay
   NUM_CARDS_HAND: number;         // The number of cards per hand does NOT change during gameplay
-  NUM_WINNING_POINTS: number;     // The numebr of points a player needs to win the game
+  NUM_WINNING_POINTS: number;     // The number of points a player needs to win the game
 
   // Object Singletons
   PubNub;                         // This client's pubnub object
   GameRenderer;                   // GameRenderer singleton reference
-  // Game;                           // Game singleton reference
 
   // global variables
   deck: Deck;                     // The Deck object associated with this specific game
@@ -43,11 +42,10 @@ export class GamePlay {
   constructor(channel: string,
               subkey: string,
               pubkey: string,
-              playerUsername: string,  // a player's username MUST be unique during a game
+              playerUsername: string,  // TODO: a player's username MUST be unique during a game
               players: Array<Player>,
               deck: Deck,
               gameRenderer: IGameRenderer
-              //Game: GamePage
               ) {
 
     this.CHANNEL = channel;
@@ -58,7 +56,6 @@ export class GamePlay {
     this.players = players;
     this.deck = deck;
     this.GameRenderer = gameRenderer;
-    //this.Game = Game;
 
     this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
@@ -101,7 +98,6 @@ export class GamePlay {
       },
 
       message: function(msg) {
-        //GamePlay.handleMsg(msg);
         GamePlay.handleEvent(msg);
       },
 
@@ -127,8 +123,6 @@ export class GamePlay {
   //   this.sendMsg(msg);
   // }
 
-  // maybe move this to game.ts and so game-play.ts doesn't need to know about
-  // decks. This function is kinda logic anyway.
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
   startGame() {
     console.log('start new game');
@@ -206,7 +200,7 @@ export class GamePlay {
   }
 
   // returns boolean indicating if a player has scored enough points to win the game
-  isGameOver() : boolean {
+  isGameOver(): boolean {
     for (var i=0; i<this.players.length; i++) {
       if (this.players[i].score >= this.NUM_WINNING_POINTS) {
         return true;
@@ -216,7 +210,7 @@ export class GamePlay {
   }
 
   // returns the player with the current highest score
-  getLeadingPlayer() : Player {
+  getLeadingPlayer(): Player {
     var leader = this.players[0];
     for (var i=0; i<this.players.length; i++) {
       if (this.players[i].score >= leader.score) {

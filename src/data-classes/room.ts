@@ -1,7 +1,7 @@
-import {Deck} from "./deck";
-import {Player} from "./player";
-import {RoomWebService} from "../providers/web-services/room-web-service";
-import {UserWebService} from "../providers/web-services/user-web-service";
+import { Deck } from "./deck";
+import { Player } from "./player";
+import { RoomWebService } from "../providers/web-services/room-web-service";
+import { UserWebService } from "../providers/web-services/user-web-service";
 /**
  * Created by Sonalee Shah on 2/24/2017.
  */

@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
-
-import {Player} from "../../data-classes/player";
+import {User} from "../../data-classes/user";
 
 
 /*
@@ -32,7 +31,7 @@ export class UserWebService {
   }
 
   // Gets List of all users
-  getAllUsers(callback: (p: Array<Player>) => void){
+  getAllUsers(callback: (p: Array<User>) => void){
 
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -40,9 +39,9 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try{
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          var users : Player[] = [];
+          var users : User[] = [];
           for(let id in JSONArray){
-            users.push(new Player(JSONArray[id].username, id, JSONArray[id].email ));
+            users.push(new User(JSONArray[id].username, id, JSONArray[id].email ));
           }
           // Got all of them, call the callback
           callback(users);
@@ -60,23 +59,23 @@ export class UserWebService {
   }
 
   // Gets a user by ID from the database
-  getUser(id, callback: (p: Player) => void) {
+  getUser(id, callback: (p: User) => void) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
       // Stuff to do if GET is successful
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try{
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          var player = new Player(JSONArray.username, id, JSONArray.email)
-          // Add this player to the cache since we have them
+          var user = new User(JSONArray.username, id, JSONArray.email)
+          // Add this user to the cache since we have them
           var ws = new UserWebService();
-          ws.addUserToCache(player);
+          ws.addUserToCache(user);
 
-          // Make the player and call the callback on them
-          callback(player);
+          // Make the user and call the callback on them
+          callback(user);
         }
         catch (ex){
-          console.log("Player not found");
+          console.log("User not found");
         }
       }
       else if (xmlHttp.readyState == 4) {
@@ -89,7 +88,7 @@ export class UserWebService {
   }
 
   // Gets a user from the cache, returning undefined if not found
-  getUserFromCache(id) : Player{
+  getUserFromCache(id) : User {
     var JSONObject;
     try{
       JSONObject = JSON.parse(sessionStorage.getItem("userCache"));
@@ -113,7 +112,7 @@ export class UserWebService {
   }
 
   // Adds one user to the user cache
-  addUserToCache(user: Player){
+  addUserToCache(user: User){
     var JSONObject;
     try{
       JSONObject = JSON.parse(sessionStorage.getItem("userCache"));
@@ -185,8 +184,8 @@ export class UserWebService {
 
   // Caches the logged in user in the browser cache
   cacheLoggedInUser(email: string, password: string){
-    // we need to first get the player object from the db for this email
-    this.getUserByEmail(email, function(u: Player){
+    // we need to first get the user object from the db for this email
+    this.getUserByEmail(email, function(u: User){
       sessionStorage.setItem("loggedInUser", JSON.stringify({"email": email, "password": password, "username": u.username, "id": u.id}));
     })
 
@@ -304,10 +303,10 @@ export class UserWebService {
       });
   }
 
-  // Finds the first Player in the DB with the given email and returns it, returns undefined if not found
-  getUserByEmail(email: string, callback: (p: Player)=> void){
+  // Finds the first User in the DB with the given email and returns it, returns undefined if not found
+  getUserByEmail(email: string, callback: (p: User)=> void){
     // first we need to get all users
-    this.getAllUsers(function (users: Array<Player>){
+    this.getAllUsers(function (users: Array<User>){
       // now we need to search this returned users list for the user in question
       try{
         // Search the users list for the right email

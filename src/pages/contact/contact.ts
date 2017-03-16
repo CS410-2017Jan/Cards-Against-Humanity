@@ -122,7 +122,7 @@ export class ContactPage {
     var tempArr = [];
     tempArr.push(tempDeck);
     var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
-    facade.removePlayer(room, userID, console.log);
+    facade.removeUser(room, userID, console.log);
   }
   isRoomReadyUsingFacade(roomID: string) {
     var facade = new RoomFacade();

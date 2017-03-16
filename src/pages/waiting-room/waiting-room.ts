@@ -11,39 +11,39 @@ import {UserWebService} from "../../providers/web-services/user-web-service";
 })
 export class WaitingRoomPage {
 
-  @ViewChild('playerList', { read: List }) playerList: List;
+  @ViewChild('userList', { read: List }) userList: List;
   gameStarted: boolean = false;
   room: any;
-  shownPlayers: any = [];
+  shownUsers: any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade) {
     this.room = navParams.data;
     console.log(this.room);
   }
 
-  //Runs everytime a player joins the room
+  //Runs everytime a user joins the room
   ionViewDidEnter() {
     console.log('ionViewDidLoad WaitingRoomPage');
-    this.updatePlayerList();
+    this.updateUserList();
     //this.initializeGame();
   }
 
-  //Updates the list of players in the room
-  updatePlayerList(){
+  //Updates the list of users in the room
+  updateUserList(){
     var that = this;
 
       this.roomCtrl.getRoom(this.room.id,function(r){
-        that.shownPlayers = r.players;
+        that.shownUsers = r.users;
         that.room = r;
 
         if (that.room.isRoomReady() == false) {
-          setTimeout(that.updatePlayerList(), 5000);
+          setTimeout(that.updateUserList(), 5000);
         }
         else{
           that.joinGame();
         }
 
-        //console.log('List of players updated: ', that.shownPlayers);
+        //console.log('List of users updated: ', that.shownUsers);
       });
     }
 
@@ -61,14 +61,14 @@ export class WaitingRoomPage {
     }
 
 
-  //Checks to see if enough players are there to start the game
+  //Checks to see if enough users are there to start the game
   initializeGame(){
     console.log("Initialize Game Attempt");
     var facade = new RoomFacade();
     var that = this;
     facade.isRoomReady(this.room.id, function (result) {
       if (result != true) {
-        console.log("not ready", this.room.players);
+        console.log("not ready", this.room.users);
         setTimeout(that.initializeGame(), 5000);
       } else {
         console.log("Can init");

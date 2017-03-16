@@ -20,5 +20,4 @@ export class User {
   print() {
     console.log(this.username + 'Email: ' + this.email + ' ID: (' + this.id + ')');
   }
-
 }

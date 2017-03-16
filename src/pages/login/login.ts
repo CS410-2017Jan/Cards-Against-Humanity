@@ -32,7 +32,7 @@ export class LoginPage {
     this.submitted = true;
 
     console.log("email: ", this.user.email,
-      "# of Players: ", this.user.password
+      "# of Users: ", this.user.password
     );
 
     if (form.valid) {
@@ -118,7 +118,7 @@ export class SignUpModalPage {
     console.log("Account create clicked!");
 
     console.log("email: ", this.user.email,
-      "# of Players: ", this.user.password
+      "# of Users: ", this.user.password
     );
 
     var userWS = new UserWebService();

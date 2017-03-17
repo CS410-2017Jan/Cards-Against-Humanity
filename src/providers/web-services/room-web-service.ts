@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Component } from '@angular/core';
-import { Http } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Component} from '@angular/core';
+import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Deck} from "../../data-classes/deck";
 import {Room} from "../../data-classes/room";
@@ -17,19 +17,20 @@ import {User} from "../../data-classes/user";
 @Injectable()
 export class RoomWebService {
 
-  constructor() {}
+  constructor() {
+  }
 
   // Adds the user specified by the ID to the room specified by the ID, only if there is space left in that room. Password is optional
   // Then calls the callback with the new list of users in the room by id
   // returns undefined if there is a problem
   //
   // Note- This needs to be updated with password authentication. Password currently does nothing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  joinRoom(userID: string, roomID: string, callback: (s:string)=>void) {
+  joinRoom(userID: string, roomID: string, callback: (s: string)=>void) {
 
     try {
       // First Authenticate to ensure we're logged in
       var ws = new UserWebService();
-      ws.checkLoggedInStatus(function(success: boolean) {
+      ws.checkLoggedInStatus(function (success: boolean) {
         if (!success) {
           // we're not logged in- bail
           console.log('Error: not logged in');
@@ -38,7 +39,7 @@ export class RoomWebService {
         }
         // First we need to get the room we're joining to make sure it's all gucci
         var rs = new RoomWebService();
-        rs.getRoom(roomID, (r : Room)=> {
+        rs.getRoom(roomID, (r: Room)=> {
           // Check the room to make sure its not full
           var numUsers = r.users.length;
           var roomSize = r.size;
@@ -46,9 +47,9 @@ export class RoomWebService {
             // Time to add the user to the room
             var xmlHttp = new XMLHttpRequest();
             var data: string[] = [];
-            var users : User[] = r.users;
+            var users: User[] = r.users;
             for (let p in users) {
-              if(users[p].id == userID) {
+              if (users[p].id == userID) {
                 // can't add a duplicate
                 callback("Error: Already in room");
                 return;
@@ -56,16 +57,16 @@ export class RoomWebService {
               data.push(users[p].id);
             }
             data.push(userID);
-            xmlHttp.onreadystatechange = function() {
+            xmlHttp.onreadystatechange = function () {
               // Stuff to do if PUT is successful
               if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                try{
+                try {
                   var JSONArray = JSON.parse(xmlHttp.responseText);
                   // Parse in the room and call the callback
                   //var ws = new RoomWebService();
                   //console.log(xmlHttp.responseText);
                   callback(xmlHttp.responseText);
-                } catch(ex) {
+                } catch (ex) {
                   //callback("Error: Response Formatted Unexpectedly: " + xmlHttp.responseText);
                 }
               } else if (xmlHttp.readyState == 4) {
@@ -81,20 +82,20 @@ export class RoomWebService {
           }
         });
       })
-    } catch(ex) {
+    } catch (ex) {
       // Must have failed to find room or failed to log in
       callback(undefined);
     }
   }
 
   // Removes the specified user from the room and calls the callback on the updated room object
-  leaveRoom(userID: string, roomID: string, callback: (s:string)=>void) {
+  leaveRoom(userID: string, roomID: string, callback: (s: string)=>void) {
 
     try {
       // first check that we're authenticated
       var ws = new UserWebService();
-      ws.checkLoggedInStatus(function(success: boolean) {
-        if(!success) {
+      ws.checkLoggedInStatus(function (success: boolean) {
+        if (!success) {
           // we're not logged in- bail
           console.log("Error: not logged in");
           callback("Error: not logged in");
@@ -103,10 +104,10 @@ export class RoomWebService {
         // we need to get the room we're joining to make sure it's all gucci
         // Get the room
         var rs = new RoomWebService();
-        rs.getRoom(roomID, (r : Room)=> {
+        rs.getRoom(roomID, (r: Room)=> {
           var xmlHttp = new XMLHttpRequest();
           var data: string[] = [];
-          var user : User[] = r.users;
+          var user: User[] = r.users;
           if (user.length == 1) {
             // Can't have last user leave
             callback("Error: Last user cannot leave room");
@@ -117,7 +118,7 @@ export class RoomWebService {
               data.push(user[p].id);
             }
           }
-          xmlHttp.onreadystatechange = function() {
+          xmlHttp.onreadystatechange = function () {
             // Stuff to do if PUT is successful
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
               try {
@@ -126,7 +127,7 @@ export class RoomWebService {
                 //var ws = new RoomWebService();
                 //console.log(xmlHttp.responseText);
                 callback(xmlHttp.responseText);
-              } catch(ex) {
+              } catch (ex) {
                 //callback("Error: Response Formatted Unexpectedly: " + xmlHttp.responseText);
               }
             } else if (xmlHttp.readyState == 4) {
@@ -135,19 +136,20 @@ export class RoomWebService {
           };
           xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
           xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-          xmlHttp.send(JSON.stringify(data));})
+          xmlHttp.send(JSON.stringify(data));
+        })
       });
-    } catch(ex){
+    } catch (ex) {
       // Must have failed to find room
       callback(undefined);
     }
   }
 
   // Gets a room by ID and calls the callback on the returned JSON string
-  getRoom(id:string, callback: (Room) => void) {
+  getRoom(id: string, callback: (Room) => void) {
 
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() {
+    xmlHttp.onreadystatechange = function () {
       // Stuff to do if GET is successful
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
@@ -155,12 +157,14 @@ export class RoomWebService {
           // Parse in the room and call the callback
           var ws = new RoomWebService();
           //console.log(xmlHttp.responseText);
-          ws.parseRoom(id, xmlHttp.responseText, function(r){callback(r)});
-        } catch(ex) {
+          ws.parseRoom(id, xmlHttp.responseText, function (r) {
+            callback(r)
+          });
+        } catch (ex) {
           console.log(ex.message)
           console.log("Failed to get room " + id);
         }
-      } else if (xmlHttp.readyState == 4){
+      } else if (xmlHttp.readyState == 4) {
         console.log("Error: " + xmlHttp.status)
       }
     };
@@ -172,7 +176,7 @@ export class RoomWebService {
   getAllRooms(callback: (any) => void) {
 
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() {
+    xmlHttp.onreadystatechange = function () {
       // Stuff to do if GET is successful
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
@@ -189,7 +193,7 @@ export class RoomWebService {
             returnList.push(toAdd);
           }
           callback(returnList);
-        } catch(ex){
+        } catch (ex) {
           console.log("Failed to get deck");
         }
       } else if (xmlHttp.readyState == 4) {
@@ -205,7 +209,7 @@ export class RoomWebService {
     // check if we are authenticated
 
     var ws = new UserWebService();
-    ws.checkLoggedInStatus(function(success: boolean) {
+    ws.checkLoggedInStatus(function (success: boolean) {
       // check if authenticated
       if (!success) {
         // we're not logged in- bail
@@ -226,7 +230,7 @@ export class RoomWebService {
 
       // Get it ready to send
       var xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = function() {
+      xmlHttp.onreadystatechange = function () {
 
         // Stuff to do if POST is successful
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -234,11 +238,11 @@ export class RoomWebService {
             // We should be done, call the callback with the returned name (which is the ID)
             var JSONArray = JSON.parse(xmlHttp.responseText);
             callback(JSONArray.name)
-          } catch(ex){
+          } catch (ex) {
             console.log("Failed to create room");
             console.log(ex);
           }
-        } else if (xmlHttp.readyState == 4){
+        } else if (xmlHttp.readyState == 4) {
           console.log("Error: " + xmlHttp.status)
         }
       };
@@ -263,7 +267,7 @@ export class RoomWebService {
       // Get all the decks and users
       var decks = [];
       var dws = new DeckWebService();
-      var deckPromise : Promise<void>;
+      var deckPromise: Promise<void>;
       var neededWeb = false;
       //console.log("Decks")
       for (let deckID of deckStrings) {
@@ -272,9 +276,11 @@ export class RoomWebService {
         if (true) {
           // We have a problem- get the deck from the server
           neededWeb = true;
-          deckPromise = new Promise(function(resolve, reject) {
-            dws.getDeck(deckID, d => {resolve(d)});
-          }).then(function(result){
+          deckPromise = new Promise(function (resolve, reject) {
+            dws.getDeck(deckID, d => {
+              resolve(d)
+            });
+          }).then(function (result) {
             decks.push(result);
           })
         } else {
@@ -285,7 +291,7 @@ export class RoomWebService {
 
       var users = [];
       var uws = new UserWebService();
-      var userPromise : Promise<void>;
+      var userPromise: Promise<void>;
       //console.log("users")
       for (let userID of userStrings) {
         // Try loading from cache
@@ -293,9 +299,11 @@ export class RoomWebService {
         if (user == undefined) {
           // We have a problem- get the user from the server
           neededWeb = true;
-          userPromise = new Promise(function(resolve, reject) {
-            uws.getUser(userID, u => {resolve(u)});
-          }).then(function(result){
+          userPromise = new Promise(function (resolve, reject) {
+            uws.getUser(userID, u => {
+              resolve(u)
+            });
+          }).then(function (result) {
             users.push(result);
           })
         } else {
@@ -306,12 +314,14 @@ export class RoomWebService {
       //console.log("good")
       //console.log("Needed web- " + neededWeb);
       // if we needed an async call, wait and then call the callback (hacky)
-      if(neededWeb) {
-        window.setTimeout(function() {callback(new Room(decks, isLocked, name, size, roomID, users, password))}, 3000);
+      if (neededWeb) {
+        window.setTimeout(function () {
+          callback(new Room(decks, isLocked, name, size, roomID, users, password))
+        }, 3000);
       } else { // if we didn't have to, call the callback
         callback(new Room(decks, isLocked, name, size, roomID, users, password));
       }
-    } catch(e){
+    } catch (e) {
       console.log("Could not parse room");
       console.log(e.message);
       callback(undefined);

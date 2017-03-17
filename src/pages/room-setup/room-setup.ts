@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
-import { RoomFacade } from '../../providers/facades/room-facade';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {NgForm} from '@angular/forms';
+import {RoomFacade} from '../../providers/facades/room-facade';
 import {UserWebService} from "../../providers/web-services/user-web-service";
 import {WaitingRoomPage} from "../waiting-room/waiting-room";
 import {Room} from "../../data-classes/room";
@@ -19,17 +19,17 @@ import {User} from "../../data-classes/user";
   templateUrl: 'room-setup.html'
 })
 export class RoomSetupPage {
-  room:{rname?: string, users?:string, rtype?: boolean, rpassword?: string} = {};
+  room: {rname?: string, users?: string, rtype?: boolean, rpassword?: string} = {};
   submitted = false;
 
-  constructor(public navCtrl:NavController, public navParams:NavParams, public roomCtrl: RoomFacade) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomSetupPage');
   }
 
-  onSubmit(form:NgForm) {
+  onSubmit(form: NgForm) {
     this.submitted = true;
 
     console.log("Name: ", this.room.rname,
@@ -49,19 +49,22 @@ export class RoomSetupPage {
 
     var userWS = new UserWebService();
     var loggedInUser = userWS.getLoggedInUser();
-    console.log('user: ',loggedInUser);
+    console.log('user: ', loggedInUser);
 
     var userEmail = loggedInUser.email;
     var that = this;
 
-    userWS.getUserByEmail(userEmail, function(u:User)
-    {(that.roomCtrl.createRoom(that.room.rname,u,that.room.rtype,
-      function(r:Room){that.goToWaitingRoom(r)},that.room.rpassword))});
+    userWS.getUserByEmail(userEmail, function (u: User) {
+      (that.roomCtrl.createRoom(that.room.rname, u, that.room.rtype,
+        function (r: Room) {
+          that.goToWaitingRoom(r)
+        }, that.room.rpassword))
+    });
 
   }
 
   //Passing the room object as a navparm into the waitingroompage
-  goToWaitingRoom(room:any){
+  goToWaitingRoom(room: any) {
     this.navCtrl.push(WaitingRoomPage, room);
   }
 

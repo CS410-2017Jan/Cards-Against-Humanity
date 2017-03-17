@@ -1,7 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
-import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, NavParams, LoadingController } from 'ionic-angular';
-import { RoomFacade } from '../../providers/facades/room-facade';
-import { GamePage } from '../../pages/game/game.ts';
+import {Component, ViewChild} from '@angular/core';
+import {
+  AlertController,
+  App,
+  FabContainer,
+  ItemSliding,
+  List,
+  ModalController,
+  NavController,
+  NavParams,
+  LoadingController
+} from 'ionic-angular';
+import {RoomFacade} from '../../providers/facades/room-facade';
+import {GamePage} from '../../pages/game/game.ts';
 import {UserWebService} from "../../providers/web-services/user-web-service";
 import {User} from "../../data-classes/user";
 
@@ -12,7 +22,7 @@ import {User} from "../../data-classes/user";
 })
 export class WaitingRoomPage {
 
-  @ViewChild('userList', { read: List }) userList: List;
+  @ViewChild('userList', {read: List}) userList: List;
   gameStarted: boolean = false;
   room: any;
   shownUsers: any = [];
@@ -30,29 +40,29 @@ export class WaitingRoomPage {
   }
 
   //Updates the list of users in the room
-  updateUserList(){
+  updateUserList() {
     var that = this;
 
-      this.roomCtrl.getRoom(this.room.id,function(r){
-        var tempArray: Array<User> = [];
+    this.roomCtrl.getRoom(this.room.id, function (r) {
+      var tempArray: Array<User> = [];
 
-        for (var user of r.users) {
-          var tempUser = new User(user.username, user.id, user.email);
-          tempArray.push(tempUser);
-        }
-        console.log('Original list of users: ', that.shownUsers);
-        that.shownUsers = tempArray;
-        that.room = r;
+      for (var user of r.users) {
+        var tempUser = new User(user.username, user.id, user.email);
+        tempArray.push(tempUser);
+      }
+      console.log('Original list of users: ', that.shownUsers);
+      that.shownUsers = tempArray;
+      that.room = r;
 
-        if (that.room.isRoomReady() == false) {
-          setTimeout(that.updateUserList(), 5000);
-        }
-        else{
-          that.joinGame();
-        }
-        console.log('List of users updated: ', that.shownUsers);
-      });
-    }
+      if (that.room.isRoomReady() == false) {
+        setTimeout(that.updateUserList(), 5000);
+      }
+      else {
+        that.joinGame();
+      }
+      console.log('List of users updated: ', that.shownUsers);
+    });
+  }
 
 
   // sets the appropriate params and navigates to the GamePage
@@ -61,15 +71,15 @@ export class WaitingRoomPage {
     var loggedInUser = userWS.getLoggedInUser();
     var userName = loggedInUser.username;
 
-      this.navCtrl.push(GamePage, {
-        username: userName,
-        room: this.room
-      });
-    }
+    this.navCtrl.push(GamePage, {
+      username: userName,
+      room: this.room
+    });
+  }
 
 
   //Checks to see if enough users are there to start the game
-  initializeGame(){
+  initializeGame() {
     console.log("Initialize Game Attempt");
     var facade = new RoomFacade();
     var that = this;
@@ -82,8 +92,7 @@ export class WaitingRoomPage {
         that.joinGame();
       }
     });
-
-}
+  }
 
 }
 

@@ -12,7 +12,7 @@
 * Enum Names are PascalCased
 * Function names are camelCased
 * Private functions should be private
-* Arrays are typed like so: Array<Type> rather than: [Type]
+* Arrays are typed like so: Array<Type> rather than: Type[]
 * Optional function/method arguments start with opt_
 * Filenames are all-lower-case-with-hyphens.jsp
   * Some OS filesystems are not case sensitive, so this avoids errors

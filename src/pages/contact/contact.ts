@@ -9,8 +9,8 @@ import { RoomWebService } from '../../providers/web-services/room-web-service.ts
 
 import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
-import {Room} from "../../data-classes/room";
-import {RoomFacade} from "../../providers/facades/room-facade";
+import {Room} from '../../data-classes/room';
+import {RoomFacade} from '../../providers/facades/room-facade';
 
 
 @Component({
@@ -87,42 +87,42 @@ export class ContactPage {
 
   // Tests for RoomFacade
   addRoomUsingFacade(name: string, userID: string, isLocked: boolean, password?: string){
-    var player = new Player("Scott", userID);
+    var player = new Player('Scott', userID);
     var facade = new RoomFacade();
-    facade.createRoom(name, player, isLocked, function(r){console.log("Added Room: " + JSON.stringify(r))}, password);
+    facade.createRoom(name, player, isLocked, function(r){console.log('Added Room: ' + JSON.stringify(r))}, password);
   }
   getRoomUsingFacade(id:string){
     var facade = new RoomFacade();
-    facade.getRoom(id, function(r){console.log("Got Room: " + JSON.stringify(r))});
+    facade.getRoom(id, function(r){console.log('Got Room: ' + JSON.stringify(r))});
   }
   getRoomsUsingFacade(){
     var facade = new RoomFacade();
-    facade.getRooms(function(r){console.log("Got Rooms: " + JSON.stringify(r))});
+    facade.getRooms(function(r){console.log('Got Rooms: ' + JSON.stringify(r))});
   }
   attemptPasswordUsingFacade() {
     var facade = new RoomFacade();
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
     var tempArr = [];
     tempArr.push(tempDeck);
-    var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
-    console.log("Expect true :" + facade.attemptRoomPassword(room, "TESTING123"));
-    console.log("Expect false :" + facade.attemptRoomPassword(room, "FAIL"));
+    var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
+    console.log('Expect true :' + facade.attemptRoomPassword(room, 'TESTING123'));
+    console.log('Expect false :' + facade.attemptRoomPassword(room, 'FAIL'));
   }
   joinRoomUsingFacade(userID: string){
     var facade = new RoomFacade();
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
     var tempArr = [];
     tempArr.push(tempDeck);
-    var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
-    facade.joinRoom(room, userID, function(response){alert(response);}, "TESTING123");
+    var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
+    facade.joinRoom(room, userID, function(response){alert(response);});
   }
   leaveRoomUsingFacade(userID: string){
     var facade = new RoomFacade();
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
     var tempArr = [];
     tempArr.push(tempDeck);
-    var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
-    facade.removePlayer(room, userID, console.log);
+    var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
+    facade.removeUser(room, userID, console.log);
   }
   isRoomReadyUsingFacade(roomID: string) {
     var facade = new RoomFacade();
@@ -142,7 +142,7 @@ export class ContactPage {
   }
 
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
-    var room = new Room([deck], false, 'testRoom', 'password', 3, channel, players);
+    var room = new Room([deck], false, 'testRoom', 3, channel, players, 'password');
 
       this.navCtrl.push(GamePage, {
         username: username,

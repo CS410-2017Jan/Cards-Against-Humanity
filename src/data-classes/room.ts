@@ -1,13 +1,13 @@
-import { Deck } from "./deck";
-import { Player } from "./player";
-import { RoomWebService } from "../providers/web-services/room-web-service";
-import { UserWebService } from "../providers/web-services/user-web-service";
+import { Deck } from './deck';
+import { RoomWebService } from '../providers/web-services/room-web-service';
+import { UserWebService } from '../providers/web-services/user-web-service';
+import { User } from './user';
 /**
  * Created by Sonalee Shah on 2/24/2017.
  */
 
 // ======================================================================
-// This Class outlines the data structure of a Player
+// This Class outlines the data structure of a Room
 // ======================================================================
 export class Room {
   id: string;
@@ -15,80 +15,79 @@ export class Room {
   isLocked: Boolean;
   name: string;
   password: string;
-  players: Array<Player>;
+  users: Array<User>;
   size: number;
-  creator: Player; // TODO: A parameter for who created the room?
 
   // @param id will be generated in DB and assigned after calling createRoom method
-  constructor(decks: Array<Deck>, isLocked: Boolean, name: string, password: string,
-              size: number, id?: string, players?: Array<Player>) {
+  constructor(decks: Array<Deck>, isLocked: Boolean, name: string, size: number,
+              id?: string, users?: Array<User>, password?: string) {
     this.decks = decks;
     this.isLocked = isLocked;
     this.name = name;
     this.password = password;
     this.size = size;
 
-    if (id) {
+    if (id != null) {
       this.id = id;
     } else {
-      this.id = "";
+      this.id = '';
     }
 
-    if (players) {
-      this.players = players;
+    if (users != null) {
+      this.users = users;
     } else {
-      this.players = [];
+      this.users = [];
     }
 
-    //this.creator = "";
+    if (password != null) {
+      this.password = password;
+    } else {
+      this.password = '';
+    }
   }
 
-  // Add player to room in DB
-  // Updates list of players in Room object
+  // Add user to room in DB
+  // Updates list of users in Room object
   // Returns true if addition was successful
-  addPlayer(userID: string, fn, password?: string) {
+  addUser(userID: string, fn) {
     var Room = this;
     var rs = new RoomWebService();
-    if (password) {
-      rs.joinRoom(userID, this.id, function(d) {fn(Room.updatePlayerList(d))});
-      //return this.isJoinSuccess;
-    } else {
-      rs.joinRoom(userID, this.id, function(d) {fn(Room.updatePlayerList(d))});
-      //return this.isJoinSuccess;
-    }
+    rs.joinRoom(userID, this.id, function(d) {fn(Room.updateUserList(d))});
   }
 
-  // Removes player to room in DB
-  // Updates list of players in Room object
+  // Removes user from room in DB
+  // Updates list of users in Room object
   // Returns true if removal was successful
-  removePlayer(playerID: string, callback) {
+  removeUser(userID: string, callback) {
     var Room = this;
     var rs = new RoomWebService();
-    rs.leaveRoom(playerID, this.id, function(d) {callback(Room.updatePlayerList(d))});
+    rs.leaveRoom(userID, this.id, function(d) {callback(Room.updateUserList(d))});
   }
 
-  private updatePlayerList(playerIDStrings) : Boolean {
-    console.log(playerIDStrings);
-    if (playerIDStrings.toLowerCase().indexOf("error") < 0) {
-      var tempPlayers = [];
+  private updateUserList(userIDStrings) : Boolean {
+    console.log(userIDStrings);
+    if (userIDStrings.toLowerCase().indexOf('error') < 0) {
+      var tempUsers = [];
       var uws = new UserWebService();
       var userPromise: Promise<void>;
 
-      var playerIDs = JSON.parse(playerIDStrings);
-      for (let playerID of playerIDs) {
-        var player = uws.getUserFromCache(playerID);
+      var userIDs = JSON.parse(userIDStrings);
+      for (let userID of userIDs) {
+        var user = uws.getUserFromCache(userID);
 
-        if (player == undefined) {
+        // TODO: This was a quick fix. CHANGE
+        if (true) {
           userPromise = new Promise(function(resolve, reject) {
-            uws.getUser(playerID, u => {resolve(u)});
+            uws.getUser(userID, u => {resolve(u)});
           }).then(function(result){
-            tempPlayers.push(result);
+            tempUsers.push(result);
           });
-        } else {
-          tempPlayers.push(player);
         }
+        // else {
+        //   tempUsers.push(user);
+        // }
       }
-      this.players = tempPlayers;
+      this.users = tempUsers;
       return true;
     } else {
       return false;
@@ -96,17 +95,17 @@ export class Room {
   }
 
   isRoomReady() : boolean {
-    if (this.players.length == this.size) {
+    if (this.users.length == this.size) {
       return true;
     } else {
       return false;
     }
   }
 
-  // Prints information about the player to the console
+  // Prints information about the user to the console
   print(){
-    console.log("ID: " + this.id + " Decks: " + this.decks + " Players: " + this.players +
-      " isLocked: " + this.isLocked + " Name: " + this.name + " Password: " +
-      this.password + " Size: " + this.size);
+    console.log('ID: ' + this.id + ' Decks: ' + this.decks + ' Users: ' + this.users +
+      ' isLocked: ' + this.isLocked + ' Name: ' + this.name + ' Password: ' +
+      this.password + ' Size: ' + this.size);
   }
 }

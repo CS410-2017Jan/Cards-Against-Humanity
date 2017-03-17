@@ -4,9 +4,9 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Deck} from "../../data-classes/deck";
 import {Room} from "../../data-classes/room";
-import {Player} from "../../data-classes/player";
 import {DeckWebService} from "./deck-web-service";
 import {UserWebService} from "./user-web-service";
+import {User} from "../../data-classes/user";
 
 /*
   Generated class for the RoomWebService provider.
@@ -21,8 +21,8 @@ export class RoomWebService {
 
   }
 
-  // Adds the player specified by the ID to the room specified by the ID, only if there is space left in that room. Password is optional
-  // Then calls the callback with the new list of players in the room by id
+  // Adds the user specified by the ID to the room specified by the ID, only if there is space left in that room. Password is optional
+  // Then calls the callback with the new list of users in the room by id
   // returns undefined if there is a problem
   //
   // Note- This needs to be updated with password authentication. Password currently does nothing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -42,20 +42,20 @@ export class RoomWebService {
   			var rs = new RoomWebService();
   			rs.getRoom(roomID, (r : Room)=>{
   			// Check the room to make sure its not full
-  			var numPlayers = r.players.length;
+  			var numUsers = r.users.length;
   			var roomSize = r.size;
-  			if (numPlayers < roomSize){
-  				// Time to add the player to the room
+  			if (numUsers < roomSize){
+  				// Time to add the user to the room
   				var xmlHttp = new XMLHttpRequest();
   				var data: string[] = [];
-  				var players : Player[] = r.players;
-  				for(let p in players){
-  					if(players[p].id == userID){
+  				var users : User[] = r.users;
+  				for(let p in users){
+  					if(users[p].id == userID){
   						// can't add a duplicate
   						callback("Error: Already in room");
   						return;
   					}
-  					data.push(players[p].id);
+  					data.push(users[p].id);
   				};
   				data.push(userID)
     			xmlHttp.onreadystatechange = function() {
@@ -76,7 +76,7 @@ export class RoomWebService {
     		    	//callback("Error: " + xmlHttp.status)
     		  	}
     			}
-    		xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/players.json", true); // true for asynchronous
+    		xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
     		xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     		xmlHttp.send(JSON.stringify(data));
   		}
@@ -117,16 +117,16 @@ export class RoomWebService {
 
   				var xmlHttp = new XMLHttpRequest();
   				var data: string[] = [];
-  				var players : Player[] = r.players;
-  				if(players.length == 1){
-  					// Can't have last player leave
-  					callback("Error: Last player cannot leave room");
+  				var user : User[] = r.users;
+  				if(user.length == 1){
+  					// Can't have last user leave
+  					callback("Error: Last user cannot leave room");
   					return;
 
   				}
-  				for(let p in players){
-  					if(players[p].id != userID){
-  						data.push(players[p].id);
+  				for(let p in user){
+  					if(user[p].id != userID){
+  						data.push(user[p].id);
   					}
   				};
     			xmlHttp.onreadystatechange = function() {
@@ -147,7 +147,7 @@ export class RoomWebService {
     		  	  //callback("Error: " + xmlHttp.status)
     		  	}
     			}
-    			xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/players.json", true); // true for asynchronous
+    			xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
     			xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     			xmlHttp.send(JSON.stringify(data));})
   			});
@@ -242,8 +242,8 @@ export class RoomWebService {
     	data["name"] = name;
     	data["decks"] = decks;
     	data["password"] = password;
-    	data["players"] = [userID];
-    	data["size"] = 3
+    	data["users"] = [userID];
+    	data["size"] = 3;
 
     	// Get it ready to send
     	var xmlHttp = new XMLHttpRequest();
@@ -280,13 +280,13 @@ export class RoomWebService {
   		var JSONArray = JSON.parse(jsonString);
   		var deckStrings = JSONArray.decks;
   		var name = JSONArray.name;
-  		var playerStrings = JSONArray.players;
+  		var userStrings = JSONArray.users;
   		var size = JSONArray.size;
   		var isLocked = JSONArray.isLocked;
   		var password = JSONArray.password;
 
   		// Get all the decks and users
-  		var decks = []
+  		var decks = [];
   		var dws = new DeckWebService();
   		var deckPromise : Promise<void>;
   		var neededWeb = false;
@@ -309,11 +309,11 @@ export class RoomWebService {
 			}
   		}
 
-  		var users = []
+  		var users = [];
   		var uws = new UserWebService();
   		var userPromise : Promise<void>;
   		//console.log("users")
-  		for(let userID of playerStrings){
+  		for(let userID of userStrings){
   			// Try loading from cache
   			var user = uws.getUserFromCache(userID);
   			if (user == undefined){
@@ -335,12 +335,12 @@ export class RoomWebService {
   		// if we needed an async call, wait and then call the callback (hacky)
   		if(neededWeb){
 
-  			window.setTimeout(function() {callback(new Room(decks, isLocked, name, password, size, roomID, users))}, 3000);
+  			window.setTimeout(function() {callback(new Room(decks, isLocked, name, size, roomID, users, password))}, 3000);
   		}
   		// if we didn't have to, call the callback
   		else{
 
-  			callback(new Room(decks, isLocked, name, password, size, roomID, users));
+  			callback(new Room(decks, isLocked, name, size, roomID, users, password));
 
   		}
   	}

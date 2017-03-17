@@ -1,8 +1,8 @@
 import {RoomWebService} from "../web-services/room-web-service";
 import {Room} from "../../data-classes/room";
 import {DeckWebService} from "../web-services/deck-web-service";
-import {Player} from "../../data-classes/player";
 import {Deck} from "../../data-classes/deck";
+import {User} from "../../data-classes/user";
 /**
  * Created by Sonalee Shah on 3/4/2017.
  */
@@ -29,7 +29,7 @@ export class RoomFacade {
 
   // TODO: Extend functionality for 1+ deck
   // Calls callback with Room
-  createRoom(name: string, user: Player, isLocked: boolean, callback, password?: string) {
+  createRoom(name: string, user: User, isLocked: boolean, callback, password?: string) {
     var rs = new RoomWebService();
     var facade = this;
     if (password) {
@@ -39,18 +39,14 @@ export class RoomFacade {
     }
   }
 
-  // Calls callback with updated Room after player is added
-  joinRoom(room: Room, userID: string, callback: any, password?: string) {
-    if (password) {
-      room.addPlayer(userID, callback, password);
-    } else {
-      room.addPlayer(userID, callback);
-    }
+  // Calls callback with updated Room after user is added
+  joinRoom(room: Room, userID: string, callback: any) {
+    room.addUser(userID, callback);
   }
 
-  // Calls callback with updated Room after player leaves
-  removePlayer(room: Room, userID: string, callback) {
-    room.removePlayer(userID, callback);
+  // Calls callback with updated Room after user leaves
+  removeUser(room: Room, userID: string, callback) {
+    room.removeUser(userID, callback);
   }
 
   // Returns true if supplied password is correct
@@ -66,7 +62,7 @@ export class RoomFacade {
     });
   }
 
-  private createRoomObject(roomID: string, name: string, player: Player, isLocked: boolean, password?: string) : Room {
+  private createRoomObject(roomID: string, name: string, user: User, isLocked: boolean, password?: string) : Room {
     var ds = new DeckWebService();
     var decks = [];
     var deckID = '-KdfzixNq1S7IF_LGlCj';
@@ -83,9 +79,9 @@ export class RoomFacade {
       decks.push(deck);
     }
 
-    var players = [];
-    players.push(player);
-    var room = new Room(decks, isLocked, name, password, 3, roomID, players);
+    var users = [];
+    users.push(user);
+    var room = new Room(decks, isLocked, name, 3, roomID, users, password);
     return room;
   }
 

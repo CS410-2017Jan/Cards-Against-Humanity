@@ -4,8 +4,8 @@ import { NgForm } from '@angular/forms';
 import { RoomFacade } from '../../providers/facades/room-facade';
 import {UserWebService} from "../../providers/web-services/user-web-service";
 import {WaitingRoomPage} from "../waiting-room/waiting-room";
-import {Player} from "../../data-classes/player";
 import {Room} from "../../data-classes/room";
+import {User} from "../../data-classes/user";
 
 
 /*
@@ -19,7 +19,7 @@ import {Room} from "../../data-classes/room";
   templateUrl: 'room-setup.html'
 })
 export class RoomSetupPage {
-  room:{rname?: string, players?:string, rtype?: boolean, rpassword?: string} = {};
+  room:{rname?: string, users?:string, rtype?: boolean, rpassword?: string} = {};
   submitted = false;
 
   constructor(public navCtrl:NavController, public navParams:NavParams, public roomCtrl: RoomFacade) {
@@ -33,7 +33,7 @@ export class RoomSetupPage {
     this.submitted = true;
 
     console.log("Name: ", this.room.rname,
-      "# of Players: ", this.room.players,
+      "# of Users: ", this.room.users,
       "Type: ", this.room.rtype,
       "Password: ", this.room.rpassword
     );
@@ -54,8 +54,8 @@ export class RoomSetupPage {
     var userEmail = loggedInUser.email;
     var that = this;
 
-    userWS.getUserByEmail(userEmail, function(p:Player)
-    {(that.roomCtrl.createRoom(that.room.rname,p,that.room.rtype,
+    userWS.getUserByEmail(userEmail, function(u:User)
+    {(that.roomCtrl.createRoom(that.room.rname,u,that.room.rtype,
       function(r:Room){that.goToWaitingRoom(r)},that.room.rpassword))});
 
   }

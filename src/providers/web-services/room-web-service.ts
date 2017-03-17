@@ -335,12 +335,12 @@ export class RoomWebService {
   		// if we needed an async call, wait and then call the callback (hacky)
   		if(neededWeb){
 
-  			window.setTimeout(function() {callback(new Room(decks, isLocked, name, password, size, roomID, users))}, 3000);
+  			window.setTimeout(function() {callback(new Room(decks, isLocked, name, size, roomID, users, password))}, 3000);
   		}
   		// if we didn't have to, call the callback
   		else{
 
-  			callback(new Room(decks, isLocked, name, password, size, roomID, users));
+  			callback(new Room(decks, isLocked, name, size, roomID, users, password));
 
   		}
   	}

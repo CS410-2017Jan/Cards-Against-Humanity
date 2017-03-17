@@ -7,7 +7,7 @@ import { User } from "./user";
  */
 
 // ======================================================================
-// This Class outlines the data structure of a User
+// This Class outlines the data structure of a Room
 // ======================================================================
 export class Room {
   id: string;
@@ -45,16 +45,10 @@ export class Room {
   // Add user to room in DB
   // Updates list of users in Room object
   // Returns true if addition was successful
-  addUser(userID: string, fn, password?: string) {
+  addUser(userID: string, fn) {
     var Room = this;
     var rs = new RoomWebService();
-    if (password) {
-      rs.joinRoom(userID, this.id, function(d) {fn(Room.updateUserList(d))});
-      //return this.isJoinSuccess;
-    } else {
-      rs.joinRoom(userID, this.id, function(d) {fn(Room.updateUserList(d))});
-      //return this.isJoinSuccess;
-    }
+    rs.joinRoom(userID, this.id, function(d) {fn(Room.updateUserList(d))});
   }
 
   // Removes user from room in DB
@@ -77,15 +71,17 @@ export class Room {
       for (let userID of userIDs) {
         var user = uws.getUserFromCache(userID);
 
-        if (user == undefined) {
+        // TODO: This was a quick fix. CHANGE
+        if (true) {
           userPromise = new Promise(function(resolve, reject) {
             uws.getUser(userID, u => {resolve(u)});
           }).then(function(result){
             tempUsers.push(result);
           });
-        } else {
-          tempUsers.push(user);
         }
+        // else {
+        //   tempUsers.push(user);
+        // }
       }
       this.users = tempUsers;
       return true;

@@ -114,7 +114,7 @@ export class ContactPage {
     var tempArr = [];
     tempArr.push(tempDeck);
     var room = new Room(tempArr, true, "Facade Test Room", "TESTING123", 3, "-KdlnkB7A6azsa9PldEI");
-    facade.joinRoom(room, userID, function(response){alert(response);}, "TESTING123");
+    facade.joinRoom(room, userID, function(response){alert(response);});
   }
   leaveRoomUsingFacade(userID: string){
     var facade = new RoomFacade();

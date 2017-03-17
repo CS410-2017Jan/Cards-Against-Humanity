@@ -76,7 +76,7 @@ export class RoomWebService {
     		    	//callback("Error: " + xmlHttp.status)
     		  	}
     			}
-    		xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/players.json", true); // true for asynchronous
+    		xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
     		xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     		xmlHttp.send(JSON.stringify(data));
   		}
@@ -147,7 +147,7 @@ export class RoomWebService {
     		  	  //callback("Error: " + xmlHttp.status)
     		  	}
     			}
-    			xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/players.json", true); // true for asynchronous
+    			xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
     			xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     			xmlHttp.send(JSON.stringify(data));})
   			});

@@ -40,12 +40,8 @@ export class RoomFacade {
   }
 
   // Calls callback with updated Room after user is added
-  joinRoom(room: Room, userID: string, callback: any, password?: string) {
-    if (password) {
-      room.addUser(userID, callback, password);
-    } else {
-      room.addUser(userID, callback);
-    }
+  joinRoom(room: Room, userID: string, callback: any) {
+    room.addUser(userID, callback);
   }
 
   // Calls callback with updated Room after user leaves

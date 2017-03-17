@@ -8,7 +8,8 @@ import {UserWebService} from "../web-services/user-web-service";
 // ======================================================================
 export class UserFacade {
 
-  constructor() {}
+  constructor() {
+  }
 
   getUser(userID: string, callback) {
     var userWS = new UserWebService();
@@ -16,7 +17,7 @@ export class UserFacade {
   }
 
   // TODO: fix return type
-  getLoggedInUser() : any {
+  getLoggedInUser(): any {
     var userWS = new UserWebService();
     return userWS.getLoggedInUser();
   }

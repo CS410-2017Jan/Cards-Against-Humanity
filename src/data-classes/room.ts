@@ -1,7 +1,7 @@
-import { Deck } from './deck';
-import { RoomWebService } from '../providers/web-services/room-web-service';
-import { UserWebService } from '../providers/web-services/user-web-service';
-import { User } from './user';
+import {Deck} from './deck';
+import {RoomWebService} from '../providers/web-services/room-web-service';
+import {UserWebService} from '../providers/web-services/user-web-service';
+import {User} from './user';
 /**
  * Created by Sonalee Shah on 2/24/2017.
  */
@@ -12,14 +12,14 @@ import { User } from './user';
 export class Room {
   id: string;
   decks: Array<Deck>;
-  isLocked: Boolean;
+  isLocked: boolean;
   name: string;
   password: string;
   users: Array<User>;
   size: number;
 
   // @param id will be generated in DB and assigned after calling createRoom method
-  constructor(decks: Array<Deck>, isLocked: Boolean, name: string, size: number,
+  constructor(decks: Array<Deck>, isLocked: boolean, name: string, size: number,
               id?: string, users?: Array<User>, password?: string) {
     this.decks = decks;
     this.isLocked = isLocked;
@@ -52,7 +52,9 @@ export class Room {
   addUser(userID: string, fn) {
     var Room = this;
     var rs = new RoomWebService();
-    rs.joinRoom(userID, this.id, function(d) {fn(Room.updateUserList(d))});
+    rs.joinRoom(userID, this.id, function (d) {
+      fn(Room.updateUserList(d))
+    });
   }
 
   // Removes user from room in DB
@@ -61,10 +63,12 @@ export class Room {
   removeUser(userID: string, callback) {
     var Room = this;
     var rs = new RoomWebService();
-    rs.leaveRoom(userID, this.id, function(d) {callback(Room.updateUserList(d))});
+    rs.leaveRoom(userID, this.id, function (d) {
+      callback(Room.updateUserList(d))
+    });
   }
 
-  private updateUserList(userIDStrings) : Boolean {
+  private updateUserList(userIDStrings): boolean {
     console.log(userIDStrings);
     if (userIDStrings.toLowerCase().indexOf('error') < 0) {
       var tempUsers = [];
@@ -77,9 +81,11 @@ export class Room {
 
         // TODO: This was a quick fix. CHANGE
         if (true) {
-          userPromise = new Promise(function(resolve, reject) {
-            uws.getUser(userID, u => {resolve(u)});
-          }).then(function(result){
+          userPromise = new Promise(function (resolve, reject) {
+            uws.getUser(userID, u => {
+              resolve(u)
+            });
+          }).then(function (result) {
             tempUsers.push(result);
           });
         }
@@ -94,16 +100,12 @@ export class Room {
     }
   }
 
-  isRoomReady() : boolean {
-    if (this.users.length == this.size) {
-      return true;
-    } else {
-      return false;
-    }
+  isRoomReady(): boolean {
+    return this.users.length == this.size
   }
 
   // Prints information about the user to the console
-  print(){
+  print() {
     console.log('ID: ' + this.id + ' Decks: ' + this.decks + ' Users: ' + this.users +
       ' isLocked: ' + this.isLocked + ' Name: ' + this.name + ' Password: ' +
       this.password + ' Size: ' + this.size);

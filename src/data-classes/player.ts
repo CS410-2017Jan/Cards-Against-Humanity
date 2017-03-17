@@ -2,7 +2,7 @@
  * Created by jjxn on 2/19/2017.
  */
 
-import { User } from './user';
+import {User} from './user';
 
 // ======================================================================
 // This Class outlines the data structure of a Player
@@ -16,7 +16,7 @@ export class Player extends User {
   }
 
   // Prints information about the player to the console
-  print(){
+  print() {
     console.log(this.username + ' ID: (' + this.id + ')- ' + this.score);
   }
 

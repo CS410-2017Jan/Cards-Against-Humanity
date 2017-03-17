@@ -3,6 +3,7 @@ import { AlertController, App, FabContainer, ItemSliding, List, ModalController,
 import { RoomFacade } from '../../providers/facades/room-facade';
 import { GamePage } from '../../pages/game/game.ts';
 import {UserWebService} from "../../providers/web-services/user-web-service";
+import {User} from "../../data-classes/user";
 
 
 @Component({
@@ -33,7 +34,14 @@ export class WaitingRoomPage {
     var that = this;
 
       this.roomCtrl.getRoom(this.room.id,function(r){
-        that.shownUsers = r.users;
+        var tempArray: Array<User> = [];
+
+        for (var user of r.users) {
+          var tempUser = new User(user.username, user.id, user.email);
+          tempArray.push(tempUser);
+        }
+        console.log('Original list of users: ', that.shownUsers);
+        that.shownUsers = tempArray;
         that.room = r;
 
         if (that.room.isRoomReady() == false) {
@@ -42,8 +50,7 @@ export class WaitingRoomPage {
         else{
           that.joinGame();
         }
-
-        //console.log('List of users updated: ', that.shownUsers);
+        console.log('List of users updated: ', that.shownUsers);
       });
     }
 

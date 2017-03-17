@@ -81,7 +81,7 @@ export class RoomFacade {
 
     var users = [];
     users.push(user);
-    var room = new Room(decks, isLocked, name, password, 3, roomID, users);
+    var room = new Room(decks, isLocked, name, 3, roomID, users, password);
     return room;
   }
 

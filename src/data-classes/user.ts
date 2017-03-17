@@ -12,8 +12,19 @@ export class User {
 
   constructor(username: string, id?: string, email?: string) {
     this.username = username;
-    this.id = id;
-    this.email = email;
+
+    if (id) {
+      this.id = id;
+    } else {
+      this.id = '';
+    }
+
+    if (email) {
+      this.email = email;
+    } else {
+      this.id = '';
+    }
+
   }
 
   // Prints information about the user to the console

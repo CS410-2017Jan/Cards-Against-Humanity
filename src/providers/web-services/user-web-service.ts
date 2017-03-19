@@ -225,8 +225,8 @@ export class UserWebService {
     xmlHttp.send(JSON.stringify(data));
   }
 
-  // Authenticates the user- calls the callback with true if the user's credentials were correct
-  logInUser(email: string, password: string, callback: (success: boolean)=>void) {
+  // Authenticates the user- calls the callback with that user if the credentials were correct
+  logInUser(email: string, password: string, callback: (u: User)=>void) {
     // Set up data to be posted
     var data = {};
     data["email"] = email;
@@ -246,20 +246,23 @@ export class UserWebService {
             var ws = new UserWebService();
             ws.cacheLoggedInUser(email, password);
             console.log("Login Verified");
-            callback(true);
+            // return the user for this email
+            ws.getUserByEmail(email, function(u: User){
+              callback(u);
+            });
           } else {
             // We failed for some reason
             console.log("Login Failed");
-            callback(false);
+            callback(undefined);
           }
         } catch (ex) {
           console.log("Login Failed");
           console.log(ex.message);
-          callback(false);
+          callback(undefined);
         }
       } else if (xmlHttp.readyState == 4) {
         console.log("Error: " + xmlHttp.status)
-        callback(false);
+        callback(undefined);
       }
     };
     xmlHttp.open("POST", this.LOGIN_URL + this.AUTH_API_KEY, true);
@@ -276,8 +279,13 @@ export class UserWebService {
       callback(false);
       return;
     }
-    this.logInUser(loggedInUser["email"], loggedInUser["password"], function (success: boolean) {
-      callback(success);
+    this.logInUser(loggedInUser["email"], loggedInUser["password"], function (u: User) {
+      if(u != undefined){
+        callback(true);
+      }
+      else{
+        callback(false)
+      }
     });
   }
 

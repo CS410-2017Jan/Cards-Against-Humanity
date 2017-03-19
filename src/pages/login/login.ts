@@ -5,6 +5,7 @@ import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
 import {UserWebService} from "../../providers/web-services/user-web-service";
 import {UserFacade} from "../../providers/facades/user-facade";
+import {User} from "../../data_classes/user";
 
 
 /*
@@ -20,7 +21,6 @@ import {UserFacade} from "../../providers/facades/user-facade";
 export class LoginPage {
   user: {email?: string, password?: string} = {};
   submitted = false;
-
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public userCtrl: UserFacade) {
   }
 
@@ -36,13 +36,13 @@ export class LoginPage {
     );
 
     var that = this;
-    this.userCtrl.logInUser(this.user.email, this.user.password, function (b: boolean) {
-      that.handleLogin(b)
+    this.userCtrl.logInUser(this.user.email, this.user.password, function (u) {
+      that.handleLogin(u)
     });
   }
 
-  handleLogin(b: boolean) {
-    if (b) {
+  handleLogin(u) {
+    if (u) {
       console.log("User had logged in!");
       this.navCtrl.push(TabsPage);
     }

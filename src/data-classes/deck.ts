@@ -120,7 +120,7 @@ export class Deck {
   }
 
   // creates n number of decks with the whiteCards distributed evenly. each of n decks
-  // has all the blackCards. Used to deal  a single deck amoung several players.
+  // has all the blackCards. Used to deal a single deck amoung several players.
   deal(n: number) : Array<Deck> {
 
     var acc = [];

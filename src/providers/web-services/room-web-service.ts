@@ -226,7 +226,7 @@ export class RoomWebService {
   }
 
   // Creates a room with an optional password, and add the user who sent this to the room
-  createRoom(name: string, decks: Array<string>, userID: string, callback: (id: string)=> void, password ?: string) {
+  createRoom(name: string, decks: Array<string>, userID: string, callback: (id: string)=> void, password ?: string, size ?: number) {
     // check if we are authenticated
 
     var ws = new UserWebService();
@@ -240,6 +240,7 @@ export class RoomWebService {
       }
       var hasPassword = !(password == undefined);
 
+
       // Set up data to be posted
       var data = {};
       data["isLocked"] = hasPassword;
@@ -247,7 +248,13 @@ export class RoomWebService {
       data["decks"] = decks;
       data["password"] = password;
       data["users"] = [userID];
-      data["size"] = 3;
+      // default size to 3
+      if (size == undefined){
+        data["size"] = 3;
+      }
+      else{
+        data["size"] = size;
+      }
 
       // Get it ready to send
       var xmlHttp = new XMLHttpRequest();

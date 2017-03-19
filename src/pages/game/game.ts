@@ -62,10 +62,10 @@ export class GamePage implements IGameRenderer {
     this.PLAYERS = Player.createPlayersFromUsers(room.users);
 
     // below 3 lines are a hack to deal with bad deck typing from the cache
-    // var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
-    // var tempDeck = new Deck(room.decks[0].deckID, room.decks[0].blackCards, room.decks[0].whiteCards);
+    var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
+    //var tempDeck = new Deck(room.decks[0].deckID, room.decks[0].blackCards, room.decks[0].whiteCards);
     // this.DECK = tempDeck.deal(room.size)[playerIndex];
-    this.DECK = room.decks[0];
+    this.DECK = room.decks[0].deal(room.size)[playerIndex];
   }
 
   ionViewDidLoad() {

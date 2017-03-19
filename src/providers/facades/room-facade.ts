@@ -16,10 +16,12 @@ import {Injectable} from "@angular/core";
 export class RoomFacade {
 
   roomWebService;
+  private currentRoom:Room;
 
   constructor() {
     this.roomWebService = new RoomWebService();
   }
+
 
   // Calls callback with Room
   getRoom(roomID: string, callback) {

@@ -13,7 +13,7 @@ import {User} from "../../data-classes/user";
 export class UserFacade {
 
   private userWebService;
-  private userProfile:User; //Can only access through getLoggedInUser()
+  private userProfile:User;
 
   constructor() {
     this.userWebService = new UserWebService();

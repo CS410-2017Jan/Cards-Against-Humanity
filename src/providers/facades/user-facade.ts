@@ -1,4 +1,5 @@
 import {UserWebService} from "../web-services/user-web-service";
+import {Injectable} from "@angular/core";
 /**
  * Created by Sonalee Shah on 3/15/2017.
  */
@@ -6,40 +7,40 @@ import {UserWebService} from "../web-services/user-web-service";
 // ======================================================================
 // This Class outlines the methods of UserFacade
 // ======================================================================
+
+@Injectable
+
 export class UserFacade {
 
+  private userWebService;
+
   constructor() {
+    this.userWebService = new UserWebService();
   }
 
   getUser(userID: string, callback) {
-    var userWS = new UserWebService();
-    userWS.getUser(userID, callback);
+    this.userWebService.getUser(userID, callback);
   }
 
   // TODO: fix return type
   getLoggedInUser(): any {
-    var userWS = new UserWebService();
-    return userWS.getLoggedInUser();
+    return this.userWebService.getLoggedInUser();
   }
 
   getUserByEmail(email: string, callback) {
-    var userWS = new UserWebService();
-    userWS.getUserByEmail(email, callback);
+    this.userWebService.getUserByEmail(email, callback);
   }
 
   getUsers(callback) {
-    var userWS = new UserWebService();
-    userWS.getAllUsers(callback);
+    this.userWebService.getAllUsers(callback);
   }
 
   createUser(username: string, password: string, email: string, callback) {
-    var userWS = new UserWebService();
-    userWS.createUser(username, password, email, callback);
+    this.userWebService.createUser(username, password, email, callback);
   }
 
   logInUser(email: string, password: string, callback) {
-    var userWS = new UserWebService();
-    userWS.logInUser(email, password, callback);
+    this.userWebService.logInUser(email, password, callback);
   }
 
 }

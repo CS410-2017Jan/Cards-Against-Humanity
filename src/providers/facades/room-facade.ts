@@ -1,8 +1,8 @@
 import {RoomWebService} from "../web-services/room-web-service";
 import {Room} from "../../data-classes/room";
 import {DeckWebService} from "../web-services/deck-web-service";
-import {Deck} from "../../data-classes/deck";
 import {User} from "../../data-classes/user";
+import {Injectable} from "@angular/core";
 /**
  * Created by Sonalee Shah on 3/4/2017.
  */
@@ -10,15 +10,20 @@ import {User} from "../../data-classes/user";
 // ======================================================================
 // This Class outlines the methods of RoomFacade
 // ======================================================================
+
+@Injectable
+
 export class RoomFacade {
 
+  roomWebService;
+
   constructor() {
+    this.roomWebService = new RoomWebService();
   }
 
   // Calls callback with Room
   getRoom(roomID: string, callback) {
-    var rs = new RoomWebService();
-    rs.getRoom(roomID, function (room) {
+    this.roomWebService.getRoom(roomID, function (room) {
       callback(room)
     })
   }
@@ -26,27 +31,25 @@ export class RoomFacade {
   // Calls callback with Array<Room>
   getRooms(callback) {
     console.log('getRooms()');
-    var rs = new RoomWebService();
-    rs.getAllRooms(function (rooms) {
+    this.roomWebService.getAllRooms(function (rooms) {
       callback(rooms)
     });
   }
 
   getUsersInRoom(roomID: string, callback) {
-    var rs = new RoomWebService();
+
   }
 
   // TODO: Extend functionality for 1+ deck
   // Calls callback with Room
   createRoom(name: string, user: User, isLocked: boolean, callback, password?: string) {
-    var rs = new RoomWebService();
     var facade = this;
     if (password) {
-      rs.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
+      this.roomWebService.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
         callback(facade.createRoomObject(roomID, name, user, isLocked, password))
       }, password);
     } else {
-      rs.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
+      this.roomWebService.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
         callback(facade.createRoomObject(roomID, name, user, isLocked))
       });
     }

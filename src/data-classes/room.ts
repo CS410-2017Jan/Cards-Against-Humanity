@@ -18,6 +18,8 @@ export class Room {
   users: Array<User>;
   size: number;
 
+  private roomWebService;
+
   // @param id will be generated in DB and assigned after calling createRoom method
   constructor(decks: Array<Deck>, isLocked: boolean, name: string, size: number,
               id?: string, users?: Array<User>, password?: string) {
@@ -44,6 +46,8 @@ export class Room {
     } else {
       this.password = '';
     }
+
+    this.roomWebService = new RoomWebService();
   }
 
   // Add user to room in DB
@@ -51,8 +55,7 @@ export class Room {
   // Returns true if addition was successful
   addUser(userID: string, fn) {
     var Room = this;
-    var rs = new RoomWebService();
-    rs.joinRoom(userID, this.id, function (d) {
+    this.roomWebService.joinRoom(userID, this.id, function (d) {
       fn(Room.updateUserList(d))
     });
   }
@@ -62,8 +65,7 @@ export class Room {
   // Returns true if removal was successful
   removeUser(userID: string, callback) {
     var Room = this;
-    var rs = new RoomWebService();
-    rs.leaveRoom(userID, this.id, function (d) {
+    this.roomWebService.leaveRoom(userID, this.id, function (d) {
       callback(Room.updateUserList(d))
     });
   }

@@ -172,6 +172,27 @@ export class RoomWebService {
     xmlHttp.send(null);
   }
 
+  // Gets the users in a room specified by ID and returns a list of ID's
+  getUsersInRoom(id: string, callback: (p: String[]) => void){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if GET is successful
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        try {
+          // return
+          callback(JSON.parse(xmlHttp.responseText));
+        } catch (ex) {
+          console.log(ex.message)
+          console.log("Failed to get room or users" + id);
+        }
+      } else if (xmlHttp.readyState == 4) {
+        console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + id + "/users.json", true); // true for asynchronous
+    xmlHttp.send(null);
+  }
+
   // Gets all rooms and calls the callback on the returned JSON string
   getAllRooms(callback: (any) => void) {
 
@@ -260,7 +281,6 @@ export class RoomWebService {
       var deckStrings = JSONArray.decks;
       var name = JSONArray.name;
       var userStrings = JSONArray.users;
-      console.log(userStrings);
       var size = JSONArray.size;
       var isLocked = JSONArray.isLocked;
       var password = JSONArray.password;
@@ -275,8 +295,6 @@ export class RoomWebService {
           resolve(d)
         });
       }).then(function (result) {
-        console.log("Got all decks");
-        console.log(result);
         decks = result as Deck[];
       })
 
@@ -292,8 +310,6 @@ export class RoomWebService {
           resolve(u)
         });
       }).then(function (result) {
-        console.log("Got all users");
-        console.log(result);
         users = result as User[];
       });
 

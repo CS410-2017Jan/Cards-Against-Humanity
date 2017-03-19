@@ -72,6 +72,10 @@ export class ContactPage {
     var ws = new RoomWebService();
     ws.getRoom(id, function(r){console.log(r)});
   }
+  getUsersInRoom(id: string){
+    var ws = new RoomWebService();
+    ws.getUsersInRoom(id, function(r){console.log(r)});
+  }
   getRooms(){
     var ws = new RoomWebService();
     ws.getAllRooms(console.log);

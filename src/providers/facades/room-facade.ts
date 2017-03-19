@@ -11,7 +11,7 @@ import {Injectable} from "@angular/core";
 // This Class outlines the methods of RoomFacade
 // ======================================================================
 
-@Injectable
+@Injectable()
 
 export class RoomFacade {
 

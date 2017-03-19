@@ -8,7 +8,7 @@ import {Injectable} from "@angular/core";
 // This Class outlines the methods of UserFacade
 // ======================================================================
 
-@Injectable
+@Injectable()
 
 export class UserFacade {
 

@@ -260,6 +260,7 @@ export class RoomWebService {
       var deckStrings = JSONArray.decks;
       var name = JSONArray.name;
       var userStrings = JSONArray.users;
+      console.log(userStrings);
       var size = JSONArray.size;
       var isLocked = JSONArray.isLocked;
       var password = JSONArray.password;
@@ -268,59 +269,38 @@ export class RoomWebService {
       var decks = [];
       var dws = new DeckWebService();
       var deckPromise: Promise<void>;
-      var neededWeb = false;
-      //console.log("Decks")
-      for (let deckID of deckStrings) {
-        // Try loading from cache
-        var deck = dws.getDeckFromCache(deckID);
-        if (true) {
-          // We have a problem- get the deck from the server
-          neededWeb = true;
-          deckPromise = new Promise(function (resolve, reject) {
-            dws.getDeck(deckID, d => {
-              resolve(d)
-            });
-          }).then(function (result) {
-            decks.push(result);
-          })
-        } else {
-          // Deck was in cache
-          //decks.push(deck);
-        }
-      }
+      
+      deckPromise = new Promise(function (resolve, reject) {
+        dws.getDecksByIDList(deckStrings, d => {
+          resolve(d)
+        });
+      }).then(function (result) {
+        console.log("Got all decks");
+        console.log(result);
+        decks = result as Deck[];
+      })
+
+
 
       var users = [];
       var uws = new UserWebService();
       var userPromise: Promise<void>;
-      //console.log("users")
-      for (let userID of userStrings) {
-        // Try loading from cache
-        var user = uws.getUserFromCache(userID);
-        if (user == undefined) {
-          // We have a problem- get the user from the server
-          neededWeb = true;
-          userPromise = new Promise(function (resolve, reject) {
-            uws.getUser(userID, u => {
-              resolve(u)
-            });
-          }).then(function (result) {
-            users.push(result);
-          })
-        } else {
-          // User was in cache
-          users.push(user);
-        }
-      }
-      //console.log("good")
-      //console.log("Needed web- " + neededWeb);
-      // if we needed an async call, wait and then call the callback (hacky)
-      if (neededWeb) {
-        window.setTimeout(function () {
-          callback(new Room(decks, isLocked, name, size, roomID, users, password))
-        }, 3000);
-      } else { // if we didn't have to, call the callback
-        callback(new Room(decks, isLocked, name, size, roomID, users, password));
-      }
+      
+      userPromise = new Promise(function (resolve, reject) {
+
+        uws.getUsersByIDList(userStrings, u => {
+          resolve(u)
+        });
+      }).then(function (result) {
+        console.log("Got all users");
+        console.log(result);
+        users = result as User[];
+      });
+
+      // wait for all promises to come back
+      Promise.all([userPromise, deckPromise]).then(function(result){
+        callback(new Room(decks, isLocked, name, size, roomID, users, password))
+      })
     } catch (e) {
       console.log("Could not parse room");
       console.log(e.message);

@@ -318,4 +318,33 @@ export class UserWebService {
       }
     });
   }
+
+  // Calls get user for each provided ID and returns a list of said users
+  getUsersByIDList(ids: String[], callback: (u: User[])=> void){
+    var users = [];
+    var uws = new UserWebService();
+    var userPromise: Promise<void>;
+    var promises: Promise<void>[] = [];
+    //console.log("users")
+    for (let userID of ids) {
+        userPromise = new Promise(function (resolve, reject) {
+           uws.getUser(userID, u => {
+            resolve(u)
+          });
+        }).then(function (result) {
+          users.push(result);
+        })
+        promises.push(userPromise);
+    } 
+
+    // Wait for all promises made to return
+    if(promises.length == 0){
+      callback(users);
+    }
+    else{
+      Promise.all(promises).then(function(result){
+        callback(users);
+      });
+    }
+  }
 }

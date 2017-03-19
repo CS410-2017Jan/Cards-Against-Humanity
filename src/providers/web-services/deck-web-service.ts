@@ -97,4 +97,33 @@ export class DeckWebService {
     //console.log(sessionStorage.getItem("deckCache"));
   }
 
+  // Calls get deck for each provided ID and returns a list of said decks
+  getDecksByIDList(ids: string[], callback: (u: Deck[])=> void){
+    var decks = [];
+    var dws = new DeckWebService();
+    var deckPromise: Promise<void>;
+    var promises: Promise<void>[] = [];
+    //console.log("users")
+    for (let deckID of ids) {
+        deckPromise = new Promise(function (resolve, reject) {
+           dws.getDeck(deckID, d => {
+            resolve(d)
+          });
+        }).then(function (result) {
+          decks.push(result);
+        })
+        promises.push(deckPromise);
+    } 
+
+    // Wait for all promises made to return
+    if(promises.length == 0){
+      callback(decks);
+    }
+    else{
+      Promise.all(promises).then(function(result){
+        callback(decks);
+      });
+    }
+  }
+
 }

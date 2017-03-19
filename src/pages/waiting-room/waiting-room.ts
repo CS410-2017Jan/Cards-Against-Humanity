@@ -94,5 +94,20 @@ export class WaitingRoomPage {
     });
   }
 
+  updateUserListNew() {
+    var that = this;
+    this.roomCtrl.getUsersInRoom(this.room.id, function (result) {
+      that.shownUsers = result;
+      if (result.size == that.room.size) {
+        that.roomCtrl.getRoom(that.room.id, function (result) {
+          that.room = result;
+          that.joinGame();
+        });
+      } else {
+        setTimeout(that.update(), 5000);
+      }
+    });
+  }
+
 }
 

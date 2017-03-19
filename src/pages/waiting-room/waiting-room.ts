@@ -12,8 +12,8 @@ import {
 } from 'ionic-angular';
 import {RoomFacade} from '../../providers/facades/room-facade';
 import {GamePage} from '../../pages/game/game.ts';
-import {UserWebService} from "../../providers/web-services/user-web-service";
-import {User} from "../../data-classes/user";
+import {User} from "../../data-classes/user"; //Remove when removing updateUserList()
+import {UserFacade} from "../../providers/facades/user-facade";
 
 
 @Component({
@@ -23,11 +23,10 @@ import {User} from "../../data-classes/user";
 export class WaitingRoomPage {
 
   @ViewChild('userList', {read: List}) userList: List;
-  gameStarted: boolean = false;
   room: any;
   shownUsers: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade, public userCtrl: UserFacade) {
     this.room = navParams.data;
     console.log(this.room);
   }
@@ -36,7 +35,6 @@ export class WaitingRoomPage {
   ionViewDidEnter() {
     console.log('ionViewDidLoad WaitingRoomPage');
     this.updateUserList();
-    //this.initializeGame();
   }
 
   //Updates the list of users in the room
@@ -67,8 +65,7 @@ export class WaitingRoomPage {
 
   // sets the appropriate params and navigates to the GamePage
   joinGame() {
-    var userWS = new UserWebService();
-    var loggedInUser = userWS.getLoggedInUser();
+    var loggedInUser = this.userCtrl.getLoggedInUser();
     var userName = loggedInUser.username;
 
     this.navCtrl.push(GamePage, {
@@ -77,22 +74,6 @@ export class WaitingRoomPage {
     });
   }
 
-
-  //Checks to see if enough users are there to start the game
-  initializeGame() {
-    console.log("Initialize Game Attempt");
-    var facade = new RoomFacade();
-    var that = this;
-    facade.isRoomReady(this.room.id, function (result) {
-      if (result != true) {
-        console.log("not ready", this.room.users);
-        setTimeout(that.initializeGame(), 5000);
-      } else {
-        console.log("Can init");
-        that.joinGame();
-      }
-    });
-  }
 
   updateUserListNew() {
     var that = this;

@@ -32,7 +32,7 @@ export class UserFacade {
     userWS.getAllUsers(callback);
   }
 
-  static createUser(username: string, password: string, email: string, callback) {
+  createUser(username: string, password: string, email: string, callback) {
     var userWS = new UserWebService();
     userWS.createUser(username, password, email, callback);
   }

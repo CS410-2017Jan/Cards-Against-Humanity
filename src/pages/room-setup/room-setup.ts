@@ -6,6 +6,7 @@ import {UserWebService} from "../../providers/web-services/user-web-service";
 import {WaitingRoomPage} from "../waiting-room/waiting-room";
 import {Room} from "../../data-classes/room";
 import {User} from "../../data-classes/user";
+import {UserFacade} from "../../providers/facades/user-facade";
 
 
 /*
@@ -22,7 +23,10 @@ export class RoomSetupPage {
   room: {rname?: string, users?: string, rtype?: boolean, rpassword?: string} = {};
   submitted = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public roomCtrl: RoomFacade,
+              public userCtrl: UserFacade) {
   }
 
   ionViewDidLoad() {
@@ -47,14 +51,13 @@ export class RoomSetupPage {
 
     }
 
-    var userWS = new UserWebService();
-    var loggedInUser = userWS.getLoggedInUser();
+    var loggedInUser = this.userCtrl.getLoggedInUser();
     console.log('user: ', loggedInUser);
 
     var userEmail = loggedInUser.email;
     var that = this;
 
-    userWS.getUserByEmail(userEmail, function (u: User) {
+    this.userCtrl.getUserByEmail(userEmail, function (u: User) {
       (that.roomCtrl.createRoom(that.room.rname, u, that.room.rtype,
         function (r: Room) {
           that.goToWaitingRoom(r)

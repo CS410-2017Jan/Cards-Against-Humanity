@@ -17,6 +17,7 @@ import { RoomListPage } from '../pages/room-list/room-list';
 import { RoomFacade } from '../providers/facades/room-facade';
 import { Player } from "../data-classes/player";
 import {EndGameModalPage} from "../pages/game/game";
+import {UserFacade} from "../providers/facades/user-facade";
 
 
 
@@ -58,6 +59,6 @@ import {EndGameModalPage} from "../pages/game/game";
     ScoreModalPage,
     EndGameModalPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, RoomFacade]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, RoomFacade, UserFacade]
 })
 export class AppModule {}

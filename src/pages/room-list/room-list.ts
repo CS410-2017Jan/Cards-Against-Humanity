@@ -15,6 +15,7 @@ import {WaitingRoomPage} from '../waiting-room/waiting-room';
 import {RoomFacade} from '../../providers/facades/room-facade';
 import {Room} from "../../data-classes/room";
 import {UserWebService} from "../../providers/web-services/user-web-service";
+import {UserFacade} from "../../providers/facades/user-facade";
 
 /*
  Generated class for the RoomList page.
@@ -35,7 +36,11 @@ export class RoomListPage {
   public shownRooms: any;
   listOfRooms: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public roomCtrl: RoomFacade,
+              public alertCtrl: AlertController,
+              public userCtrl: UserFacade) {
   }
 
   ionViewDidEnter() {
@@ -78,8 +83,7 @@ export class RoomListPage {
     }
 
     else {
-      var userWS = new UserWebService();
-      var loggedInUser = userWS.getLoggedInUser();
+      var loggedInUser = this.userCtrl.getLoggedInUser();
       var userId = loggedInUser.id;
 
       var that = this;
@@ -117,8 +121,7 @@ export class RoomListPage {
           text: 'Join',
           handler: data => {
             if (this.roomCtrl.attemptRoomPassword(room, data.password)) {
-              var userWS = new UserWebService();
-              var loggedInUser = userWS.getLoggedInUser();
+              var loggedInUser = this.userCtrl.getLoggedInUser();
               var userId = loggedInUser.id;
 
               var that = this;

@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
 import {UserWebService} from "../../providers/web-services/user-web-service";
+import {UserFacade} from "../../providers/facades/user-facade";
 
 
 /*
@@ -20,7 +21,7 @@ export class LoginPage {
   user: {email?: string, password?: string} = {};
   submitted = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public userCtrl: UserFacade) {
   }
 
   ionViewDidLoad() {
@@ -34,15 +35,8 @@ export class LoginPage {
       "# of Users: ", this.user.password
     );
 
-    if (form.valid) {
-      console.log("Valid form!")
-    }
-
-    //this.navCtrl.push(TabsPage); //Here temporarily
-
-    var userWS = new UserWebService();
     var that = this;
-    userWS.logInUser(this.user.email, this.user.password, function (b: boolean) {
+    this.userCtrl.logInUser(this.user.email, this.user.password, function (b: boolean) {
       that.handleLogin(b)
     });
   }
@@ -110,7 +104,8 @@ export class SignUpModalPage {
 
   constructor(public platform: Platform,
               public params: NavParams,
-              public viewCtrl: ViewController) {
+              public viewCtrl: ViewController,
+              public userCtrl: UserFacade) {
   }
 
   clickCreateAccount(form: NgForm) {
@@ -120,9 +115,8 @@ export class SignUpModalPage {
       "# of Users: ", this.user.password
     );
 
-    var userWS = new UserWebService();
     var that = this;
-    userWS.createUser(this.user.username, this.user.password, this.user.email, function (s: string) {
+    this.userCtrl.createUser(this.user.username, this.user.password, this.user.email, function (s: string) {
       that.userCreatedSuccess(s)
     });
   }

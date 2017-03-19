@@ -1,5 +1,6 @@
 import {UserWebService} from "../web-services/user-web-service";
 import {Injectable} from "@angular/core";
+import {User} from "../../data-classes/user";
 /**
  * Created by Sonalee Shah on 3/15/2017.
  */
@@ -9,38 +10,41 @@ import {Injectable} from "@angular/core";
 // ======================================================================
 
 @Injectable()
-
 export class UserFacade {
 
   private userWebService;
+  private userProfile:User; //Can only access through getLoggedInUser()
 
   constructor() {
     this.userWebService = new UserWebService();
   }
 
-  getUser(userID: string, callback) {
-    this.userWebService.getUser(userID, callback);
-  }
-
-  // TODO: fix return type
-  getLoggedInUser(): any {
+  getLoggedInUser():any {
     return this.userWebService.getLoggedInUser();
+
+    //TODO: Uncomment when logInUser returns a user, remove call to getLoggedInUser, change return type to User
+    //return this.userProfile;
   }
 
-  getUserByEmail(email: string, callback) {
-    this.userWebService.getUserByEmail(email, callback);
-  }
-
-  getUsers(callback) {
-    this.userWebService.getAllUsers(callback);
-  }
-
-  createUser(username: string, password: string, email: string, callback) {
+  //creates a uses and returns the ID
+  createUser(username:string, password:string, email:string, callback) {
     this.userWebService.createUser(username, password, email, callback);
   }
 
-  logInUser(email: string, password: string, callback) {
+  //Returns a boolean, creates a local copy of user and stores it in the facade
+  logInUser(email:string, password:string, callback) {
     this.userWebService.logInUser(email, password, callback);
-  }
 
+    //TODO: Uncomment when logInUser returns a user
+    /*    var that = this;
+     this.userWebService.logInUser(email, password, function(us){
+     if (us == error) {
+     callback(false);
+     } else {
+     that.userProfile = us;
+     callback(true);
+     }
+     });*/
+
+  }
 }

@@ -94,6 +94,7 @@ export class WaitingRoomPage {
     });
   }
 
+  // TODO: This method will replace updateUserList once getUsersInRoom is implemented
   updateUserListNew() {
     var that = this;
     this.roomCtrl.getUsersInRoom(this.room.id, function (result) {

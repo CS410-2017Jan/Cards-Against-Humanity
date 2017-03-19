@@ -3,6 +3,7 @@ import {Room} from "../../data-classes/room";
 import {DeckWebService} from "../web-services/deck-web-service";
 import {User} from "../../data-classes/user";
 import {Injectable} from "@angular/core";
+import {UserWebService} from "../web-services/user-web-service";
 /**
  * Created by Sonalee Shah on 3/4/2017.
  */
@@ -16,12 +17,13 @@ import {Injectable} from "@angular/core";
 export class RoomFacade {
 
   roomWebService;
-  private currentRoom:Room;
+  userWebService;
+  private currentRoom: Room;
 
   constructor() {
     this.roomWebService = new RoomWebService();
+    this.userWebService = new UserWebService();
   }
-
 
   // Calls callback with Room
   getRoom(roomID: string, callback) {
@@ -39,7 +41,18 @@ export class RoomFacade {
   }
 
   getUsersInRoom(roomID: string, callback) {
-
+    var that = this;
+    this.roomWebService.getUsersInRoom(roomID, function (ids) {
+      that.userWebService.getUsersByIDList(ids, function (listOfUsers) {
+        callback(listOfUsers.sort(function (a, b) {
+          var keyA = a.username;
+          var keyB = b.username;
+          if(keyA < keyB) return -1;
+          if(keyA > keyB) return 1;
+          return 0;
+        }));
+      });
+    });
   }
 
   // TODO: Extend functionality for 1+ deck
@@ -101,6 +114,15 @@ export class RoomFacade {
     var users = [];
     users.push(user);
     return new Room(decks, isLocked, name, 3, roomID, users, password);
+  }
+
+  private hasUser(userID: string): boolean {
+    for (var i=0; i < this.currentRoom.users.length; i++) {
+      if (this.currentRoom.users[i].id === userID) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

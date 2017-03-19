@@ -104,7 +104,7 @@ export class WaitingRoomPage {
           that.joinGame();
         });
       } else {
-        setTimeout(that.update(), 5000);
+        setTimeout(that.updateUserListNew(), 5000);
       }
     });
   }

@@ -61,7 +61,7 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          var user = new User(JSONArray.username, id, JSONArray.email);
+          var user = new User(JSONArray.username, id, JSONArray.email, JSONArray.score);
           // Add this user to the cache since we have them
           var ws = new UserWebService();
           ws.addUserToCache(user);
@@ -78,6 +78,47 @@ export class UserWebService {
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + ".json", true);
     xmlHttp.send(null);
 
+  }
+
+  // Adds the given delta to the score of the user specified by the given ID, calls callback with the new score
+  addScore(userID: string, deltaScore: number, callback: (i: number)=> void){
+    // we first need to get the user we're updating
+    this.getUser(userID, function (u: User){
+      // we have the user, now put their new score in
+      // (safety check)
+      if(u.score == undefined){
+        callback(undefined);
+        return;
+      }
+      var newScore = u.score + deltaScore;
+      // Set up data to be posted
+      var data = newScore;
+
+
+      // Get it ready to send
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function () {
+
+      // Stuff to do if PUT is successful
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        try {
+          // We should be done, call the callback with the returned name (which is the ID)
+            var JSONArray = JSON.parse(xmlHttp.responseText);
+            callback(JSONArray)
+          } catch (ex) {
+            console.log("Failed to update score");
+            callback(undefined);
+          }
+        } else if (xmlHttp.readyState == 4) {
+          console.log("Error: " + xmlHttp.status)
+          callback(undefined);
+        }
+      };
+      xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + userID + "/score.json", true);
+      xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      // Send the request
+      xmlHttp.send(JSON.stringify(data));
+    });
   }
 
   // Gets a user from the cache, returning undefined if not found
@@ -132,6 +173,7 @@ export class UserWebService {
         data["password"] = password;
         data["image"] = {'url': ''};
         data["email"] = email;
+        data["score"] = 0;
 
 
         // Get it ready to send

@@ -54,7 +54,12 @@ export class ContactPage {
 
   getUser(id){
     var ws = new UserWebService();
-    ws.getUser(id, (p) => p.print());
+    ws.getUser(id, console.log);
+  }
+
+  incScore(id){
+    var ws = new UserWebService();
+    ws.addScore(id,1, console.log);
   }
 
   printUsers(users){

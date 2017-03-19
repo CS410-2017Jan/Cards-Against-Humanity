@@ -32,6 +32,10 @@ export class RoomFacade {
     });
   }
 
+  getUsersInRoom(roomID: string, callback) {
+    var rs = new RoomWebService();
+  }
+
   // TODO: Extend functionality for 1+ deck
   // Calls callback with Room
   createRoom(name: string, user: User, isLocked: boolean, callback, password?: string) {

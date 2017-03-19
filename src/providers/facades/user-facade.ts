@@ -26,6 +26,10 @@ export class UserFacade {
     //return this.userProfile;
   }
 
+  getUserByEmail(email: string, callback) {
+    this.userWebService.getUserByEmail(email, callback);
+  }
+
   //creates a uses and returns the ID
   createUser(username:string, password:string, email:string, callback) {
     this.userWebService.createUser(username, password, email, callback);

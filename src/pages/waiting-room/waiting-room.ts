@@ -42,7 +42,7 @@ export class WaitingRoomPage {
     var that = this;
     this.roomCtrl.getUsersInRoom(this.room.id, function (result) {
       that.shownUsers = result;
-      if (result.size == that.room.size) {
+      if (result.length == that.room.size) {
         that.roomCtrl.getRoom(that.room.id, function (result) {
           that.room = result;
           that.joinGame();

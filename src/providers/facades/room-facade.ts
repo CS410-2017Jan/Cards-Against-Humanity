@@ -35,6 +35,11 @@ export class RoomFacade {
     })
   }
 
+  // Returns the current room object
+  getCurrentRoom(): Room {
+    return this.currentRoom;
+  }
+
   // Calls callback with Array<Room>
   getRooms(callback) {
     console.log('getRooms()');
@@ -74,13 +79,25 @@ export class RoomFacade {
   }
 
   // Calls callback with updated Room after user is added
-  joinRoom(room: Room, userID: string, callback: any) {
-    room.addUser(userID, callback);
+  joinRoom(room: Room, user: User, callback: any) {
+    var that = this;
+    this.currentRoom = room;
+    this.roomWebService.joinRoom(user.id, this.currentRoom.id, function (result) {
+      that.currentRoom.users.push(user);
+      callback(that.currentRoom);
+    });
   }
 
   // Calls callback with updated Room after user leaves
-  removeUser(room: Room, userID: string, callback) {
-    room.removeUser(userID, callback);
+  removeUser(room: Room, user: User, callback) {
+    var that = this;
+    this.roomWebService.removeUser(this.currentRoom, user.id, function (result) {
+      var newUsers = that.currentRoom.users.filter(function(u) {
+        return u.id == user.id;
+      });
+      that.currentRoom.users = newUsers;
+      callback(that.currentRoom);
+    });
   }
 
   // Returns true if supplied password is correct
@@ -90,9 +107,7 @@ export class RoomFacade {
 
   // Calls get Room and returns true if the room is at capacity
   isRoomReady(roomID, callback) {
-    this.getRoom(roomID, function (room: Room) {
-      callback(room.isRoomReady());
-    });
+
   }
 
   private createRoomObject(callback, roomID: string, name: string, user: User, isLocked: boolean, password?: string) {

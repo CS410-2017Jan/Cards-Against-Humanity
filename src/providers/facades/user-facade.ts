@@ -13,17 +13,14 @@ import {User} from "../../data-classes/user";
 export class UserFacade {
 
   private userWebService;
-  private userProfile:User;
+  private userProfile: User;
 
   constructor() {
     this.userWebService = new UserWebService();
   }
 
   getLoggedInUser():any {
-    return this.userWebService.getLoggedInUser();
-
-    //TODO: Uncomment when logInUser returns a user, remove call to getLoggedInUser, change return type to User
-    //return this.userProfile;
+    return this.userProfile;
   }
 
   getUserByEmail(email: string, callback) {
@@ -37,18 +34,16 @@ export class UserFacade {
 
   //Returns a boolean, creates a local copy of user and stores it in the facade
   logInUser(email:string, password:string, callback) {
-    this.userWebService.logInUser(email, password, callback);
 
-    //TODO: Uncomment when logInUser returns a user
-    /*    var that = this;
-     this.userWebService.logInUser(email, password, function(us){
-     if (us == error) {
-     callback(false);
-     } else {
-     that.userProfile = us;
-     callback(true);
-     }
-     });*/
+    var that = this;
+    this.userWebService.logInUser(email, password, function(us){
+      if (us == error) {
+        callback(false);
+      } else {
+        that.userProfile = us;
+        callback(true);
+      }
+    });
 
   }
 }

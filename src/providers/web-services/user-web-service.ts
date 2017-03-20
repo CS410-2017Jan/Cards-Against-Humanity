@@ -61,7 +61,7 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          var user = new User(JSONArray.username, id, JSONArray.email);
+          var user = new User(JSONArray.username, id, JSONArray.email, JSONArray.score);
           // Add this user to the cache since we have them
           var ws = new UserWebService();
           ws.addUserToCache(user);
@@ -78,6 +78,47 @@ export class UserWebService {
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + ".json", true);
     xmlHttp.send(null);
 
+  }
+
+  // Adds the given delta to the score of the user specified by the given ID, calls callback with the new score
+  addScore(userID: string, deltaScore: number, callback: (i: number)=> void){
+    // we first need to get the user we're updating
+    this.getUser(userID, function (u: User){
+      // we have the user, now put their new score in
+      // (safety check)
+      if(u.score == undefined){
+        callback(undefined);
+        return;
+      }
+      var newScore = u.score + deltaScore;
+      // Set up data to be posted
+      var data = newScore;
+
+
+      // Get it ready to send
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function () {
+
+      // Stuff to do if PUT is successful
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        try {
+          // We should be done, call the callback with the returned name (which is the ID)
+            var JSONArray = JSON.parse(xmlHttp.responseText);
+            callback(JSONArray)
+          } catch (ex) {
+            console.log("Failed to update score");
+            callback(undefined);
+          }
+        } else if (xmlHttp.readyState == 4) {
+          console.log("Error: " + xmlHttp.status)
+          callback(undefined);
+        }
+      };
+      xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + userID + "/score.json", true);
+      xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      // Send the request
+      xmlHttp.send(JSON.stringify(data));
+    });
   }
 
   // Gets a user from the cache, returning undefined if not found
@@ -132,6 +173,7 @@ export class UserWebService {
         data["password"] = password;
         data["image"] = {'url': ''};
         data["email"] = email;
+        data["score"] = 0;
 
 
         // Get it ready to send
@@ -225,8 +267,8 @@ export class UserWebService {
     xmlHttp.send(JSON.stringify(data));
   }
 
-  // Authenticates the user- calls the callback with true if the user's credentials were correct
-  logInUser(email: string, password: string, callback: (success: boolean)=>void) {
+  // Authenticates the user- calls the callback with that user if the credentials were correct
+  logInUser(email: string, password: string, callback: (u: User)=>void) {
     // Set up data to be posted
     var data = {};
     data["email"] = email;
@@ -246,20 +288,23 @@ export class UserWebService {
             var ws = new UserWebService();
             ws.cacheLoggedInUser(email, password);
             console.log("Login Verified");
-            callback(true);
+            // return the user for this email
+            ws.getUserByEmail(email, function(u: User){
+              callback(u);
+            });
           } else {
             // We failed for some reason
             console.log("Login Failed");
-            callback(false);
+            callback(undefined);
           }
         } catch (ex) {
           console.log("Login Failed");
           console.log(ex.message);
-          callback(false);
+          callback(undefined);
         }
       } else if (xmlHttp.readyState == 4) {
         console.log("Error: " + xmlHttp.status)
-        callback(false);
+        callback(undefined);
       }
     };
     xmlHttp.open("POST", this.LOGIN_URL + this.AUTH_API_KEY, true);
@@ -276,8 +321,13 @@ export class UserWebService {
       callback(false);
       return;
     }
-    this.logInUser(loggedInUser["email"], loggedInUser["password"], function (success: boolean) {
-      callback(success);
+    this.logInUser(loggedInUser["email"], loggedInUser["password"], function (u: User) {
+      if(u != undefined){
+        callback(true);
+      }
+      else{
+        callback(false)
+      }
     });
   }
 
@@ -309,5 +359,34 @@ export class UserWebService {
         callback(undefined);
       }
     });
+  }
+
+  // Calls get user for each provided ID and returns a list of said users
+  getUsersByIDList(ids: String[], callback: (u: User[])=> void){
+    var users = [];
+    var uws = new UserWebService();
+    var userPromise: Promise<void>;
+    var promises: Promise<void>[] = [];
+    //console.log("users")
+    for (let userID of ids) {
+        userPromise = new Promise(function (resolve, reject) {
+           uws.getUser(userID, u => {
+            resolve(u)
+          });
+        }).then(function (result) {
+          users.push(result);
+        })
+        promises.push(userPromise);
+    } 
+
+    // Wait for all promises made to return
+    if(promises.length == 0){
+      callback(users);
+    }
+    else{
+      Promise.all(promises).then(function(result){
+        callback(users);
+      });
+    }
   }
 }

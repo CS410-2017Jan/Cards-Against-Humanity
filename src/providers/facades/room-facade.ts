@@ -3,6 +3,8 @@ import {Room} from "../../data-classes/room";
 import {DeckWebService} from "../web-services/deck-web-service";
 import {User} from "../../data-classes/user";
 import {Injectable} from "@angular/core";
+import {UserWebService} from "../web-services/user-web-service";
+import {Deck} from "../../data-classes/deck";
 /**
  * Created by Sonalee Shah on 3/4/2017.
  */
@@ -15,13 +17,16 @@ import {Injectable} from "@angular/core";
 
 export class RoomFacade {
 
-  roomWebService;
-  private currentRoom:Room;
+  private roomWebService;
+  private userWebService;
+  private deckWebService;
+  private currentRoom: Room;
 
   constructor() {
     this.roomWebService = new RoomWebService();
+    this.userWebService = new UserWebService();
+    this.deckWebService = new DeckWebService();
   }
-
 
   // Calls callback with Room
   getRoom(roomID: string, callback) {
@@ -39,7 +44,18 @@ export class RoomFacade {
   }
 
   getUsersInRoom(roomID: string, callback) {
-
+    var that = this;
+    this.roomWebService.getUsersInRoom(roomID, function (ids) {
+      that.userWebService.getUsersByIDList(ids, function (listOfUsers) {
+        callback(listOfUsers.sort(function (a, b) {
+          var keyA = a.username;
+          var keyB = b.username;
+          if(keyA < keyB) return -1;
+          if(keyA > keyB) return 1;
+          return 0;
+        }));
+      });
+    });
   }
 
   // TODO: Extend functionality for 1+ deck
@@ -48,11 +64,11 @@ export class RoomFacade {
     var facade = this;
     if (password) {
       this.roomWebService.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
-        callback(facade.createRoomObject(roomID, name, user, isLocked, password))
+        facade.createRoomObject(callback, roomID, name, user, isLocked, password);
       }, password);
     } else {
       this.roomWebService.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
-        callback(facade.createRoomObject(roomID, name, user, isLocked))
+        facade.createRoomObject(callback, roomID, name, user, isLocked, undefined);
       });
     }
   }
@@ -79,28 +95,35 @@ export class RoomFacade {
     });
   }
 
-  private createRoomObject(roomID: string, name: string, user: User, isLocked: boolean, password?: string): Room {
-    var ds = new DeckWebService();
+  private createRoomObject(callback, roomID: string, name: string, user: User, isLocked: boolean, password?: string) {
     var decks = [];
-    var deckID = '-KdfzixNq1S7IF_LGlCj';
+    var deckStrings = ['-KdfzixNq1S7IF_LGlCj'];
     var deckPromise: Promise<void>;
-    var deck = ds.getDeckFromCache(deckID); // TODO: extend functionality for 1+ deck
-
-    if (deck == undefined) {
-      deckPromise = new Promise(function (resolve, reject) {
-        ds.getDeck(deckID, d => {
-          resolve(d)
-        });
-      }).then(function (result) {
-        decks.push(result);
-      })
-    } else {
-      decks.push(deck);
-    }
+    var that = this;
+    deckPromise = new Promise(function (resolve, reject) {
+      that.deckWebService.getDecksByIDList(deckStrings, d => {
+        resolve(d)
+      });
+    }).then(function (result) {
+      decks = result as Deck[];
+    });
 
     var users = [];
     users.push(user);
-    return new Room(decks, isLocked, name, 3, roomID, users, password);
+
+    // wait for all promises to come back
+    Promise.all([deckPromise]).then(function(result) {
+      callback(new Room(decks, isLocked, name, 3, roomID, users, password));
+    });
+  }
+
+  private hasUser(userID: string): boolean {
+    for (var i=0; i < this.currentRoom.users.length; i++) {
+      if (this.currentRoom.users[i].id === userID) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

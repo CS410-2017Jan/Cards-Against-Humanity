@@ -9,8 +9,9 @@ export class User {
   username: string;
   id: string;
   email: string;
+  score: number;
 
-  constructor(username: string, id?: string, email?: string) {
+  constructor(username: string, id?: string, email?: string, score?: number) {
     this.username = username;
 
     if (id) {
@@ -23,6 +24,12 @@ export class User {
       this.email = email;
     } else {
       this.id = '';
+    }
+
+    if(score){
+      this.score = score;
+    } else {
+      this.score = 0
     }
 
   }

@@ -172,6 +172,27 @@ export class RoomWebService {
     xmlHttp.send(null);
   }
 
+  // Gets the users in a room specified by ID and returns a list of ID's
+  getUsersInRoom(id: string, callback: (p: String[]) => void){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if GET is successful
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        try {
+          // return
+          callback(JSON.parse(xmlHttp.responseText));
+        } catch (ex) {
+          console.log(ex.message)
+          console.log("Failed to get room or users" + id);
+        }
+      } else if (xmlHttp.readyState == 4) {
+        console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + id + "/users.json", true); // true for asynchronous
+    xmlHttp.send(null);
+  }
+
   // Gets all rooms and calls the callback on the returned JSON string
   getAllRooms(callback: (any) => void) {
 
@@ -205,7 +226,7 @@ export class RoomWebService {
   }
 
   // Creates a room with an optional password, and add the user who sent this to the room
-  createRoom(name: string, decks: Array<string>, userID: string, callback: (id: string)=> void, password ?: string) {
+  createRoom(name: string, decks: Array<string>, userID: string, callback: (id: string)=> void, password ?: string, size ?: number) {
     // check if we are authenticated
 
     var ws = new UserWebService();
@@ -219,6 +240,7 @@ export class RoomWebService {
       }
       var hasPassword = !(password == undefined);
 
+
       // Set up data to be posted
       var data = {};
       data["isLocked"] = hasPassword;
@@ -226,7 +248,13 @@ export class RoomWebService {
       data["decks"] = decks;
       data["password"] = password;
       data["users"] = [userID];
-      data["size"] = 3;
+      // default size to 3
+      if (size == undefined){
+        data["size"] = 3;
+      }
+      else{
+        data["size"] = size;
+      }
 
       // Get it ready to send
       var xmlHttp = new XMLHttpRequest();
@@ -268,59 +296,34 @@ export class RoomWebService {
       var decks = [];
       var dws = new DeckWebService();
       var deckPromise: Promise<void>;
-      var neededWeb = false;
-      //console.log("Decks")
-      for (let deckID of deckStrings) {
-        // Try loading from cache
-        var deck = dws.getDeckFromCache(deckID);
-        if (true) {
-          // We have a problem- get the deck from the server
-          neededWeb = true;
-          deckPromise = new Promise(function (resolve, reject) {
-            dws.getDeck(deckID, d => {
-              resolve(d)
-            });
-          }).then(function (result) {
-            decks.push(result);
-          })
-        } else {
-          // Deck was in cache
-          //decks.push(deck);
-        }
-      }
+      
+      deckPromise = new Promise(function (resolve, reject) {
+        dws.getDecksByIDList(deckStrings, d => {
+          resolve(d)
+        });
+      }).then(function (result) {
+        decks = result as Deck[];
+      })
+
+
 
       var users = [];
       var uws = new UserWebService();
       var userPromise: Promise<void>;
-      //console.log("users")
-      for (let userID of userStrings) {
-        // Try loading from cache
-        var user = uws.getUserFromCache(userID);
-        if (user == undefined) {
-          // We have a problem- get the user from the server
-          neededWeb = true;
-          userPromise = new Promise(function (resolve, reject) {
-            uws.getUser(userID, u => {
-              resolve(u)
-            });
-          }).then(function (result) {
-            users.push(result);
-          })
-        } else {
-          // User was in cache
-          users.push(user);
-        }
-      }
-      //console.log("good")
-      //console.log("Needed web- " + neededWeb);
-      // if we needed an async call, wait and then call the callback (hacky)
-      if (neededWeb) {
-        window.setTimeout(function () {
-          callback(new Room(decks, isLocked, name, size, roomID, users, password))
-        }, 3000);
-      } else { // if we didn't have to, call the callback
-        callback(new Room(decks, isLocked, name, size, roomID, users, password));
-      }
+      
+      userPromise = new Promise(function (resolve, reject) {
+
+        uws.getUsersByIDList(userStrings, u => {
+          resolve(u)
+        });
+      }).then(function (result) {
+        users = result as User[];
+      });
+
+      // wait for all promises to come back
+      Promise.all([userPromise, deckPromise]).then(function(result){
+        callback(new Room(decks, isLocked, name, size, roomID, users, password))
+      })
     } catch (e) {
       console.log("Could not parse room");
       console.log(e.message);

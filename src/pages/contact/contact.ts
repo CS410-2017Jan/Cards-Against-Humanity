@@ -54,7 +54,12 @@ export class ContactPage {
 
   getUser(id){
     var ws = new UserWebService();
-    ws.getUser(id, (p) => p.print());
+    ws.getUser(id, console.log);
+  }
+
+  incScore(id){
+    var ws = new UserWebService();
+    ws.addScore(id,1, console.log);
   }
 
   printUsers(users){
@@ -71,6 +76,10 @@ export class ContactPage {
   getRoom(id:string){
     var ws = new RoomWebService();
     ws.getRoom(id, function(r){console.log(r)});
+  }
+  getUsersInRoom(id: string){
+    var ws = new RoomWebService();
+    ws.getUsersInRoom(id, function(r){console.log(r)});
   }
   getRooms(){
     var ws = new RoomWebService();

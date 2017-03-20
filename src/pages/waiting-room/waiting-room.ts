@@ -40,28 +40,18 @@ export class WaitingRoomPage {
   //Updates the list of users in the room
   updateUserList() {
     var that = this;
-
-    this.roomCtrl.getRoom(this.room.id, function (r) {
-      var tempArray: Array<User> = [];
-
-      for (var user of r.users) {
-        var tempUser = new User(user.username, user.id, user.email);
-        tempArray.push(tempUser);
-      }
-      console.log('Original list of users: ', that.shownUsers);
-      that.shownUsers = tempArray;
-      that.room = r;
-
-      if (that.room.isRoomReady() == false) {
+    this.roomCtrl.getUsersInRoom(this.room.id, function (result) {
+      that.shownUsers = result;
+      if (result.length == that.room.size) {
+        that.roomCtrl.getRoom(that.room.id, function (result) {
+          that.room = result;
+          that.joinGame();
+        });
+      } else {
         setTimeout(that.updateUserList(), 5000);
       }
-      else {
-        that.joinGame();
-      }
-      console.log('List of users updated: ', that.shownUsers);
     });
   }
-
 
   // sets the appropriate params and navigates to the GamePage
   joinGame() {
@@ -71,22 +61,6 @@ export class WaitingRoomPage {
     this.navCtrl.push(GamePage, {
       username: userName,
       room: this.room
-    });
-  }
-
-
-  updateUserListNew() {
-    var that = this;
-    this.roomCtrl.getUsersInRoom(this.room.id, function (result) {
-      that.shownUsers = result;
-      if (result.size == that.room.size) {
-        that.roomCtrl.getRoom(that.room.id, function (result) {
-          that.room = result;
-          that.joinGame();
-        });
-      } else {
-        setTimeout(that.updateUserListNew(), 5000);
-      }
     });
   }
 

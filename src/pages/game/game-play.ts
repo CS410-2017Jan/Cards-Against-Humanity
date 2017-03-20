@@ -135,6 +135,7 @@ export class GamePlay {
         console.log('ERROR: this.deck.drawWhiteCard returned false');
       }
     }
+
     // start new round
     var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));  // TODO: is null necessary?
     this.handleEvent({message:newRoundMsg});
@@ -244,7 +245,10 @@ export class GamePlay {
   // ======================================================================
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
     console.log(pubnubEvent);
+
+    var gameStarted = false;
     var pubnubMsg = JSON.parse(pubnubEvent.message);
+
     // check if the received msg adhers to our PubNubMsg Class
     if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
       var content = JSON.parse(pubnubMsg.content);
@@ -277,7 +281,14 @@ export class GamePlay {
       case 'START_GAME':
         console.log('case: START_GAME');
         // http://imgur.com/a/38VII
-        GamePlay.startGame();
+
+        if(!gameStarted) {
+          // only start the game once
+          gameStarted = true;
+          GamePlay.startGame();
+        } else {
+          console.log('ERROR: told to START_GAME, but game already started?');
+        }
         break;
 
       case 'PLAY_WHITE_CARD':

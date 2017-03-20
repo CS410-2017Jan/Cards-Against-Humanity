@@ -135,7 +135,7 @@ export class ContactPage {
   }
   isRoomReadyUsingFacade(roomID: string) {
     var facade = new RoomFacade();
-    facade.isRoomReady(roomID, console.log);
+    //facade.isRoomReady(roomID, console.log);
   }
 
   // Authentication test

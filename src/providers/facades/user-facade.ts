@@ -36,8 +36,8 @@ export class UserFacade {
   logInUser(email:string, password:string, callback) {
 
     var that = this;
-    this.userWebService.logInUser(email, password, function(us){
-      if (us == error) {
+    this.userWebService.logInUser(email, password, function(us) {
+      if (us == undefined) {
         callback(false);
       } else {
         that.userProfile = us;

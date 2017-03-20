@@ -105,9 +105,28 @@ export class RoomFacade {
     return room.password == password;
   }
 
-  // Calls get Room and returns true if the room is at capacity
-  isRoomReady(roomID, callback) {
+  // Calls callback with true when the room is at capacity
+  isRoomReady(callback) {
+    var that = this;
+    var originalNumUsers = this.currentRoom.users.length;
+    this.getUsersInRoom(this.currentRoom.id, function (userIDs) {
 
+      if (userIDs.length != originalNumUsers) {
+        for (var userID in userIDs) {
+          if (!that.hasUser(userID)) {
+            that.userWebService.getUsersByIDList([userID], function (userArr) {
+              that.currentRoom.users.push(userArr[0]);
+            });
+          }
+        }
+      }
+
+      if (userIDs.length == that.currentRoom.size) {
+        callback(true);
+      } else {
+        setTimeout(that.isRoomReady(callback), 5000);
+      }
+    });
   }
 
   private createRoomObject(callback, roomID: string, name: string, user: User, isLocked: boolean, password?: string) {

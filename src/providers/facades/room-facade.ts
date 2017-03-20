@@ -113,7 +113,8 @@ export class RoomFacade {
 
     // wait for all promises to come back
     Promise.all([deckPromise]).then(function(result) {
-      callback(new Room(decks, isLocked, name, 3, roomID, users, password));
+      that.currentRoom = new Room(decks, isLocked, name, 3, roomID, users, password);
+      callback(that.currentRoom);
     });
   }
 

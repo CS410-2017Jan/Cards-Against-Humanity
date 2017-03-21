@@ -1,18 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
 import {
-  AlertController,
-  App,
-  FabContainer,
-  ItemSliding,
   List,
-  ModalController,
   NavController,
-  NavParams,
-  LoadingController
+  NavParams
 } from 'ionic-angular';
 import {RoomFacade} from '../../providers/facades/room-facade';
 import {GamePage} from '../../pages/game/game.ts';
-import {User} from "../../data-classes/user"; //Remove when removing updateUserList()
 import {UserFacade} from "../../providers/facades/user-facade";
 
 

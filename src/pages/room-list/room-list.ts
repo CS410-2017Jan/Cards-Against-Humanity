@@ -121,6 +121,7 @@ export class RoomListPage {
 
   //Passing the room object as a navparm into the waitingroompage
   goToWaitingRoom(room: Room) {
+    this.isJoinModalOpen = false;
     console.log('goToWaitingRoom(): ', room);
     this.navCtrl.push(WaitingRoomPage, room);
   }

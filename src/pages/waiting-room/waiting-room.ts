@@ -30,6 +30,11 @@ export class WaitingRoomPage {
     this.updateUserList();
   }
 
+  //Runs when the page has finished leaving and is no longer the active page.
+  ionViewDidLeave(){
+  this.leaveRoom();
+  }
+
   //Updates the list of users in the room
   updateUserList() {
     var that = this;
@@ -55,6 +60,12 @@ export class WaitingRoomPage {
       username: userName,
       room: this.room
     });
+  }
+
+  leaveRoom(){
+    console.log('Leave Room: 1', this.room);
+    this.roomCtrl.removeUser(this.room,this.userCtrl.getLoggedInUser(),function(m){});
+    console.log('Leave Room: 2', this.room);
   }
 
 }

@@ -95,7 +95,7 @@ export class RoomFacade {
   // Calls callback with updated Room after user leaves
   removeUser(room: Room, user: User, callback) {
     var that = this;
-    this.roomWebService.removeUser(this.currentRoom, user.id, function (result) {
+    this.roomWebService.leaveRoom(user.id,room.id,function (result) {
       var newUsers = that.currentRoom.users.filter(function(u) {
         return u.id == user.id;
       });

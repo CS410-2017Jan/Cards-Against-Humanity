@@ -35,6 +35,11 @@ export class RoomFacade {
     })
   }
 
+  // Returns the current room object
+  getCurrentRoom(): Room {
+    return this.currentRoom;
+  }
+
   // Calls callback with Array<Room>
   getRooms(callback) {
     console.log('getRooms()');
@@ -47,13 +52,17 @@ export class RoomFacade {
     var that = this;
     this.roomWebService.getUsersInRoom(roomID, function (ids) {
       that.userWebService.getUsersByIDList(ids, function (listOfUsers) {
-        callback(listOfUsers.sort(function (a, b) {
+
+        var sortedUsers = listOfUsers.sort(function (a, b) {
           var keyA = a.username;
           var keyB = b.username;
           if(keyA < keyB) return -1;
           if(keyA > keyB) return 1;
           return 0;
-        }));
+        });
+
+        that.currentRoom.users = sortedUsers;
+        callback(that.currentRoom.users);
       });
     });
   }
@@ -74,13 +83,25 @@ export class RoomFacade {
   }
 
   // Calls callback with updated Room after user is added
-  joinRoom(room: Room, userID: string, callback: any) {
-    room.addUser(userID, callback);
+  joinRoom(room: Room, user: User, callback: any) {
+    var that = this;
+    this.currentRoom = room;
+    this.roomWebService.joinRoom(user.id, this.currentRoom.id, function (result) {
+      that.currentRoom.users.push(user);
+      callback(that.currentRoom);
+    });
   }
 
   // Calls callback with updated Room after user leaves
-  removeUser(room: Room, userID: string, callback) {
-    room.removeUser(userID, callback);
+  removeUser(room: Room, user: User, callback) {
+    var that = this;
+    this.roomWebService.removeUser(this.currentRoom, user.id, function (result) {
+      var newUsers = that.currentRoom.users.filter(function(u) {
+        return u.id == user.id;
+      });
+      that.currentRoom.users = newUsers;
+      callback(that.currentRoom);
+    });
   }
 
   // Returns true if supplied password is correct
@@ -88,10 +109,27 @@ export class RoomFacade {
     return room.password == password;
   }
 
-  // Calls get Room and returns true if the room is at capacity
-  isRoomReady(roomID, callback) {
-    this.getRoom(roomID, function (room: Room) {
-      callback(room.isRoomReady());
+  // Calls callback with true when the room is at capacity
+  isRoomReady(callback) {
+    var that = this;
+    var originalNumUsers = this.currentRoom.users.length;
+    this.getUsersInRoom(this.currentRoom.id, function (userIDs) {
+
+      if (userIDs.length != originalNumUsers) {
+        for (var userID in userIDs) {
+          if (!that.hasUser(userID)) {
+            that.userWebService.getUsersByIDList([userID], function (userArr) {
+              that.currentRoom.users.push(userArr[0]);
+            });
+          }
+        }
+      }
+
+      if (userIDs.length == that.currentRoom.size) {
+        callback(true);
+      } else {
+        setTimeout(that.isRoomReady(callback), 5000);
+      }
     });
   }
 
@@ -113,7 +151,8 @@ export class RoomFacade {
 
     // wait for all promises to come back
     Promise.all([deckPromise]).then(function(result) {
-      callback(new Room(decks, isLocked, name, 3, roomID, users, password));
+      that.currentRoom = new Room(decks, isLocked, name, 3, roomID, users, password);
+      callback(that.currentRoom);
     });
   }
 

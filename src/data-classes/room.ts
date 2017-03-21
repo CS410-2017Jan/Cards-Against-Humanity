@@ -50,62 +50,6 @@ export class Room {
     this.roomWebService = new RoomWebService();
   }
 
-  // Add user to room in DB
-  // Updates list of users in Room object
-  // Returns true if addition was successful
-  addUser(userID: string, fn) {
-    var Room = this;
-    this.roomWebService.joinRoom(userID, this.id, function (d) {
-      fn(Room.updateUserList(d))
-    });
-  }
-
-  // Removes user from room in DB
-  // Updates list of users in Room object
-  // Returns true if removal was successful
-  removeUser(userID: string, callback) {
-    var Room = this;
-    this.roomWebService.leaveRoom(userID, this.id, function (d) {
-      callback(Room.updateUserList(d))
-    });
-  }
-
-  private updateUserList(userIDStrings): boolean {
-    console.log(userIDStrings);
-    if (userIDStrings.toLowerCase().indexOf('error') < 0) {
-      var tempUsers = [];
-      var uws = new UserWebService();
-      var userPromise: Promise<void>;
-
-      var userIDs = JSON.parse(userIDStrings);
-      for (let userID of userIDs) {
-        var user = uws.getUserFromCache(userID);
-
-        // TODO: This was a quick fix. CHANGE
-        if (true) {
-          userPromise = new Promise(function (resolve, reject) {
-            uws.getUser(userID, u => {
-              resolve(u)
-            });
-          }).then(function (result) {
-            tempUsers.push(result);
-          });
-        }
-        // else {
-        //   tempUsers.push(user);
-        // }
-      }
-      this.users = tempUsers;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  isRoomReady(): boolean {
-    return this.users.length == this.size
-  }
-
   // Prints information about the user to the console
   print() {
     console.log('ID: ' + this.id + ' Decks: ' + this.decks + ' Users: ' + this.users +

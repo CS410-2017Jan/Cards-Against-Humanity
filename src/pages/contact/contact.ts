@@ -123,7 +123,7 @@ export class ContactPage {
     var tempArr = [];
     tempArr.push(tempDeck);
     var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
-    facade.joinRoom(room, userID, function(response){alert(response);});
+    //facade.joinRoom(room, userID, function(response){alert(response);});
   }
   leaveRoomUsingFacade(userID: string){
     var facade = new RoomFacade();
@@ -131,11 +131,11 @@ export class ContactPage {
     var tempArr = [];
     tempArr.push(tempDeck);
     var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
-    facade.removeUser(room, userID, console.log);
+    //facade.removeUser(room, userID, console.log);
   }
   isRoomReadyUsingFacade(roomID: string) {
     var facade = new RoomFacade();
-    facade.isRoomReady(roomID, console.log);
+    //facade.isRoomReady(roomID, console.log);
   }
 
   // Authentication test

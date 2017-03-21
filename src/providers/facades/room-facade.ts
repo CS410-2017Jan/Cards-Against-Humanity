@@ -109,30 +109,6 @@ export class RoomFacade {
     return room.password == password;
   }
 
-  // Calls callback with true when the room is at capacity
-  isRoomReady(callback) {
-    var that = this;
-    var originalNumUsers = this.currentRoom.users.length;
-    this.getUsersInRoom(this.currentRoom.id, function (userIDs) {
-
-      if (userIDs.length != originalNumUsers) {
-        for (var userID in userIDs) {
-          if (!that.hasUser(userID)) {
-            that.userWebService.getUsersByIDList([userID], function (userArr) {
-              that.currentRoom.users.push(userArr[0]);
-            });
-          }
-        }
-      }
-
-      if (userIDs.length == that.currentRoom.size) {
-        callback(true);
-      } else {
-        setTimeout(that.isRoomReady(callback), 5000);
-      }
-    });
-  }
-
   private createRoomObject(callback, roomID: string, name: string, user: User, isLocked: boolean, password?: string) {
     var decks = [];
     var deckStrings = ['-KdfzixNq1S7IF_LGlCj'];
@@ -154,15 +130,6 @@ export class RoomFacade {
       that.currentRoom = new Room(decks, isLocked, name, 3, roomID, users, password);
       callback(that.currentRoom);
     });
-  }
-
-  private hasUser(userID: string): boolean {
-    for (var i=0; i < this.currentRoom.users.length; i++) {
-      if (this.currentRoom.users[i].id === userID) {
-        return true;
-      }
-    }
-    return false;
   }
 
 }

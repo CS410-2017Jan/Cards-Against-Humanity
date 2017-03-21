@@ -52,13 +52,17 @@ export class RoomFacade {
     var that = this;
     this.roomWebService.getUsersInRoom(roomID, function (ids) {
       that.userWebService.getUsersByIDList(ids, function (listOfUsers) {
-        callback(listOfUsers.sort(function (a, b) {
+
+        var sortedUsers = listOfUsers.sort(function (a, b) {
           var keyA = a.username;
           var keyB = b.username;
           if(keyA < keyB) return -1;
           if(keyA > keyB) return 1;
           return 0;
-        }));
+        });
+
+        that.currentRoom.users = sortedUsers;
+        callback(that.currentRoom.users);
       });
     });
   }

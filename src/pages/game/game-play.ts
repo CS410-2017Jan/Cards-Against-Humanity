@@ -32,6 +32,7 @@ export class GamePlay {
   deck: Deck;                     // The Deck object associated with this specific game
   players: Array<Player>;         // Array of players currently in the game
   hand: Array<Card>;              // Array of cards
+  gameStarted: boolean;
   roundNumber: number;            // Current round number
   judge: Player;                  // Current judge username
   blackCard: Card;                // Current black card for round
@@ -59,6 +60,7 @@ export class GamePlay {
 
     this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
+    this.gameStarted = false;
     this.roundNumber = 0;
     this.continueCounter = 0;
     this.hand = [];
@@ -246,7 +248,6 @@ export class GamePlay {
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
     console.log(pubnubEvent);
 
-    var gameStarted = false;
     var pubnubMsg = JSON.parse(pubnubEvent.message);
 
     // check if the received msg adhers to our PubNubMsg Class
@@ -280,11 +281,11 @@ export class GamePlay {
 
       case 'START_GAME':
         console.log('case: START_GAME');
-        // http://imgur.com/a/38VII
-
-        if(!gameStarted) {
+        if(!this.gameStarted) {
           // only start the game once
-          gameStarted = true;
+          this.gameStarted = true;
+
+          // http://imgur.com/a/38VII
           GamePlay.startGame();
         } else {
           console.log('ERROR: told to START_GAME, but game already started?');

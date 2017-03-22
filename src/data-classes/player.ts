@@ -36,6 +36,14 @@ export class Player extends User {
     for (let user of users) {
       players.push(new Player(user.username, user.id));
     }
+
+    // sort players alphabetically
+    players.sort(function(a: Player, b: Player) {
+      if(a.username < b.username) return -1;
+      if(a.username > b.username) return 1;
+      return 0;
+    });
+
     return players;
   }
 }

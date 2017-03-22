@@ -10,8 +10,9 @@ export class User {
   id: string;
   email: string;
   score: number;
+  base64Image: string;
 
-  constructor(username: string, id?: string, email?: string, score?: number) {
+  constructor(username: string, id?: string, email?: string, score?: number, base64Image?: string) {
     this.username = username;
 
     if (id) {
@@ -30,6 +31,12 @@ export class User {
       this.score = score;
     } else {
       this.score = 0
+    }
+
+    if(base64Image){
+      this.base64Image = base64Image;
+    } else{
+      this.base64Image = "";
     }
 
   }

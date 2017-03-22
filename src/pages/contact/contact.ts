@@ -62,6 +62,11 @@ export class ContactPage {
     ws.addScore(id,1, console.log);
   }
 
+  getPic(id){
+    var ws = new UserWebService();
+    ws.getProfilePicture(id,console.log);
+  }
+
   printUsers(users){
     for (let p of users ){
       p.print();

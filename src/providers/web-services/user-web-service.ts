@@ -61,7 +61,12 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          var user = new User(JSONArray.username, id, JSONArray.email, JSONArray.score);
+          // check if we have the image
+          var base64Image = "";
+          if(JSONArray.image){
+            base64Image = JSONArray.image.base64;
+          }
+          var user = new User(JSONArray.username, id, JSONArray.email, JSONArray.score, base64Image);
           // Add this user to the cache since we have them
           var ws = new UserWebService();
           ws.addUserToCache(user);
@@ -121,6 +126,58 @@ export class UserWebService {
     });
   }
 
+  // Adds a profile picture to the specified user
+  addProfilePicture(userID: string, base64Image: string, callback: (b: boolean)=> void){
+    // Set up data to be posted
+    var data = base64Image;
+
+
+    // Get it ready to send
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+
+    // Stuff to do if PUT is successful
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      try {
+        // We should be done, call true as it succeeded
+          callback(true);
+        } catch (ex) {
+          console.log("Failed to update image");
+          callback(false);
+        }
+      } else if (xmlHttp.readyState == 4) {
+        console.log("Error: " + xmlHttp.status)
+        callback(false);
+      }
+    };
+    xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + userID + "/image/url.json", true);
+    xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    // Send the request
+    xmlHttp.send(JSON.stringify(data));
+  }
+
+  // Gets the profile picture for a user in base64 format and calls the callback on it
+  // Will be an empty string if no profile picture has been defined
+  getProfilePicture(id, callback: (s: String) => void) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if GET is successful
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        try {
+          // call the callback
+          callback(xmlHttp.responseText);
+        } catch (ex) {
+          console.log("User or profile picture not found");
+        }
+      } else if (xmlHttp.readyState == 4) {
+        console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + "/image/url.json", true);
+    xmlHttp.send(null);
+
+  }
+
   // Gets a user from the cache, returning undefined if not found
   getUserFromCache(id): User {
     var JSONObject;
@@ -171,7 +228,7 @@ export class UserWebService {
         var data = {};
         data["username"] = username;
         data["password"] = password;
-        data["image"] = {'url': ''};
+        data["image"] = {'base64': ''};
         data["email"] = email;
         data["score"] = 0;
 

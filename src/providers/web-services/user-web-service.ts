@@ -129,7 +129,7 @@ export class UserWebService {
   // Adds a profile picture to the specified user
   addProfilePicture(userID: string, base64Image: string, callback: (b: boolean)=> void){
     // Set up data to be posted
-    var data = base64Image;
+    var data = base64Image.replace(/\s/g, '');;
 
 
     // Get it ready to send
@@ -141,6 +141,7 @@ export class UserWebService {
       try {
         // We should be done, call true as it succeeded
           callback(true);
+          return;
         } catch (ex) {
           console.log("Failed to update image");
           callback(false);

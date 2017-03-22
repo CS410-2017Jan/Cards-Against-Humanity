@@ -48,12 +48,9 @@ module.exports = function(config) {
     },
 
     coverageIstanbulReporter: {
-      reports: {
-        html: 'coverage',
-        lcovonly: './coverage/coverage.lcov'
-      }
+      reporters: [ 'html', 'lcovonly' ],
+      fixWebpackSourcePaths: true
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

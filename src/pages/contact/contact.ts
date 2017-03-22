@@ -123,20 +123,27 @@ export class ContactPage {
     console.log('Expect false :' + facade.attemptRoomPassword(room, 'FAIL'));
   }
   joinRoomUsingFacade(userID: string){
+    var us = new UserWebService();
     var facade = new RoomFacade();
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
     var tempArr = [];
     tempArr.push(tempDeck);
-    var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
-    //facade.joinRoom(room, userID, function(response){alert(response);});
+    us.getUser(userID, function (user) {
+      var room = new Room(tempArr, false, 'Facade Test Room', 3, '-KfonD5i6TnHb0yFDfYz', undefined, undefined);
+      facade.joinRoom(room, user, function(response){alert(response);});
+    });
   }
   leaveRoomUsingFacade(userID: string){
     var facade = new RoomFacade();
     var tempDeck = new Deck('-KdfzixNq1S7IF_LGlCj');
     var tempArr = [];
     tempArr.push(tempDeck);
-    var room = new Room(tempArr, true, 'Facade Test Room', 3, '-KdlnkB7A6azsa9PldEI', undefined, 'TESTING123');
-    //facade.removeUser(room, userID, console.log);
+
+    var us = new UserWebService();
+    us.getUser(userID, function (user) {
+      var room = new Room(tempArr, false, 'Facade Test Room', 3, '-KfonD5i6TnHb0yFDfYz', undefined, undefined);
+      facade.removeUser(room, user, console.log);
+    });
   }
   isRoomReadyUsingFacade(roomID: string) {
     var facade = new RoomFacade();

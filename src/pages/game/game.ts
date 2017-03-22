@@ -62,6 +62,13 @@ export class GamePage implements IGameRenderer {
     this.PLAYERS = Player.createPlayersFromUsers(room.users);
 
     var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
+
+    // console.log('players:');
+    // console.log(this.PLAYERS);
+    // console.log('playerIndex:' + playerIndex);
+    // console.log('this.USERNAME: ' + this.USERNAME);
+    // console.log('room.size: ' + room.size);
+
     this.DECK = room.decks[0].deal(room.size)[playerIndex];
   }
 

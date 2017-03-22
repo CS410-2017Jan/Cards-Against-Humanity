@@ -35,6 +35,15 @@ export class ContactPage {
     ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) { Contact.setUpGame(username, d, players, channel); });
   }
 
+  setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
+    var room = new Room([deck], false, 'testRoom', 3, channel, players);
+
+    this.navCtrl.push(GamePage, {
+      username: username,
+      room: room
+    });
+  }
+
   // Test Method for deckWebService
   getDeck(id: string) {
     var ws = new DeckWebService();
@@ -155,12 +164,5 @@ export class ContactPage {
     ws.getUserByEmail(email, console.log);
   }
 
-  setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
-    var room = new Room([deck], false, 'testRoom', 3, channel, players, 'password');
 
-      this.navCtrl.push(GamePage, {
-        username: username,
-        room: room
-      });
-    }
 }

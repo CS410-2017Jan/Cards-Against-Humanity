@@ -14,8 +14,8 @@ import { Card } from '../../data-classes/card';
 import { Player } from '../../data-classes/player';
 import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
-import {HomePage} from '../home/home';
-import {TabsPage} from '../tabs/tabs';
+import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-game', // should this be game-page?
@@ -61,11 +61,15 @@ export class GamePage implements IGameRenderer {
 
     this.PLAYERS = Player.createPlayersFromUsers(room.users);
 
-    // below 3 lines are a hack to deal with bad deck typing from the cache
-    // var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
-    // var tempDeck = new Deck(room.decks[0].deckID, room.decks[0].blackCards, room.decks[0].whiteCards);
-    // this.DECK = tempDeck.deal(room.size)[playerIndex];
-    this.DECK = room.decks[0];
+    var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
+
+    console.log('players:');
+    console.log(this.PLAYERS);
+    console.log('playerIndex:' + playerIndex);
+    console.log('this.USERNAME: ' + this.USERNAME);
+    console.log('room.size: ' + room.size);
+
+    this.DECK = room.decks[0].deal(room.size)[playerIndex];
   }
 
   ionViewDidLoad() {
@@ -80,6 +84,9 @@ export class GamePage implements IGameRenderer {
       this.DECK,
       this
     );
+
+    // render scores of 0
+    this.renderScores(Tools.clone(this.PLAYERS));
 
     this.GamePlay.signalJoined();
   }

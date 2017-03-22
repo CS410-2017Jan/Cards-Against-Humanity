@@ -32,6 +32,7 @@ export class GamePlay {
   deck: Deck;                     // The Deck object associated with this specific game
   players: Array<Player>;         // Array of players currently in the game
   hand: Array<Card>;              // Array of cards
+  gameStarted: boolean;
   roundNumber: number;            // Current round number
   judge: Player;                  // Current judge username
   blackCard: Card;                // Current black card for round
@@ -59,6 +60,7 @@ export class GamePlay {
 
     this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
+    this.gameStarted = false;
     this.roundNumber = 0;
     this.continueCounter = 0;
     this.hand = [];
@@ -135,6 +137,7 @@ export class GamePlay {
         console.log('ERROR: this.deck.drawWhiteCard returned false');
       }
     }
+
     // start new round
     var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));  // TODO: is null necessary?
     this.handleEvent({message:newRoundMsg});
@@ -244,7 +247,9 @@ export class GamePlay {
   // ======================================================================
   handleEvent(pubnubEvent) { // the parameter type is set by pubnub
     console.log(pubnubEvent);
+
     var pubnubMsg = JSON.parse(pubnubEvent.message);
+
     // check if the received msg adhers to our PubNubMsg Class
     if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
       var content = JSON.parse(pubnubMsg.content);
@@ -276,8 +281,15 @@ export class GamePlay {
 
       case 'START_GAME':
         console.log('case: START_GAME');
-        // http://imgur.com/a/38VII
-        GamePlay.startGame();
+        if(!this.gameStarted) {
+          // only start the game once
+          this.gameStarted = true;
+
+          // http://imgur.com/a/38VII
+          GamePlay.startGame();
+        } else {
+          console.log('ERROR: told to START_GAME, but game already started?');
+        }
         break;
 
       case 'PLAY_WHITE_CARD':

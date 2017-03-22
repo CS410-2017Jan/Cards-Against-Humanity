@@ -42,3 +42,21 @@ $ ionic serve
 **Notes:**
 * If your emulator is slow, change it to a Nexus 5.
 * If the Intel hardware acceleration (HAXM) isn't working or maybe the emulator isn't running, try checking your BIOS to see if Intel Virtualization Technology is enabled.
+
+**How to update node for testing:**
+* Delete your "node_modules" folder
+* Run these commands, if ionic builds runs without issue, you've updated your modules correctly!
+```
+$ ionic state reset
+$ npm clear cache
+$ ionic state restore
+$ npm install
+$ npm update
+$ ionic build
+```
+
+**How to run tests:**
+* To run the testing page (will open chrome window): ```$ npm test ```
+* To generate code coverage (will generate coverage folder): ```$ npm run-script testcov ```
+* To view coverage report, open the location of Cards-Against-Humanity/coverage/lcov-report/index.html on your computer in any browser.
+* For example: /Users/ScottHenry/WebstormProjects/Cards-Against-Humanity/coverage/lcov-report/index.html

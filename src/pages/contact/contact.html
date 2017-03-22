@@ -17,30 +17,30 @@
 
   <button ion-button (click)="getDeck('-KdfzixNq1S7IF_LGlCj')">Test Get Deck</button>
 
-  <button ion-button (click)="addUser('Jacob','123456', 'jacob@hotmail.ca')">Test Add User</button>
+  <!--<button ion-button (click)="addUser('Jacob','123456', 'jacob@hotmail.ca')">Test Add User</button>-->
 
   <button ion-button (click)="getUsers()">Test Get Users</button>
-  <button ion-button (click)="getUser('-KfZws6DpzgYDPuvvxi-')">Test Get User by ID</button>
-  <button ion-button (click)="incScore('-KfZws6DpzgYDPuvvxi-')">Test Update Score for User</button>
+  <button ion-button (click)="getUser('-KfoDlgOu1JHgkqsdAT0')">Test Get User by ID</button>
+  <button ion-button (click)="incScore('-KfoDlgOu1JHgkqsdAT0')">Test Update Score for User</button>
   <button ion-button (click)="getPic('-KfoDlgOu1JHgkqsdAT0')">Test Get Profile Picture</button>
   <br />
 
-  <button ion-button (click)="addRoom('test room', ['-KdfzixNq1S7IF_LGlCj'],'-KdgbXUFsXcpHoqAOO1X', 'cpsc410rocks')">Test Add Room</button>
-  <button ion-button (click)="getRoom('-KfZjc6gaXHvH3Zwjy0s')">Test Get Room</button>
-  <button ion-button (click)="getUsersInRoom('-KfZjc6gaXHvH3Zwjy0s')">Test Get Users In Room</button>
+  <button ion-button (click)="addRoom('test room', ['-KdfzixNq1S7IF_LGlCj'],'-KfoDlgOu1JHgkqsdAT0', 'cpsc410rocks')">Test Add Room</button>
+  <button ion-button (click)="getRoom('-KfoLPPlDyLyLl_Qt8hm')">Test Get Room</button>
+  <button ion-button (click)="getUsersInRoom('-KfoLPPlDyLyLl_Qt8hm')">Test Get Users In Room</button>
   <button ion-button (click)="getRooms()">Test Get All Rooms</button>
-  <button ion-button (click)="joinRoom('-KfZjc6gaXHvH3Zwjy0s','-KdlnkB7A6azsa9PldEI')">Test Join Room</button>
-  <button ion-button (click)="leaveRoom('-KfZjc6gaXHvH3Zwjy0s','-KdlnkB7A6azsa9PldEI')">Test Leave Room</button>
+  <button ion-button (click)="joinRoom('-KfoDlgOu1JHgkqsdAT0','-KfoLPPlDyLyLl_Qt8hm')">Test Join Room</button>
+  <button ion-button (click)="leaveRoom('-KfoDlgOu1JHgkqsdAT0','-KfoLPPlDyLyLl_Qt8hm')">Test Leave Room</button>
 
   <button ion-button (click)="addRoomUsingFacade('FACADE Test Room', ['-KdfzixNq1S7IF_LGlCj'],true, 'TESTING123')">Test Add Room Using Room Facade</button>
-  <button ion-button (click)="getRoomUsingFacade('-KdlnkB7A6azsa9PldEI')">Test Get Room Using Room Facade</button>
+  <button ion-button (click)="getRoomUsingFacade('-KfoLPPlDyLyLl_Qt8hm')">Test Get Room Using Room Facade</button>
   <button ion-button (click)="getRoomsUsingFacade()">Test Get Rooms Using Room Facade</button>
-  <button ion-button (click)="joinRoomUsingFacade('-KdgbXUFsXcpHoqAOO1X')">Test Join Room Using Room Facade</button>
-  <button ion-button (click)="leaveRoomUsingFacade('-KdgbXUFsXcpHoqAOO1X')">Test Leave Room Using Room Facade</button>
-  <button ion-button (click)="isRoomReadyUsingFacade('-KdlnkB7A6azsa9PldEI')">Is Room Ready Using Room Facade</button>
+  <button ion-button (click)="joinRoomUsingFacade('-KfoLPPlDyLyLl_Qt8hm')">Test Join Room Using Room Facade</button>
+  <button ion-button (click)="leaveRoomUsingFacade('-KfoLPPlDyLyLl_Qt8hm')">Test Leave Room Using Room Facade</button>
+  <button ion-button (click)="isRoomReadyUsingFacade('-KfoLPPlDyLyLl_Qt8hm')">Is Room Ready Using Room Facade</button>
   <br />
-  <button ion-button (click)="testAuth('green@gmail.com', 'green123')">Test Authenticate User</button>
-  <button ion-button (click)="testFBE('green@gmail.com')">Test Find User By Email</button>
+  <button ion-button (click)="testAuth('image@gmail.com', 'testtest')">Test Authenticate User</button>
+  <button ion-button (click)="testFBE('image@gmail.com')">Test Find User By Email</button>
   <button ion-button (click)="attemptPasswordUsingFacade()">Attempt Password Using Room Facade</button>
 
 </ion-content>

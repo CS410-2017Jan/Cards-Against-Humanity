@@ -150,7 +150,7 @@ export class UserWebService {
         callback(false);
       }
     };
-    xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + userID + "/image/url.json", true);
+    xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + userID + "/image/base64.json", true);
     xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     // Send the request
     xmlHttp.send(JSON.stringify(data));
@@ -173,7 +173,7 @@ export class UserWebService {
         console.log("Error: " + xmlHttp.status)
       }
     };
-    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + "/image/url.json", true);
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + "/image/base64.json", true);
     xmlHttp.send(null);
 
   }

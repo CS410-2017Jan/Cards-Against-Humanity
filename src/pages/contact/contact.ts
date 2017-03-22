@@ -30,13 +30,15 @@ export class ContactPage {
     players[0] = new Player('Player1', 'P1');
     players[1] = new Player('Player2', 'P2');
     players[2] = new Player('Player3', 'P3');
+    players[3] = new Player('Player4', 'P4');
+    players[4] = new Player('Player5', 'P5');
 
     var ws = new DeckWebService();
     ws.getDeck('-KdfzixNq1S7IF_LGlCj', function(d) { Contact.setUpGame(username, d, players, channel); });
   }
 
   setUpGame(username: string, deck: Deck, players: Array<Player>, channel: string) {
-    var room = new Room([deck], false, 'testRoom', 3, channel, players);
+    var room = new Room([deck], false, 'testRoom', players.length, channel, players);
 
     this.navCtrl.push(GamePage, {
       username: username,

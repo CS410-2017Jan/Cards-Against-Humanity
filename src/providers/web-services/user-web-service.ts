@@ -419,6 +419,18 @@ export class UserWebService {
     });
   }
 
+  // Updates the password for the given user and calls the callback with true if it succeeded
+  updatePassword(userID: String, newPass: String, callback: (b: boolean) => void){
+    // STUB
+    callback(true);
+  }
+
+  // Updates the email for the given user and calls the callback with true if it succeeded
+  updateEmail(userID: String, newEmail: String, callback: (b: boolean) => void){
+    // STUB
+    callback(true);
+  }
+
   // Calls get user for each provided ID and returns a list of said users
   getUsersByIDList(ids: String[], callback: (u: User[])=> void){
     var users = [];

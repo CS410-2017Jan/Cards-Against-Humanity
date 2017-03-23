@@ -173,7 +173,7 @@ export class RoomWebService {
   }
 
   // Gets the users in a room specified by ID and returns a list of ID's
-  getUsersInRoom(id: string, callback: (p: String[]) => void){
+  getUsersInRoom(id: string, callback: (p: String[]) => void) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
       // Stuff to do if GET is successful
@@ -249,10 +249,10 @@ export class RoomWebService {
       data["password"] = password;
       data["users"] = [userID];
       // default size to 3
-      if (size == undefined){
+      if (size == undefined) {
         data["size"] = 3;
       }
-      else{
+      else {
         data["size"] = size;
       }
 
@@ -296,21 +296,19 @@ export class RoomWebService {
       var decks = [];
       var dws = new DeckWebService();
       var deckPromise: Promise<void>;
-      
+
       deckPromise = new Promise(function (resolve, reject) {
         dws.getDecksByIDList(deckStrings, d => {
           resolve(d)
         });
       }).then(function (result) {
         decks = result as Deck[];
-      })
-
-
+      });
 
       var users = [];
       var uws = new UserWebService();
       var userPromise: Promise<void>;
-      
+
       userPromise = new Promise(function (resolve, reject) {
 
         uws.getUsersByIDList(userStrings, u => {
@@ -321,7 +319,7 @@ export class RoomWebService {
       });
 
       // wait for all promises to come back
-      Promise.all([userPromise, deckPromise]).then(function(result){
+      Promise.all([userPromise, deckPromise]).then(function (result) {
         callback(new Room(decks, isLocked, name, size, roomID, users, password))
       })
     } catch (e) {

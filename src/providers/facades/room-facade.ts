@@ -56,8 +56,8 @@ export class RoomFacade {
         var sortedUsers = listOfUsers.sort(function (a, b) {
           var keyA = a.username;
           var keyB = b.username;
-          if(keyA < keyB) return -1;
-          if(keyA > keyB) return 1;
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
           return 0;
         });
 
@@ -69,16 +69,16 @@ export class RoomFacade {
 
   // TODO: Extend functionality for 1+ deck
   // Calls callback with Room
-  createRoom(name: string, user: User, isLocked: boolean, callback, password?: string) {
+  createRoom(name: string, user: User, isLocked: boolean, callback, size: number, password?: string) {
     var facade = this;
     if (password) {
       this.roomWebService.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
-        facade.createRoomObject(callback, roomID, name, user, isLocked, password);
-      }, password);
+        facade.createRoomObject(callback, roomID, name, user, isLocked, size, password);
+      }, password, size);
     } else {
       this.roomWebService.createRoom(name, ['-KdfzixNq1S7IF_LGlCj'], user.id, function (roomID) {
-        facade.createRoomObject(callback, roomID, name, user, isLocked, undefined);
-      });
+        facade.createRoomObject(callback, roomID, name, user, isLocked, size, undefined);
+      }, undefined, size);
     }
   }
 
@@ -95,8 +95,8 @@ export class RoomFacade {
   // Calls callback with updated Room after user leaves
   removeUser(room: Room, user: User, callback) {
     var that = this;
-    this.roomWebService.leaveRoom(user.id,room.id,function (result) {
-      var newUsers = that.currentRoom.users.filter(function(u) {
+    this.roomWebService.leaveRoom(user.id, room.id, function (result) {
+      var newUsers = that.currentRoom.users.filter(function (u) {
         return u.id == user.id;
       });
       that.currentRoom.users = newUsers;
@@ -109,7 +109,7 @@ export class RoomFacade {
     return room.password == password;
   }
 
-  private createRoomObject(callback, roomID: string, name: string, user: User, isLocked: boolean, password?: string) {
+  private createRoomObject(callback, roomID: string, name: string, user: User, isLocked: boolean, size: number, password?: string) {
     var decks = [];
     var deckStrings = ['-KdfzixNq1S7IF_LGlCj'];
     var deckPromise: Promise<void>;
@@ -126,8 +126,8 @@ export class RoomFacade {
     users.push(user);
 
     // wait for all promises to come back
-    Promise.all([deckPromise]).then(function(result) {
-      that.currentRoom = new Room(decks, isLocked, name, 3, roomID, users, password);
+    Promise.all([deckPromise]).then(function (result) {
+      that.currentRoom = new Room(decks, isLocked, name, size, roomID, users, password);
       callback(that.currentRoom);
     });
   }

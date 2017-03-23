@@ -31,7 +31,7 @@ export class WaitingRoomPage {
   }
 
   //Runs when the page has finished leaving and is no longer the active page.
-  ionViewDidLeave(){
+  ionViewDidLeave() {
     //this.leaveRoom();
   }
 
@@ -62,7 +62,7 @@ export class WaitingRoomPage {
     });
   }
 
-  leaveRoom(){
+  leaveRoom() {
     console.log('Leave Room: 1', this.room);
     this.roomCtrl.removeUser(this.room,this.userCtrl.getLoggedInUser(),function(m){});
     console.log('Leave Room: 2', this.room);

@@ -114,7 +114,7 @@ export class ContactPage {
   addRoomUsingFacade(name: string, userID: string, isLocked: boolean, password?: string){
     var player = new Player('Scott', userID);
     var facade = new RoomFacade();
-    facade.createRoom(name, player, isLocked, function(r){console.log('Added Room: ' + JSON.stringify(r))}, password);
+    facade.createRoom(name, player, isLocked, function(r){console.log('Added Room: ' + JSON.stringify(r))}, 3, password);
   }
   getRoomUsingFacade(id:string){
     var facade = new RoomFacade();

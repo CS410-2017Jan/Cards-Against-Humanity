@@ -20,7 +20,7 @@ import {UserFacade} from "../../providers/facades/user-facade";
   templateUrl: 'room-setup.html'
 })
 export class RoomSetupPage {
-  room: {rname?: string, users?: string, rtype?: boolean, rpassword?: string} = {};
+  room: {rname?: string, rsize?: number, rtype?: boolean, rpassword?: string} = {};
   submitted = false;
 
   constructor(public navCtrl: NavController,
@@ -37,18 +37,13 @@ export class RoomSetupPage {
     this.submitted = true;
 
     console.log("Name: ", this.room.rname,
-      "# of Users: ", this.room.users,
+      "# of Users: ", this.room.rsize,
       "Type: ", this.room.rtype,
       "Password: ", this.room.rpassword
     );
 
     if (form.valid) {
       console.log("valid form!")
-    }
-
-    if (form.valid) {
-      console.log("Valid form!")
-
     }
 
     var loggedInUser = this.userCtrl.getLoggedInUser();
@@ -58,10 +53,9 @@ export class RoomSetupPage {
     var that = this;
 
     this.userCtrl.getUserByEmail(userEmail, function (u: User) {
-      (that.roomCtrl.createRoom(that.room.rname, u, that.room.rtype,
-        function (r: Room) {
-          that.goToWaitingRoom(r)
-        }, that.room.rpassword))
+      that.roomCtrl.createRoom(that.room.rname, u, that.room.rtype, function (r: Room) {
+        that.goToWaitingRoom(r);
+      }, that.room.rsize, that.room.rpassword);
     });
 
   }

@@ -37,7 +37,7 @@ export class GamePlay {
   roundNumber: number;            // Current round number
   judge: Player;                  // Current judge username
   blackCard: Card;                // Current black card for round
-  continueCounter: number;        // Current number of players ready to continue
+  continueRequests: Array<string>; // Current player usernames of players ready to continue
   cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
   joinedCount: number;
 
@@ -64,7 +64,7 @@ export class GamePlay {
     this.gameStarted = false;
     this.collectingCards = false;
     this.roundNumber = 0;
-    this.continueCounter = 0;
+    this.continueRequests = [];
     this.hand = [];
     this.cardsSubmitted = [];
     this.joinedCount = 0;
@@ -360,9 +360,9 @@ export class GamePlay {
 
       case 'REQUEST_CONTINUE':
         console.log('case: REQUEST_CONTINUE');
-        GamePlay.continueCounter++;
-        if (GamePlay.continueCounter >= GamePlay.players.length) {
-          GamePlay.continueCounter = 0;
+        GamePlay.continueRequests.push(content);
+        if (GamePlay.continueRequests.length >= GamePlay.players.length) {
+          GamePlay.continueRequests = [];
           GameRenderer.clearContinueButton();
 
           // start new round
@@ -407,16 +407,21 @@ export class GamePlay {
           GameRenderer.clearCardsSubmitted();
           GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
 
-          // start new round
-          var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
-          this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+          // if the round hasn't ended
+          if (GamePlay.collectingCards) {
+            // start new round
+            var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+            this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+          } else {
+            console.log('judge left after the round was over but before a new round started.');
+          }
         } else if (this.collectingCards) {
           // we were waiting on card submissions when a player left
 
           // check if they left before/after submitting a card
           var potCardSubmission = CardSubmission.getCardSubmissionByUsername(this.cardsSubmitted, absentPlayerUsername);
 
-          if ( potCardSubmission != undefined) {
+          if (potCardSubmission != undefined) {
             console.log('Player: ' + absentPlayerUsername + ' left a round in progress AFTER submitting a card');
             // they submitted a card:
             GamePlay.cardsSubmitted = CardSubmission.removeCardSubmission(GamePlay.cardsSubmitted, potCardSubmission);
@@ -427,6 +432,14 @@ export class GamePlay {
             // they didn't submit a card:
           }
           GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
+        }
+
+        // we were NOT waiting on card submissions. But we were counting continue...
+        // either a judge or a player left...
+        if (!this.collectingCards) {
+          if (GamePlay.continueRequests.indexOf(absentPlayerUsername) >= 0) {
+            GamePlay.continueRequests.splice(GamePlay.continueRequests.indexOf(absentPlayerUsername), 1)
+          }
         }
 
         // purge the player who left

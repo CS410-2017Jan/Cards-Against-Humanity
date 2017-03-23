@@ -122,7 +122,7 @@ export class ContactPage {
   }
   getRoomsUsingFacade(){
     var facade = new RoomFacade();
-    facade.getRooms(function(r){console.log('Got Rooms: ' + JSON.stringify(r))});
+    facade.getOpenRooms(function(r){console.log('Got Rooms: ' + JSON.stringify(r))});
   }
   attemptPasswordUsingFacade() {
     var facade = new RoomFacade();

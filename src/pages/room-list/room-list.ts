@@ -49,7 +49,7 @@ export class RoomListPage {
   updateList() {
     this.roomList && this.roomList.closeSlidingItems();
     var that = this;
-    this.roomCtrl.getRooms(function (rooms) {
+    this.roomCtrl.getOpenRooms(function (rooms) {
       that.listOfRooms = rooms;
     });
 

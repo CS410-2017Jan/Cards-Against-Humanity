@@ -161,7 +161,7 @@ export class RoomWebService {
             callback(r)
           });
         } catch (ex) {
-          console.log(ex.message)
+          console.log(ex.message);
           console.log("Failed to get room " + id);
         }
       } else if (xmlHttp.readyState == 4) {
@@ -182,7 +182,7 @@ export class RoomWebService {
           // return
           callback(JSON.parse(xmlHttp.responseText));
         } catch (ex) {
-          console.log(ex.message)
+          console.log(ex.message);
           console.log("Failed to get room or users" + id);
         }
       } else if (xmlHttp.readyState == 4) {
@@ -210,11 +210,14 @@ export class RoomWebService {
             toAdd.name = JSONArray[r].name;
             toAdd.isLocked = JSONArray[r].isLocked;
             toAdd.password = JSONArray[r].password;
+            toAdd.size = JSONArray[r].size;
+            toAdd.users = JSONArray[r].users;
             toAdd.id = r;
             returnList.push(toAdd);
           }
           callback(returnList);
         } catch (ex) {
+          console.log(ex);
           console.log("Failed to get deck");
         }
       } else if (xmlHttp.readyState == 4) {

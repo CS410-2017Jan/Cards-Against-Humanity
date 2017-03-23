@@ -41,11 +41,22 @@ export class RoomFacade {
   }
 
   // Calls callback with Array<Room>
-  getRooms(callback) {
+  private getRooms(callback) {
     console.log('getRooms()');
     this.roomWebService.getAllRooms(function (rooms) {
       callback(rooms)
     });
+  }
+
+  // Calls callback with Array<Fake room objects> if it is not at capacity
+  getOpenRooms(callback) {
+    this.getRooms(function (listOfRooms) {
+      var openRooms = listOfRooms.filter(function(room) {
+        console.log('Filtering room: ', room);
+        return room.users.length != room.size;
+      });
+      callback(openRooms);
+    })
   }
 
   getUsersInRoom(roomID: string, callback) {

@@ -52,9 +52,6 @@ export interface IGameRenderer {
   // renders text instructions
   renderText(str: string);
 
-  // renders the Game Over state
-  renderGameOver(players: Array<Player>);
-
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting white cards
   renderWhiteCardTimer(seconds: number);
@@ -68,4 +65,10 @@ export interface IGameRenderer {
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
   renderBlackCardTimer(seconds: number);
+
+  // called when the game ends because there are not enough players
+  renderNotEnoughPlayers(players: Array<Player>);
+
+  // renders the Game Over state
+  renderGameOver(players: Array<Player>);
 }

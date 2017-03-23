@@ -121,19 +121,13 @@ export class GamePlay {
   // Functions below
   // ======================================================================
 
-  // sends PubNubMsg indicating that this player is ready to start the game
-  // signalReady() {
-  //   var msg = new PubNubMsg('READY', 'null');  // TODO: is null necessary?
-  //   this.sendMsg(msg);
-  // }
-
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
   startGame() {
     console.log('start new game');
 
-    var timer = setTimeout(alert, 5000, 'test...');
+    var timer = setTimeout(alert, 5000, 'started 5 seconds ago...');
 
-    // deal out (NUM_CARDS_HAND - 1) cards then starts new round
+    // deal out (NUM_CARDS_HAND - 1) cards
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
       var card = this.deck.drawWhiteCard();
       if (card) {
@@ -142,7 +136,6 @@ export class GamePlay {
         console.log('ERROR: this.deck.drawWhiteCard returned false');
       }
     }
-
 
     // start new round
     var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));  // TODO: is null necessary?
@@ -263,6 +256,9 @@ export class GamePlay {
     }
   }
 
+  // acts as a minor buffer between pubnubEvents and our own PubNubMsg types.
+  // This allows us to simulate handling an event that wasn't received on the message channel
+  // by simply calling handlePubNubMsg directly.
   handleEvent(pubnubEvent) {
     console.log(pubnubEvent);
 
@@ -276,10 +272,6 @@ export class GamePlay {
   // This splendid switch makes moves and renders results
   // ======================================================================
   handlePubNubMsg(pubnubMsg: PubNubMsg) { // the parameter type is set by pubnub
-    // console.log(pubnubEvent);
-    //
-    // var pubnubMsg = JSON.parse(pubnubEvent.message);
-
     // check if the received msg adhers to our PubNubMsg Class
     if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
       var content = JSON.parse(pubnubMsg.content);
@@ -300,7 +292,7 @@ export class GamePlay {
 
         if (this.joinedCount == GamePlay.players.length) {
           console.log('sendMsg START_GAME');
-          GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // TODO: is null necessary?
+          GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // null necessary
         } else if (this.joinedCount > GamePlay.players.length) {
           console.log('this.joinedCount >= this.PLAYERS.length!');
         }
@@ -369,7 +361,6 @@ export class GamePlay {
       case 'REQUEST_CONTINUE':
         console.log('case: REQUEST_CONTINUE');
         GamePlay.continueCounter++;
-        // TODO: what if someone exits the game and doesn't click 'continue'?
         if (GamePlay.continueCounter >= GamePlay.players.length) {
           GamePlay.continueCounter = 0;
           GameRenderer.clearContinueButton();
@@ -410,18 +401,15 @@ export class GamePlay {
       case 'PLAYER_LEFT':
         var absentPlayerUsername = content;
 
-        if (this.judge.username == absentPlayerUsername) {  // if the judge
+        if (this.judge.username == absentPlayerUsername) {  // if the judge left
           console.log('judge left');
-          // TODO: fix/address this assumption:
-          // assuming the judge who left didn't pick a winning card...
-
           GamePlay.cardsSubmitted = [];
           GameRenderer.clearCardsSubmitted();
           GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
 
           // start new round
           var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
-          this.handleEvent({message: newRoundMsg});
+          this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
         } else if (this.collectingCards) {
           // we were waiting on card submissions when a player left
 
@@ -437,21 +425,11 @@ export class GamePlay {
           } else {
             console.log('Player: ' + absentPlayerUsername + ' left a round in progress BEFORE submitting a card');
             // they didn't submit a card:
-
-            // // we'll submit an 'abstain_white' card on their behalf (only we see this)
-            // var abstainCard = new Card('abstain_white', '');
-            // var abstainCardSub = new CardSubmission(absentPlayerUsername, abstainCard);
-            // var abstainMsg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(abstainCardSub));
-
-            // this.handlePubNubMsg(abstainMsg);
           }
           GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
         }
 
-
-
         // purge the player who left
-        console.log('purging playerIndex: ' + Player.getPlayerIndex(this.players, absentPlayerUsername));
         this.players.splice(Player.getPlayerIndex(this.players, absentPlayerUsername), 1);
         console.log('post purge players:');
         console.log(this.players);
@@ -461,8 +439,7 @@ export class GamePlay {
         if ((this.players.length) >= 3) {
           console.log('we CAN continue without him!');
           if(this.collectingCards) { // if we were collection cards
-            // check if round continues:
-            // if all cards submitted
+            // check if all cards submitted
             if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for judge
               if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
                 GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
@@ -478,11 +455,8 @@ export class GamePlay {
 
         } else {  // not enough players to continue the game...
           console.log('we can NOT continue without him!');
-          alert('too few players. gg');
-          // check if game ended
-          GameRenderer.renderText(GamePlay.getLeadingPlayer().username + ' won the game!');
-          GameRenderer.renderGameOver(Tools.clone(GamePlay.players));
-
+          GameRenderer.renderText('Not enough players to continue the game...');
+          GameRenderer.renderNotEnoughPlayers(Tools.clone(GamePlay.players));
         }
         break;
 

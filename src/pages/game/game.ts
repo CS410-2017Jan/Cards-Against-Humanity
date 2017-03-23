@@ -243,7 +243,7 @@ export class GamePage implements IGameRenderer {
     this.presentToast(str);
   }
 
-  // TODO: STUB atm
+  // renders the game over results
   renderGameOver(players: Array<Player>) {
     let gameEndModal = this.modalCtrl.create(EndGameModalPage,{"players": this.players});
     gameEndModal.present();
@@ -251,24 +251,30 @@ export class GamePage implements IGameRenderer {
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting white cards
-  renderWhiteCardTimer(seconds: number) {
+  renderWhiteCardTimer(seconds: number) { // SCOTT
     console.log('TIMER: ' + seconds);
   }
 
   //clears the White Card submission timer
-  clearWhiteCardTimer() {
+  clearWhiteCardTimer() { // SCOTT
     console.log('CLEAR White Timer')
   }
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
-  renderBlackCardTimer(seconds: number) {
+  renderBlackCardTimer(seconds: number) { // SCOTT
     console.log('TIMER: ' + seconds);
   }
 
-  //clears the Black Card submission timer
-  clearBlackCardTimer() {
+  // clears the Black Card submission timer
+  clearBlackCardTimer() { // SCOTT
     console.log('CLEAR Black Timer')
+  }
+
+  // renders the end game when there are not enough players to continue playing
+  renderNotEnoughPlayers(players: Array<Player>) { // SCOTT
+    console.log('STUB: renderNotEnoughPLayers');
+    this.renderGameOver(players);
   }
 }
 

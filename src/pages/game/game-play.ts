@@ -34,6 +34,7 @@ export class GamePlay {
   hand: Array<Card>;              // Array of cards
   gameStarted: boolean;
   collectingCards: boolean;
+  ongoingRound: boolean;
   roundNumber: number;            // Current round number
   judge: Player;                  // Current judge username
   blackCard: Card;                // Current black card for round
@@ -63,6 +64,7 @@ export class GamePlay {
     this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
     this.gameStarted = false;
     this.collectingCards = false;
+    this.ongoingRound = false;
     this.roundNumber = 0;
     this.continueRequests = [];
     this.hand = [];
@@ -125,7 +127,7 @@ export class GamePlay {
   startGame() {
     console.log('start new game');
 
-    var timer = setTimeout(alert, 5000, 'started 5 seconds ago...');
+    //var timer = setTimeout(alert, 5000, 'started 5 seconds ago...');
 
     // deal out (NUM_CARDS_HAND - 1) cards
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
@@ -340,6 +342,7 @@ export class GamePlay {
 
       case 'PICK_WINNING_CARD':
         console.log('case: PICK_WINNING_CARD');
+        GamePlay.ongoingRound = false;
         var winningCardSubmission = content; // for readability
 
         GamePlay.updateScores(winningCardSubmission);
@@ -376,6 +379,7 @@ export class GamePlay {
       case 'NEW_ROUND':
         console.log('case: NEW_ROUND');
         this.collectingCards = true;
+        this.ongoingRound = true;
         GamePlay.roundNumber++;
         GamePlay.setNextJudge();
 
@@ -408,7 +412,7 @@ export class GamePlay {
           GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
 
           // if the round hasn't ended
-          if (GamePlay.collectingCards) {
+          if (GamePlay.ongoingRound) {
             // start new round
             var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
             this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()

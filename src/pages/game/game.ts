@@ -248,6 +248,28 @@ export class GamePage implements IGameRenderer {
     let gameEndModal = this.modalCtrl.create(EndGameModalPage,{"players": this.players});
     gameEndModal.present();
   }
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting white cards
+  renderWhiteCardTimer(seconds: number) {
+    console.log('TIMER: ' + seconds);
+  }
+
+  //clears the White Card submission timer
+  clearWhiteCardTimer() {
+    console.log('CLEAR White Timer')
+  }
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting black cards
+  renderBlackCardTimer(seconds: number) {
+    console.log('TIMER: ' + seconds);
+  }
+
+  //clears the Black Card submission timer
+  clearBlackCardTimer() {
+    console.log('CLEAR Black Timer')
+  }
 }
 
 

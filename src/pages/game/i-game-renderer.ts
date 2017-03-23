@@ -54,4 +54,18 @@ export interface IGameRenderer {
 
   // renders the Game Over state
   renderGameOver(players: Array<Player>);
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting white cards
+  renderWhiteCardTimer(seconds: number);
+
+  //clears the White Card submission timer
+  clearWhiteCardTimer();
+
+  //clears the Black Card submission timer
+  clearBlackCardTimer();
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting black cards
+  renderBlackCardTimer(seconds: number);
 }

@@ -130,6 +130,9 @@ export class GamePlay {
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
   startGame() {
     console.log('start new game');
+
+    var timer = setTimeout(alert, 5000, 'test...');
+
     // deal out (NUM_CARDS_HAND - 1) cards then starts new round
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
       var card = this.deck.drawWhiteCard();
@@ -139,6 +142,7 @@ export class GamePlay {
         console.log('ERROR: this.deck.drawWhiteCard returned false');
       }
     }
+
 
     // start new round
     var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));  // TODO: is null necessary?

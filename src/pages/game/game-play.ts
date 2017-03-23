@@ -451,6 +451,7 @@ export class GamePlay {
         this.players.splice(Player.getPlayerIndex(this.players, absentPlayerUsername), 1);
         console.log('post purge players:');
         console.log(this.players);
+        GameRenderer.renderScores(Tools.clone(GamePlay.players));
 
         // we need at least 3 players to play
         if ((this.players.length) >= 3) {
@@ -474,6 +475,10 @@ export class GamePlay {
         } else {  // not enough players to continue the game...
           console.log('we can NOT continue without him!');
           alert('too few players. gg');
+          // check if game ended
+          GameRenderer.renderText(GamePlay.getLeadingPlayer().username + ' won the game!');
+          GameRenderer.renderGameOver(Tools.clone(GamePlay.players));
+
         }
         break;
 

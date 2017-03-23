@@ -147,8 +147,6 @@ export class GamePlay {
   startGame() {
     console.log('start new game');
 
-    //var timer = setTimeout(alert, 5000, 'started 5 seconds ago...');
-
     // deal out (NUM_CARDS_HAND - 1) cards
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
       var card = this.deck.drawWhiteCard();
@@ -422,6 +420,7 @@ export class GamePlay {
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), true);
             GameRenderer.renderText('Pick a Winner');
 
+            GameRenderer.renderPickWinnerTimer(GamePlay.TIMER_DURATION_MS);
             this.pickWinnerTimer = setTimeout(function(){GamePlay.pickWinnerTimerExpire()}, GamePlay.TIMER_DURATION_MS);
           } else {
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), false);
@@ -519,6 +518,7 @@ export class GamePlay {
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
           GameRenderer.renderText('Pick a card to play');
 
+          GameRenderer.renderWhiteCardTimer(GamePlay.TIMER_DURATION_MS);
           this.whiteCardTimer = setTimeout(function(){GamePlay.whiteCardTimerExpire()}, GamePlay.TIMER_DURATION_MS);
         }
         break;

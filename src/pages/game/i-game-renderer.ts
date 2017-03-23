@@ -59,12 +59,12 @@ export interface IGameRenderer {
   //clears the White Card submission timer
   clearWhiteCardTimer();
 
-  //clears the Black Card submission timer
-  clearBlackCardTimer();
-
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
-  renderBlackCardTimer(seconds: number);
+  renderPickWinnerTimer(seconds: number);
+
+  //clears the Black Card submission timer
+  clearPickWinnerTimer();
 
   // called when the game ends because there are not enough players
   renderNotEnoughPlayers(players: Array<Player>);

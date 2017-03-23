@@ -475,7 +475,9 @@ export class GamePlay {
         } else {
           GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
           GameRenderer.renderContinueButton();
-          this.continueTimer = setTimeout(function(){GamePlay.continueTimerExpire()}, GamePlay.TIMER_DURATION_MS);
+
+          // TODO: START HERE. Enabling this line kinda really breaks it. Fix it.
+          // this.continueTimer = setTimeout(function(){GamePlay.continueTimerExpire()}, GamePlay.TIMER_DURATION_MS);
         }
         break;
 

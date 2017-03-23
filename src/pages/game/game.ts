@@ -38,6 +38,7 @@ export class GamePage implements IGameRenderer {
 
   GamePlay;      // A GamePlay singleton object
   ScoreModal;    // Instance of score modal
+  ViewCtrl;
 
   constructor(public navCtrl:NavController,
               public navParams:NavParams,
@@ -46,6 +47,10 @@ export class GamePage implements IGameRenderer {
               private toastCtrl:ToastController,
               public alertCtrl:AlertController,
               public modalCtrl:ModalController) {
+
+    //navCtrl.viewWillLeave.subscribe((value) => {console.log('viewWillLeave');}) =
+
+
 
     console.log('PARAMS: ');
     console.log(navParams);
@@ -89,6 +94,11 @@ export class GamePage implements IGameRenderer {
     this.renderScores(Tools.clone(this.PLAYERS));
 
     this.GamePlay.signalJoined();
+  }
+
+  ionViewWillLeave() {
+    console.log('=================================================ABOUT TO LEAVE');
+    this.GamePlay.signalLeaving();
   }
 
   // ======================================================================
@@ -151,6 +161,8 @@ export class GamePage implements IGameRenderer {
     console.log('STUB: renderContinueButton');
     this.continueButton = true;
 
+    var Game = this;
+
     let alert = this.alertCtrl.create({
       title: 'Ready to move on?',
       message: '',
@@ -159,14 +171,13 @@ export class GamePage implements IGameRenderer {
           text: 'Continue',
           handler: () => {
            console.log('Continue clicked');
+            Game.requestContinue();
           }
         }
       ]
     });
 
     alert.present();
-
-    this.requestContinue();
   }
 
   // falsifies the boolean which tells angular to clear the continue button
@@ -232,10 +243,38 @@ export class GamePage implements IGameRenderer {
     this.presentToast(str);
   }
 
-  // TODO: STUB atm
+  // renders the game over results
   renderGameOver(players: Array<Player>) {
     let gameEndModal = this.modalCtrl.create(EndGameModalPage,{"players": this.players});
     gameEndModal.present();
+  }
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting white cards
+  renderWhiteCardTimer(seconds: number) { // SCOTT
+    console.log('TIMER: ' + seconds);
+  }
+
+  //clears the White Card submission timer
+  clearWhiteCardTimer() { // SCOTT
+    console.log('CLEAR White Timer')
+  }
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting black cards
+  renderBlackCardTimer(seconds: number) { // SCOTT
+    console.log('TIMER: ' + seconds);
+  }
+
+  // clears the Black Card submission timer
+  clearBlackCardTimer() { // SCOTT
+    console.log('CLEAR Black Timer')
+  }
+
+  // renders the end game when there are not enough players to continue playing
+  renderNotEnoughPlayers(players: Array<Player>) { // SCOTT
+    console.log('STUB: renderNotEnoughPLayers');
+    this.renderGameOver(players);
   }
 }
 

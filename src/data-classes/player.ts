@@ -9,9 +9,10 @@ import {User} from './user';
 // ======================================================================
 export class Player extends User {
   score: number;
+  //base64Image: string;
 
-  constructor(username: string, id?: string) {
-    super(username, id);
+  constructor(username: string, id?: string, base64Image?: string) {
+    super(username, id, undefined, undefined, base64Image);
     this.score = 0;
   }
 
@@ -26,7 +27,8 @@ export class Player extends User {
     for (var i = 0; i < players.length; i++) {
       if (players[i].username == username) return i;
     }
-    console.log('ERROR: username not found in given players');
+    console.log('ERROR: username: ' + username + ' not found in given players: ');
+    console.log(players);
     return -1;
   }
 
@@ -34,7 +36,7 @@ export class Player extends User {
   static createPlayersFromUsers(users: Array<User>): Array<Player> {
     var players: Array<Player> = [];
     for (let user of users) {
-      players.push(new Player(user.username, user.id));
+      players.push(new Player(user.username, user.id, user.base64Image));
     }
 
     // sort players alphabetically

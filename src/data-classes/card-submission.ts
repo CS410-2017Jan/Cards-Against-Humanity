@@ -15,4 +15,24 @@ export class CardSubmission {
     this.username = username;
     this.card = card;
   }
+
+  // returns CardSubmission from given CardSubmissions corresponding to the given username
+  static getCardSubmissionByUsername(cardSubmissions: Array<CardSubmission>, username: string): CardSubmission {
+    var cardSubmission;
+    for (let potCardSubmission of cardSubmissions) {
+      if (potCardSubmission.username == username) cardSubmission = potCardSubmission;
+    }
+
+    return cardSubmission;
+  }
+
+  // removes given CardSubmission from given array of CardSubmissions
+  static removeCardSubmission(cardSubmissions: Array<CardSubmission>, cardSubmission: CardSubmission): Array<CardSubmission> {
+    var newCardSubmissions = [];
+    for (let potCardSubmission of cardSubmissions) {
+      if (potCardSubmission.username != cardSubmission.username) newCardSubmissions.push(potCardSubmission);
+    }
+
+    return newCardSubmissions;
+  }
 }

@@ -8,7 +8,8 @@ type MsgCodes = 'JOINED' |
                 'PLAY_BLACK_CARD' |
                 'PICK_WINNING_CARD' |
                 'REQUEST_CONTINUE' |
-                'NEW_ROUND';
+                'NEW_ROUND' |
+                'PLAYER_LEFT';
 
 // ======================================================================
 // This Class outlines the data structure/protocol of a PubNubMsg we use

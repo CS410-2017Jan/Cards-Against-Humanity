@@ -38,7 +38,7 @@ export class UserWebService {
           var JSONArray = JSON.parse(xmlHttp.responseText);
           var users: User[] = [];
           for (let id in JSONArray) {
-            users.push(new User(JSONArray[id].username, id, JSONArray[id].email));
+            users.push(new User(JSONArray[id].username, id, JSONArray[id].email, JSONArray[id].score));
           }
           // Got all of them, call the callback
           callback(users);
@@ -447,7 +447,7 @@ export class UserWebService {
           users.push(result);
         })
         promises.push(userPromise);
-    } 
+    }
 
     // Wait for all promises made to return
     if(promises.length == 0){

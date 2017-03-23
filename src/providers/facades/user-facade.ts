@@ -61,6 +61,15 @@ export class UserFacade {
     });
   }
 
+  // Calls callback with the users' new score
+  updateScore(deltaScore: number, callback) {
+    var that = this;
+    this.userWebService.addScore(this.userProfile.id, deltaScore, function (newScore: number) {
+      that.userProfile.score = newScore;
+      callback(newScore);
+    });
+  }
+
   //Returns a boolean, creates a local copy of user and stores it in the facade
   logInUser(email: string, password: string, callback) {
     var that = this;

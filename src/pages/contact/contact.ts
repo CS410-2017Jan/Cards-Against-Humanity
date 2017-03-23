@@ -11,6 +11,8 @@ import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
 import {Room} from '../../data-classes/room';
 import {RoomFacade} from '../../providers/facades/room-facade';
+import {LeaderboardFacade} from "../../providers/facades/leaderboard-facade";
+import {UserFacade} from "../../providers/facades/user-facade";
 
 
 @Component({
@@ -159,6 +161,16 @@ export class ContactPage {
   isRoomReadyUsingFacade(roomID: string) {
     var facade = new RoomFacade();
     //facade.isRoomReady(roomID, console.log);
+  }
+  getScoresUsingFacade() {
+    var facade = new LeaderboardFacade();
+    facade.getScores(function (response) {
+
+    });
+  }
+  updateScoreUsingFacade() {
+    var facade = new UserFacade();
+    //facade.updateScore(10, function (response) {});
   }
 
   // Authentication test

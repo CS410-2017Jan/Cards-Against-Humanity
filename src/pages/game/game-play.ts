@@ -48,6 +48,7 @@ export class GamePlay {
   timeoutCount: number;
   whiteCardTimer: number;
   pickWinnerTimer: number;
+  continueTimer: number;
   testMode: boolean;
 
   constructor(userCtrl: UserFacade,
@@ -211,6 +212,7 @@ export class GamePlay {
 
   // requests the game continues
   requestContinue() {
+    clearTimeout(this.continueTimer);
     console.log('REQUESTING CONTINUE: this.PLAYER_USERNAME: ' + this.PLAYER_USERNAME);
     var msg = new PubNubMsg('REQUEST_CONTINUE', JSON.stringify(this.PLAYER_USERNAME));
     this.sendMsg(msg);
@@ -274,6 +276,14 @@ export class GamePlay {
 
     this.timeoutCount++;
     this.checkTimeoutCounts();
+  }
+
+  // called when a timer expires for clicking the continue button
+  continueTimerExpire() {
+    this.GameRenderer.renderText('Moving on!');
+
+    this.GameRenderer.clearContinueButton();
+    this.requestContinue();
   }
 
   // checks if the player has timed out enough times in a row to be kicked!
@@ -466,6 +476,7 @@ export class GamePlay {
         } else {
           GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
           GameRenderer.renderContinueButton();
+          this.continueTimer = setTimeout(function(){GamePlay.continueTimerExpire()}, GamePlay.TIMER_DURATION_MS);
         }
         break;
 

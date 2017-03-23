@@ -18,7 +18,6 @@ import {PlatformMock} from "../mocks";
 import {NavMock} from "../mocks";
 import {RoomFacade} from "../providers/facades/room-facade";
 import {UserFacade} from "../providers/facades/user-facade";
-import {NavParamsMock} from "../mocks";
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;

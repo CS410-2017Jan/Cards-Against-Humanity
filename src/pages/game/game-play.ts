@@ -388,12 +388,16 @@ export class GamePlay {
           GameRenderer.requestPlayCard(GamePlay.deck.drawBlackCard());
           GameRenderer.renderText('Waiting for players to submit cards...');
         } else { // if I'm not the judge
-          var card = GamePlay.deck.drawWhiteCard();
-          if (card != false) {
-            GamePlay.hand.push(card);
-          } else {
-            console.log('ERROR: tried to draw a white card but received false');
+          if (GamePlay.hand.length < GamePlay.NUM_CARDS_HAND) {
+            // we might not need to draw another card. Eg. the judge leaves the game before we play a card.
+            var card = GamePlay.deck.drawWhiteCard();
+            if (card != false) {
+              GamePlay.hand.push(card);
+            } else {
+              console.log('ERROR: tried to draw a white card but received false');
+            }
           }
+
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
           GameRenderer.renderText('Pick a card to play');
         }

@@ -2,7 +2,7 @@
  * Created by jjxn on 2/19/2017.
  */
 
-type CardType = 'black' | 'white' | 'abstain_white' | 'abstain_black';
+type CardType = 'black' | 'white';
 
 // ======================================================================
 // This Class outlines the data structure of a Card

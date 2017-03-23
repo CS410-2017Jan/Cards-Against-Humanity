@@ -23,6 +23,8 @@ export class GamePlay {
   PLAYER_USERNAME: string;        // This player's name. Name does NOT change during gameplay
   NUM_CARDS_HAND: number;         // The number of cards per hand does NOT change during gameplay
   NUM_WINNING_POINTS: number;     // The number of points a player needs to win the game
+  TIMER_DURATION_MS: number;
+  MAX_TIMEOUTS_PERMITTED: number;
 
   // Object Singletons
   PubNub;                         // This client's pubnub object
@@ -41,6 +43,9 @@ export class GamePlay {
   continueRequests: Array<string>; // Current player usernames of players ready to continue
   cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
   joinedCount: number;
+  timeoutCount: number;
+  whiteCardTimer: number;
+  pickWinnerTimer: number;
 
   constructor(channel: string,
               subkey: string,
@@ -60,8 +65,10 @@ export class GamePlay {
     this.deck = deck;
     this.GameRenderer = gameRenderer;
 
-    this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
-    this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
+    this.NUM_CARDS_HAND = 5;         // TODO: move value to config file
+    this.NUM_WINNING_POINTS = 3;     // TODO: move value to config file
+    this.TIMER_DURATION_MS = 15000;  // TODO: move value to config file
+    this.MAX_TIMEOUTS_PERMITTED = 2; // TODO: move value to config file
     this.gameStarted = false;
     this.collectingCards = false;
     this.ongoingRound = false;
@@ -70,6 +77,7 @@ export class GamePlay {
     this.hand = [];
     this.cardsSubmitted = [];
     this.joinedCount = 0;
+    this.timeoutCount = 0;
 
     console.log('I am: ' + this.PLAYER_USERNAME);
 
@@ -160,6 +168,8 @@ export class GamePlay {
     console.log('playCard card:');
     console.log(card);
     if (card.type == 'white') {
+      this.timeoutCount = 0;
+      clearTimeout(this.whiteCardTimer);
       var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
       var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(cardSubmission));
       this.sendMsg(msg);
@@ -182,6 +192,8 @@ export class GamePlay {
 
   // submits given winning card over pubnub game channel
   pickWinningCard(cardSubmission: CardSubmission) {
+    this.timeoutCount = 0;
+    clearTimeout(this.pickWinnerTimer);
     var msg = new PubNubMsg('PICK_WINNING_CARD', JSON.stringify(cardSubmission));
     this.sendMsg(msg);
   }
@@ -224,6 +236,43 @@ export class GamePlay {
     return leader;
   }
 
+  // called when a timer expires for submitting a white card
+  whiteCardTimerExpire() {
+    this.GameRenderer.renderText('white card timer expired!');
+
+    this.GameRenderer.clearHand();
+
+    var abstainCard = new Card('white_abstain', '');
+    var abstainCardSubmission = new CardSubmission(this.PLAYER_USERNAME, abstainCard);
+    this.sendMsg(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(abstainCardSubmission)));
+
+    this.timeoutCount++;
+    this.checkTimeoutCounts();
+  }
+
+  // called when a timer expires for submitting a white card
+  pickWinnerTimerExpire() {
+    this.GameRenderer.renderText('black card timer expired!');
+
+    //this.GameRenderer.clearCardsSubmitted();
+
+    var abstainCard = new Card('black_abstain', '');
+    var abstainCardSubmission = new CardSubmission(this.PLAYER_USERNAME, abstainCard);
+    console.log(this);
+    this.sendMsg(new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(abstainCardSubmission)));
+
+    this.timeoutCount++;
+    this.checkTimeoutCounts();
+  }
+
+  // checks if the player has timed out enough times in a row to be kicked!
+  checkTimeoutCounts() {
+    if (this.timeoutCount > this.MAX_TIMEOUTS_PERMITTED) {
+      alert('STUB: you should be kicked');
+    }
+  }
+
+
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
     this.PubNub.publish({
@@ -240,12 +289,31 @@ export class GamePlay {
   // sends PubNub message indicating player has joined the game
   signalLeaving() {
     console.log('signalLeaving');
+    this.clearTimers();
     //this.sendMsg(new PubNubMsg('PLAYER_LEFT', JSON.stringify(this.PLAYER_USERNAME)));
 
     this.PubNub.unsubscribe({
       channels: [this.CHANNEL]
     });
   }
+
+  // cancels all timers
+  clearTimers() {
+    clearTimeout(this.whiteCardTimer);
+    clearTimeout(this.pickWinnerTimer);
+    console.log('cleared both timers');
+  }
+
+  purgeAbstains(cardSubmissions: Array<CardSubmission>): Array<CardSubmission> {
+    var newCardSubmissions = [];
+    for (let cardSubmission of cardSubmissions) {
+      if (!((cardSubmission.card.type == 'white_abstain') || (cardSubmission.card.type == 'black_abstain'))) {
+        newCardSubmissions.push(cardSubmission);
+      }
+    }
+
+    return newCardSubmissions;
+}
 
   // handles a PubNub presence event. Starts the game when enough players have joined.
   handlePresence(p) {
@@ -323,10 +391,12 @@ export class GamePlay {
         if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for the judge
           this.collectingCards = false;
           if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
-            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
+            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), true);
             GameRenderer.renderText('Pick a Winner');
+
+            this.pickWinnerTimer = setTimeout(function(){GamePlay.pickWinnerTimerExpire()}, GamePlay.TIMER_DURATION_MS);
           } else {
-            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
+            GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), false);
             GameRenderer.renderText('Waiting for judge to pick winner...');
           }
         }
@@ -335,9 +405,20 @@ export class GamePlay {
       case 'PLAY_BLACK_CARD':
         console.log('case: PLAY_BLACK_CARD');
         var blackCard = new Card(content.card.type, content.card.content); // cast/set as Card object
-        GamePlay.deck.discard(blackCard);
-        GamePlay.blackCard = blackCard;
-        GameRenderer.renderBlackCard(Tools.clone(blackCard));
+
+        if (blackCard.type != 'black_abstain') {
+          GamePlay.deck.discard(blackCard);
+          GamePlay.blackCard = blackCard;
+          GameRenderer.renderBlackCard(Tools.clone(blackCard));
+        } else {
+          GameRenderer.renderText('judge failed to pick card in time!');
+          GamePlay.cardsSubmitted = [];
+          GameRenderer.clearCardsSubmitted();
+
+          // start new round
+          var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+          this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+        }
         break;
 
       case 'PICK_WINNING_CARD':
@@ -399,6 +480,8 @@ export class GamePlay {
 
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
           GameRenderer.renderText('Pick a card to play');
+
+          this.whiteCardTimer = setTimeout(function(){GamePlay.whiteCardTimerExpire()}, GamePlay.TIMER_DURATION_MS);
         }
         break;
 

@@ -5,13 +5,13 @@ import { UserWebService } from '../../providers/web-services/user-web-service.ts
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: './home.html'
 })
 export class HomePage {
 
   options;
 
-  constructor(public navCtrl: NavController) {
+  constructor() {
   }
 
   static onSuccess() {

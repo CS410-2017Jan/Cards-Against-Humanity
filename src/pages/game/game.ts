@@ -192,7 +192,7 @@ export class GamePage implements IGameRenderer {
   }
 
   // not currently in use
-  clearContinueRequest() {
+  clearContinueRequest() {  // SCOTT: I don't think this works
     console.log('STUB: clearContinueRequest');
     //this.continueRequest = false;
   }
@@ -262,12 +262,12 @@ export class GamePage implements IGameRenderer {
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
-  renderBlackCardTimer(seconds: number) { // SCOTT
+  renderPickWinnerTimer(seconds: number) { // SCOTT
     console.log('TIMER: ' + seconds);
   }
 
   // clears the Black Card submission timer
-  clearBlackCardTimer() { // SCOTT
+  clearPickWinnerTimer() { // SCOTT
     console.log('CLEAR Black Timer')
   }
 

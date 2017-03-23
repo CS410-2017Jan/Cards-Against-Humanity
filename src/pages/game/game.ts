@@ -38,6 +38,7 @@ export class GamePage implements IGameRenderer {
 
   GamePlay;      // A GamePlay singleton object
   ScoreModal;    // Instance of score modal
+  ViewCtrl;
 
   constructor(public navCtrl:NavController,
               public navParams:NavParams,
@@ -46,6 +47,10 @@ export class GamePage implements IGameRenderer {
               private toastCtrl:ToastController,
               public alertCtrl:AlertController,
               public modalCtrl:ModalController) {
+
+    //navCtrl.viewWillLeave.subscribe((value) => {console.log('viewWillLeave');}) =
+
+
 
     console.log('PARAMS: ');
     console.log(navParams);
@@ -89,6 +94,11 @@ export class GamePage implements IGameRenderer {
     this.renderScores(Tools.clone(this.PLAYERS));
 
     this.GamePlay.signalJoined();
+  }
+
+  ionViewWillLeave() {
+    console.log('=================================================ABOUT TO LEAVE');
+    this.GamePlay.signalLeaving();
   }
 
   // ======================================================================

@@ -233,30 +233,52 @@ export class GamePlay {
   // sends PubNub message indicating player has joined the game
   signalJoined() {
     console.log('signalJoined');
-    this.sendMsg(new PubNubMsg('JOINED', JSON.stringify(this.PLAYER_USERNAME)));
+    //this.sendMsg(new PubNubMsg('JOINED', JSON.stringify(this.PLAYER_USERNAME)));
+  }
+
+  // sends PubNub message indicating player has joined the game
+  signalLeaving() {
+    console.log('signalLeaving');
+    //this.sendMsg(new PubNubMsg('PLAYER_LEFT', JSON.stringify(this.PLAYER_USERNAME)));
+
+    this.PubNub.unsubscribe({
+      channels: [this.CHANNEL]
+    });
   }
 
   // handles a PubNub presence event. Starts the game when enough players have joined.
   handlePresence(p) {
     console.log(p);
+    if (p.action == 'join') {
+      this.handlePubNubMsg(new PubNubMsg('JOINED', JSON.stringify(p.uuid)));
+    } else if (p.action == 'leave') {
+      console.log('detected ' + p.uuid + ' left!');
+      this.handlePubNubMsg(new PubNubMsg('PLAYER_LEFT', JSON.stringify(p.uuid)));
+    }
   }
+
+  handleEvent(pubnubEvent) {
+    console.log(pubnubEvent);
+
+    var pubnubMsg = JSON.parse(pubnubEvent.message);
+    this.handlePubNubMsg(pubnubMsg)
+  }
+
 
   // ======================================================================
   // The Game Logic Event Handler
   // This splendid switch makes moves and renders results
   // ======================================================================
-  handleEvent(pubnubEvent) { // the parameter type is set by pubnub
-    console.log(pubnubEvent);
-
-    var pubnubMsg = JSON.parse(pubnubEvent.message);
+  handlePubNubMsg(pubnubMsg: PubNubMsg) { // the parameter type is set by pubnub
+    // console.log(pubnubEvent);
+    //
+    // var pubnubMsg = JSON.parse(pubnubEvent.message);
 
     // check if the received msg adhers to our PubNubMsg Class
     if (pubnubMsg.hasOwnProperty('code') && pubnubMsg.hasOwnProperty('content')) {
       var content = JSON.parse(pubnubMsg.content);
     } else {
       alert("receieved a PubNub message that I don't recognize. See console.");
-      console.log('pubnubEvent:');
-      console.log(pubnubEvent);
       console.log('pubnubMsg:');
       console.log(pubnubMsg);
       pubnubMsg.code = 'default';
@@ -288,7 +310,7 @@ export class GamePlay {
           // http://imgur.com/a/38VII
           GamePlay.startGame();
         } else {
-          console.log('ERROR: told to START_GAME, but game already started?');
+          console.log('told to START_GAME, but game already started. Must have concurrent player joins. ');
         }
         break;
 
@@ -369,6 +391,52 @@ export class GamePlay {
           }
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
           GameRenderer.renderText('Pick a card to play');
+        }
+        break;
+
+      case 'PLAYER_LEFT':
+        var absentPlayerUsername = content;
+
+        if (this.cardsSubmitted.length > 0) { // if there was a round in progress
+          if (this.judge == absentPlayerUsername) {  // if the judge left a round in progress
+            console.log('judge left a round in progress');
+            // TODO: fix/address this assumption:
+            // assuming the judge who left didn't pick a winning card...
+
+            GamePlay.cardsSubmitted = [];
+            GameRenderer.clearCardsSubmitted();
+            GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
+
+          } else { // a player left a round in progress:
+
+            // check if they left before/after submitting a card
+            var potCardSubmission = CardSubmission.getCardSubmissionByUsername(this.cardsSubmitted, absentPlayerUsername)
+
+            if ( potCardSubmission != undefined) {
+              console.log('player left a round in progress AFTER submitting a card');
+              // they submitted a card:
+              GamePlay.cardsSubmitted = CardSubmission.removeCardSubmission(GamePlay.cardsSubmitted, potCardSubmission);
+
+            } else {
+              console.log('player left a round in progress BEFORE submitting a card');
+              // they didn't submit a card:
+            }
+            GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
+          }
+
+        }
+
+        // purge the player who left
+        console.log('purging playerIndex: ' + Player.getPlayerIndex(this.players, absentPlayerUsername));
+        this.players.splice(Player.getPlayerIndex(this.players, absentPlayerUsername), 1);
+        console.log('post purge players:');
+        console.log(this.players);
+
+        if ((this.players.length) >= 3) {  // we need at least 3 players to play
+          console.log('we CAN continue without him!');
+
+        } else {  // not enough players to continue the game...
+          console.log('we can NOT continue without him!');
         }
         break;
 

@@ -16,6 +16,7 @@ import { CardSubmission } from '../../data-classes/card-submission';
 import { IGameRenderer } from './i-game-renderer';
 import { HomePage } from '../home/home';
 import { TabsPage } from '../tabs/tabs';
+import { UserFacade } from "../../providers/facades/user-facade";
 
 @Component({
   selector: 'page-game', // should this be game-page?
@@ -39,6 +40,7 @@ export class GamePage implements IGameRenderer {
   GamePlay;      // A GamePlay singleton object
   ScoreModal;    // Instance of score modal
   ViewCtrl;
+  UserCtrl;
 
   constructor(public navCtrl:NavController,
               public navParams:NavParams,
@@ -46,11 +48,12 @@ export class GamePage implements IGameRenderer {
               public viewCtrl:ViewController,
               private toastCtrl:ToastController,
               public alertCtrl:AlertController,
-              public modalCtrl:ModalController) {
+              public modalCtrl:ModalController,
+              public userCtrl: UserFacade) {
 
     //navCtrl.viewWillLeave.subscribe((value) => {console.log('viewWillLeave');}) =
 
-
+    this.UserCtrl = userCtrl;
 
     console.log('PARAMS: ');
     console.log(navParams);
@@ -81,14 +84,16 @@ export class GamePage implements IGameRenderer {
     console.log('ionViewDidLoad GamePage');
 
     // set up GamePlay singleton to make moves
-    this.GamePlay = new GamePlay(this.CHANNEL,
-      'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
-      'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
-      this.USERNAME,
-      this.PLAYERS,
-      this.DECK,
-      this
-    );
+    this.GamePlay = new GamePlay(
+                                  this.UserCtrl,
+                                  this.CHANNEL,
+                                  'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
+                                  'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
+                                  this.USERNAME,
+                                  this.PLAYERS,
+                                  this.DECK,
+                                  this
+                                );
 
     // render scores of 0
     this.renderScores(Tools.clone(this.PLAYERS));
@@ -275,6 +280,11 @@ export class GamePage implements IGameRenderer {
   renderNotEnoughPlayers(players: Array<Player>) { // SCOTT
     console.log('STUB: renderNotEnoughPLayers');
     this.renderGameOver(players);
+  }
+
+  // render the player's newly updated global score
+  renderNewGlobalScore(score: number) {
+    this.renderText("You've won " + score + " games total!");
   }
 }
 

@@ -71,4 +71,7 @@ export interface IGameRenderer {
 
   // renders the Game Over state
   renderGameOver(players: Array<Player>);
+
+  // render the player's newly updated global score
+  renderNewGlobalScore(score: number);
 }

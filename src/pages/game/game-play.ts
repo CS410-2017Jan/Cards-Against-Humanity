@@ -10,6 +10,7 @@ import { CardSubmission } from '../../data-classes/card-submission';
 import { Player } from '../../data-classes/player';
 import { PubNubMsg } from '../../data-classes/pubnub-msg';
 import { IGameRenderer } from './i-game-renderer';
+import {UserFacade} from "../../providers/facades/user-facade";
 
 // ======================================================================
 // This Class contains the gamestate and methods to modify/play the game.
@@ -27,6 +28,7 @@ export class GamePlay {
   // Object Singletons
   PubNub;                         // This client's pubnub object
   GameRenderer;                   // GameRenderer singleton reference
+  UserCtrl;
 
   // global variables
   deck: Deck;                     // The Deck object associated with this specific game
@@ -42,7 +44,8 @@ export class GamePlay {
   cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
   joinedCount: number;
 
-  constructor(channel: string,
+  constructor(userCtrl: UserFacade,
+              channel: string,
               subkey: string,
               pubkey: string,
               playerUsername: string,  // TODO: a player's username MUST be unique during a game
@@ -59,6 +62,7 @@ export class GamePlay {
     this.players = players;
     this.deck = deck;
     this.GameRenderer = gameRenderer;
+    this.UserCtrl = userCtrl;
 
     this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
@@ -355,6 +359,15 @@ export class GamePlay {
         if (GamePlay.isGameOver()) {
           GameRenderer.renderText(GamePlay.getLeadingPlayer().username + ' won the game!');
           GameRenderer.renderGameOver(Tools.clone(GamePlay.players));
+
+          // if we won the game, increment our total game win score
+          if (GamePlay.getLeadingPlayer().username == GamePlay.PLAYER_USERNAME) {
+            GamePlay.UserCtrl.updateScore(1, function(score: number) {
+              GameRenderer.renderNewGlobalScore(score);
+            });
+          } else {
+            // TODO: fetch current total score and render it to player
+          }
         } else {
           GameRenderer.renderText(winningCardSubmission.card.content + ' won the round!');
           GameRenderer.renderContinueButton();

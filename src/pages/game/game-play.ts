@@ -33,6 +33,7 @@ export class GamePlay {
   players: Array<Player>;         // Array of players currently in the game
   hand: Array<Card>;              // Array of cards
   gameStarted: boolean;
+  collectingCards: boolean;
   roundNumber: number;            // Current round number
   judge: Player;                  // Current judge username
   blackCard: Card;                // Current black card for round
@@ -61,6 +62,7 @@ export class GamePlay {
     this.NUM_CARDS_HAND = 5;     // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3; // TODO: move value to config file
     this.gameStarted = false;
+    this.collectingCards = false;
     this.roundNumber = 0;
     this.continueCounter = 0;
     this.hand = [];
@@ -319,7 +321,9 @@ export class GamePlay {
         var whiteCardSubmission = content; // for readability
         GamePlay.cardsSubmitted.push(whiteCardSubmission);
 
-        if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // if all cards submitted
+        // if all cards submitted
+        if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for the judge
+          this.collectingCards = false;
           if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
             GameRenderer.renderText('Pick a Winner');
@@ -376,6 +380,7 @@ export class GamePlay {
 
       case 'NEW_ROUND':
         console.log('case: NEW_ROUND');
+        this.collectingCards = true;
         GamePlay.roundNumber++;
         GamePlay.setNextJudge();
 
@@ -397,34 +402,45 @@ export class GamePlay {
       case 'PLAYER_LEFT':
         var absentPlayerUsername = content;
 
-        if (this.cardsSubmitted.length > 0) { // if there was a round in progress
-          if (this.judge == absentPlayerUsername) {  // if the judge left a round in progress
-            console.log('judge left a round in progress');
-            // TODO: fix/address this assumption:
-            // assuming the judge who left didn't pick a winning card...
+        if (this.judge.username == absentPlayerUsername) {  // if the judge
+          console.log('judge left');
+          // TODO: fix/address this assumption:
+          // assuming the judge who left didn't pick a winning card...
 
-            GamePlay.cardsSubmitted = [];
-            GameRenderer.clearCardsSubmitted();
-            GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
+          GamePlay.cardsSubmitted = [];
+          GameRenderer.clearCardsSubmitted();
+          GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
 
-          } else { // a player left a round in progress:
+          // start new round
+          var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+          this.handleEvent({message: newRoundMsg});
+        } else if (this.collectingCards) {
+          // we were waiting on card submissions when a player left
 
-            // check if they left before/after submitting a card
-            var potCardSubmission = CardSubmission.getCardSubmissionByUsername(this.cardsSubmitted, absentPlayerUsername)
+          // check if they left before/after submitting a card
+          var potCardSubmission = CardSubmission.getCardSubmissionByUsername(this.cardsSubmitted, absentPlayerUsername);
 
-            if ( potCardSubmission != undefined) {
-              console.log('player left a round in progress AFTER submitting a card');
-              // they submitted a card:
-              GamePlay.cardsSubmitted = CardSubmission.removeCardSubmission(GamePlay.cardsSubmitted, potCardSubmission);
+          if ( potCardSubmission != undefined) {
+            console.log('Player: ' + absentPlayerUsername + ' left a round in progress AFTER submitting a card');
+            // they submitted a card:
+            GamePlay.cardsSubmitted = CardSubmission.removeCardSubmission(GamePlay.cardsSubmitted, potCardSubmission);
+            console.log('cardsSubmitted after purging his:');
+            console.log(GamePlay.cardsSubmitted);
+          } else {
+            console.log('Player: ' + absentPlayerUsername + ' left a round in progress BEFORE submitting a card');
+            // they didn't submit a card:
 
-            } else {
-              console.log('player left a round in progress BEFORE submitting a card');
-              // they didn't submit a card:
-            }
-            GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
+            // // we'll submit an 'abstain_white' card on their behalf (only we see this)
+            // var abstainCard = new Card('abstain_white', '');
+            // var abstainCardSub = new CardSubmission(absentPlayerUsername, abstainCard);
+            // var abstainMsg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(abstainCardSub));
+
+            // this.handlePubNubMsg(abstainMsg);
           }
-
+          GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
         }
+
+
 
         // purge the player who left
         console.log('purging playerIndex: ' + Player.getPlayerIndex(this.players, absentPlayerUsername));
@@ -432,11 +448,28 @@ export class GamePlay {
         console.log('post purge players:');
         console.log(this.players);
 
-        if ((this.players.length) >= 3) {  // we need at least 3 players to play
+        // we need at least 3 players to play
+        if ((this.players.length) >= 3) {
           console.log('we CAN continue without him!');
+          if(this.collectingCards) { // if we were collection cards
+            // check if round continues:
+            // if all cards submitted
+            if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for judge
+              if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
+                GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
+                GameRenderer.renderText('Pick a Winner');
+              } else {
+                GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), false);
+                GameRenderer.renderText('Waiting for judge to pick winner...');
+              }
+            }
+          } else {
+            console.log('we were not collecting cards when he died');
+          }
 
         } else {  // not enough players to continue the game...
           console.log('we can NOT continue without him!');
+          alert('too few players. gg');
         }
         break;
 

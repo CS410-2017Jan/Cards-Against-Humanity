@@ -161,6 +161,8 @@ export class GamePage implements IGameRenderer {
     console.log('STUB: renderContinueButton');
     this.continueButton = true;
 
+    var Game = this;
+
     let alert = this.alertCtrl.create({
       title: 'Ready to move on?',
       message: '',
@@ -169,14 +171,13 @@ export class GamePage implements IGameRenderer {
           text: 'Continue',
           handler: () => {
            console.log('Continue clicked');
+            Game.requestContinue();
           }
         }
       ]
     });
 
     alert.present();
-
-    this.requestContinue();
   }
 
   // falsifies the boolean which tells angular to clear the continue button

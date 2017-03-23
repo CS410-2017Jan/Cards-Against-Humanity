@@ -28,7 +28,7 @@ export class CardSubmission {
 
   // removes given CardSubmission from given array of CardSubmissions
   static removeCardSubmission(cardSubmissions: Array<CardSubmission>, cardSubmission: CardSubmission): Array<CardSubmission> {
-    var newCardSubmissions;
+    var newCardSubmissions = [];
     for (let potCardSubmission of cardSubmissions) {
       if (potCardSubmission.username != cardSubmission.username) newCardSubmissions.push(potCardSubmission);
     }

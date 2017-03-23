@@ -52,6 +52,11 @@ export class LoginPage {
     let modal = this.modalCtrl.create(SignUpModalPage);
     modal.present();
   }
+
+  //Stub
+  resetPassword(){
+
+  }
 }
 
 

@@ -31,8 +31,12 @@
       <button ion-button full (click)="clickLogin(userForm)" type="submit" >Login</button>
 </ion-item>
     <ion-item>
-  <button ion-button full (click)="openModal()" >Sign Up</button>
+  <button ion-button full color="secondary" (click)="openModal()" >Sign Up</button>
     </ion-item>
   </form>
+
+  <ion-item>
+    <button ion-button full color="light"  (click)="resetPassword()" >Reset Password</button>
+  </ion-item>
 
 </ion-content>

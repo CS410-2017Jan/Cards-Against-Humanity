@@ -60,3 +60,7 @@ $ ionic build
 * To generate code coverage (will generate coverage folder): ```$ npm run-script testcov ```
 * To view coverage report, open the location of Cards-Against-Humanity/coverage/lcov-report/index.html on your computer in any browser.
 * For example: /Users/ScottHenry/WebstormProjects/Cards-Against-Humanity/coverage/lcov-report/index.html
+
+**How to write tests:**
+* Start here: https://www.joshmorony.com/how-to-unit-test-an-ionic-2-application/
+* Find a tutorial for your type of test here: https://www.joshmorony.com/tag/testing/

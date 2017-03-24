@@ -242,9 +242,16 @@ export class GamePage implements IGameRenderer {
     toast.present();
   }
 
+  sendVibration() {
+    console.log('Before Vibration');
+    navigator.vibrate(1000);
+    console.log('After Vibration');
+  }
+
   // sets the text var angular uses to display text instructions/messages
   renderText(str: string) {
     this.text = str;
+    this.sendVibration();
     this.presentToast(str);
   }
 

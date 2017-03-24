@@ -233,7 +233,7 @@ export class GamePage implements IGameRenderer {
   presentToast(str: string) {
     let toast = this.toastCtrl.create({
       message: str,
-      duration: 10000,
+      duration: 5000,
       position: 'bottom',
       showCloseButton: true,
       closeButtonText: 'OK'
@@ -265,6 +265,8 @@ export class GamePage implements IGameRenderer {
   // for players submitting white cards
   renderWhiteCardTimer(seconds: number) { // SCOTT
     console.log('TIMER: ' + seconds);
+
+
   }
 
   //clears the White Card submission timer

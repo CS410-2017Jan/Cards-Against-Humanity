@@ -18,6 +18,7 @@ import {EndGameModalPage} from "../pages/game/game";
 import {UserFacade} from "../providers/facades/user-facade";
 import {ScoreBoardPage} from "../pages/score-board/score-board";
 import {LeaderboardFacade} from "../providers/facades/leaderboard-facade";
+import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {LeaderboardFacade} from "../providers/facades/leaderboard-facade";
     SignUpModalPage,
     ScoreModalPage,
     EndGameModalPage,
-    ScoreBoardPage
+    ScoreBoardPage,
+    ProgressBarComponent
 
   ],
   imports: [

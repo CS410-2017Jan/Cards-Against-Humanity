@@ -11,6 +11,7 @@ import {NgForm} from '@angular/forms';
 })
 export class HomePage {
 
+  loadProgress: number = 0;
   options;
   usere: {email?: string} = {};
   userp: {password?:string} = {};
@@ -19,6 +20,18 @@ export class HomePage {
 
   constructor(public userCtrl: UserFacade, private toastCtrl: ToastController) {
     this.profileUserName = this.userCtrl.getLoggedInUser().username;
+  }
+
+  //https://github.com/joshuamorony/ionic2-progress-component/blob/master/src/pages/home/home.ts
+  ionViewDidLoad(){
+    setInterval(() => {
+
+      if(this.loadProgress < 30){
+        this.loadProgress++;
+      }
+
+    }, 1000);
+
   }
 
   //Method called when the user clicks update email

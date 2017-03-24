@@ -27,6 +27,18 @@ export class UserFacade {
     this.userWebService.getUserByEmail(email, callback);
   }
 
+  // Returns the score of the logged in user
+  getUserScore(): number {
+    return this.userProfile.score;
+  }
+
+  // Returns the score of user specified with userID
+  getScore(userID: string, callback) {
+    this.userWebService.getUser(userID, function (user: User) {
+      callback(user.score);
+    })
+  }
+  
   //Creates a user and calls callback with their ID
   createUser(username: string, password: string, email: string, callback) {
     this.userWebService.createUser(username, password, email, callback);

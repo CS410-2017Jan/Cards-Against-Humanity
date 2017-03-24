@@ -33,10 +33,10 @@
 
       <ion-item>
         <ion-label>Private</ion-label>
-        <ion-toggle  value="private"[(ngModel)]="room.rtype" name="rtype" #rtype="ngModel" checked="false"></ion-toggle>
+        <ion-toggle [(ngModel)]="room.rtype" name="rtype" #rtype="ngModel" checked="false" (ionChange)="clickShowPassword()"></ion-toggle>
       </ion-item>
 
-      <ion-item>
+      <ion-item [hidden]="!this.showPassword">
         <ion-label fixed>Password</ion-label>
         <ion-input type="text" [(ngModel)]="room.rpassword" name="rpassword" #rpassword="ngModel" ></ion-input>
       </ion-item>

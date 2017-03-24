@@ -22,15 +22,26 @@ import {UserFacade} from "../../providers/facades/user-facade";
 export class RoomSetupPage {
   room: {rname?: string, rsize?: number, rtype?: boolean, rpassword?: string} = {};
   submitted = false;
+  showPassword;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public roomCtrl: RoomFacade,
               public userCtrl: UserFacade) {
+    this.showPassword = false;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomSetupPage');
+  }
+
+  clickShowPassword(){
+    console.log('Are you hidden? ', this.showPassword);
+    if (this.showPassword == false){
+      this.showPassword = true;
+    }else{
+      this.showPassword = false;
+    }
   }
 
   onSubmit(form: NgForm) {

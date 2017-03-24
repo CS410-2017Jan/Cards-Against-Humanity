@@ -36,9 +36,15 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
           var JSONArray = JSON.parse(xmlHttp.responseText);
+          console.log('getAllUsers() JSONArray', JSONArray);
           var users: User[] = [];
           for (let id in JSONArray) {
-            users.push(new User(JSONArray[id].username, id, JSONArray[id].email, JSONArray[id].score));
+            var base64Image = "";
+            if(JSONArray[id].image){
+              base64Image = JSONArray[id].image.base64;
+            }
+            var uzer = new User(JSONArray[id].username, id, JSONArray[id].email, JSONArray[id].score, base64Image);
+            users.push(uzer);
           }
           // Got all of them, call the callback
           callback(users);

@@ -5,9 +5,36 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Cards Against Humanity!</h2>
+  <h2>Welcome {{this.profileUserName}}!</h2>
 
-  <ion-item>
-    <button ion-button (click)="clickButton()">Upload Photo</button>
+  <form #usereForm="ngForm">
+
+    <ion-item>
+      <ion-label fixed>Email</ion-label>
+      <ion-input type="email" [(ngModel)]="usere.email" name="email" #email="ngModel" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button full (click)="clickModifyEmail(userForm)" type="submit" >Update Email</button>
+    </ion-item>
+  </form>
+
+  <form #userpForm="ngForm">
+    <ion-item>
+      <ion-label fixed>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="userp.password" name="password" #password="ngModel" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button full (click)="clickModifyPassword(userForm)" type="submit" >Update Password</button>
+    </ion-item>
+  </form>
+
+  <form #pictureForm="ngForm">
+    <ion-item>
+      <ion-label fixed>Picture</ion-label>
+    </ion-item>
+    <ion-item>
+    <button ion-button full (click)="clickUploadProfilePic()">Upload Photo</button>
   </ion-item>
+  </form>
+
 </ion-content>

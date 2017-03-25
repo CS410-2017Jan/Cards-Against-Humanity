@@ -1,9 +1,13 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component, Input } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 import { MyApp } from '../../app/app.component';
-import { HomePage } from './home';
+import {UserFacade} from "../../providers/facades/user-facade";
+import {ModalController} from "ionic-angular/index";
+import {HomePage} from "./home";
+import {ProgressBarComponent} from "../../components/progress-bar/progress-bar";
+import {ToastController} from "ionic-angular/index";
 
 let comp: HomePage;
 let fixture: ComponentFixture<HomePage>;
@@ -16,22 +20,22 @@ describe('Page: Home Page', () => {
 
     TestBed.configureTestingModule({
 
-      declarations: [MyApp, HomePage],
+      declarations: [MyApp, HomePage, ProgressBarComponent],
 
       providers: [
-
-      ],
+        {provide: ToastController, useClass: ToastController},
+        {provide: UserFacade, useClass: UserFacade}],
 
       imports: [
-        IonicModule.forRoot(MyApp)
-      ]
+        Component,
+        Input
+      ],
 
     }).compileComponents();
 
   }));
 
   beforeEach(() => {
-
     fixture = TestBed.createComponent(HomePage);
     comp    = fixture.componentInstance;
 
@@ -44,8 +48,7 @@ describe('Page: Home Page', () => {
     el = null;
   });
 
-  it('is created', () => {
-
+  it('Home Page is created', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
 

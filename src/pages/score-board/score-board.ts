@@ -12,7 +12,7 @@ listOfUsers;
 
   @ViewChild('listofUsers', {read: List}) roomList: List;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public lbCtrl: LeaderboardFacade) {}
+  constructor(public lbCtrl: LeaderboardFacade) {}
 
   ionViewDidEnter() {
     console.log('ionViewDidLoad ScoreBoardPage');

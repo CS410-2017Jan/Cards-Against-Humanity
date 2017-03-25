@@ -25,7 +25,6 @@ export class RoomSetupPage {
   showPassword;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public roomCtrl: RoomFacade,
               public userCtrl: UserFacade) {
     this.showPassword = false;

@@ -1,7 +1,3 @@
-/**
- * Created by ScottHenry on 2017-03-22.
- */
-
 export class ConfigMock {
 
   public get(): any {
@@ -20,6 +16,15 @@ export class ConfigMock {
 export class FormMock {
   public register(): any {
     return true;
+  }
+}
+
+export class MockNavParams{
+  data = {
+  };
+
+  get(param){
+    return this.data[param];
   }
 }
 

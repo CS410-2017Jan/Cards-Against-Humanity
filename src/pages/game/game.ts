@@ -42,10 +42,7 @@ export class GamePage implements IGameRenderer {
   ViewCtrl;
   UserCtrl;
 
-  constructor(public navCtrl:NavController,
-              public navParams:NavParams,
-              public platform:Platform,
-              public viewCtrl:ViewController,
+  constructor(public navParams:NavParams,
               private toastCtrl:ToastController,
               public alertCtrl:AlertController,
               public modalCtrl:ModalController,

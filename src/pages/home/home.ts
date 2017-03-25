@@ -3,7 +3,8 @@ import { NavController, ToastController } from 'ionic-angular';
 import { Camera } from 'ionic-native';
 import { UserWebService } from '../../providers/web-services/user-web-service.ts';
 import {UserFacade} from "../../providers/facades/user-facade";
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'page-home',

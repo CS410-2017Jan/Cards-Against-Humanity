@@ -18,6 +18,7 @@ export class WaitingRoomPage {
   @ViewChild('userList', {read: List}) userList: List;
   room: any;
   shownUsers: any = [];
+  result: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public roomCtrl: RoomFacade, public userCtrl: UserFacade) {
     this.room = navParams.data;

@@ -536,6 +536,9 @@ export class GamePlay {
             // they didn't submit a card:
           }
           GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
+        } else {
+          // we either were or were not collecting cards. But the absent player was NOT the judge
+          GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
         }
 
         // we were NOT waiting on card submissions. But we were counting continue...

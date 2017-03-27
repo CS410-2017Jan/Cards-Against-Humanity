@@ -74,7 +74,7 @@ export class GamePlay {
 
     this.NUM_CARDS_HAND = 5;         // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3;     // TODO: move value to config file
-    this.TIMER_DURATION_MS = 15000;  // TODO: move value to config file
+    this.TIMER_DURATION_MS = 7000;  // TODO: move value to config file
     this.MAX_TIMEOUTS_PERMITTED = 2; // TODO: move value to config file
     this.gameStarted = false;
     this.collectingCards = false;
@@ -211,14 +211,14 @@ export class GamePlay {
   // requests the game continues
   requestContinue() {
     clearTimeout(this.continueTimer);
-    console.log('REQUESTING CONTINUE: this.PLAYER_USERNAME: ' + this.PLAYER_USERNAME);
+    //console.log('REQUESTING CONTINUE: this.PLAYER_USERNAME: ' + this.PLAYER_USERNAME);
     var msg = new PubNubMsg('REQUEST_CONTINUE', JSON.stringify(this.PLAYER_USERNAME));
     this.sendMsg(msg);
   }
 
   // increments the score of the player associated with the given winning CardSubmission
   updateScores(winningCardSubmission: CardSubmission) {
-    console.log('STUB: updateScores()');
+    //console.log('START: updateScores()');
     for (var i=0; i<this.players.length; i++) {
       if (this.players[i].username == winningCardSubmission.username) {
         this.players[i].score++;
@@ -249,6 +249,7 @@ export class GamePlay {
 
   // called when a timer expires for submitting a white card
   whiteCardTimerExpire() {
+    console.log('===== START: whiteCardTimerExpire');
     this.GameRenderer.renderText('white card timer expired!');
 
     this.GameRenderer.clearHand();
@@ -263,6 +264,7 @@ export class GamePlay {
 
   // called when a timer expires for submitting a white card
   pickWinnerTimerExpire() {
+    console.log('===== START: pickWinnerTimerExpire');
     this.GameRenderer.renderText('black card timer expired!');
 
     //this.GameRenderer.clearCardsSubmitted();
@@ -327,7 +329,7 @@ export class GamePlay {
   clearTimers() {
     clearTimeout(this.whiteCardTimer);
     clearTimeout(this.pickWinnerTimer);
-    console.log('cleared both timers');
+    console.log('========== cleared both timers');
   }
 
   purgeAbstains(cardSubmissions: Array<CardSubmission>): Array<CardSubmission> {
@@ -461,6 +463,7 @@ export class GamePlay {
 
         // check if game ended
         if (GamePlay.isGameOver()) {
+          this.clearTimers();
           GameRenderer.renderText(GamePlay.getLeadingPlayer().username + ' won the game!');
           GameRenderer.renderGameOver(Tools.clone(GamePlay.players));
 
@@ -498,6 +501,7 @@ export class GamePlay {
 
       case 'NEW_ROUND':
         console.log('case: NEW_ROUND');
+        this.clearTimers();
         this.collectingCards = true;
         this.ongoingRound = true;
         GamePlay.roundNumber++;
@@ -594,6 +598,7 @@ export class GamePlay {
           }
 
         } else {  // not enough players to continue the game...
+          this.clearTimers();
           console.log('we can NOT continue without him!');
           GameRenderer.renderText('Not enough players to continue the game...');
           GameRenderer.renderNotEnoughPlayers(Tools.clone(GamePlay.players));

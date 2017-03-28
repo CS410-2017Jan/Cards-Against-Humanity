@@ -4,6 +4,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import {LoginPage} from "../pages/login/login";
+import { AngularFire } from 'angularfire2';
 
 
 @Component({
@@ -12,7 +13,7 @@ import {LoginPage} from "../pages/login/login";
 export class MyApp {
   rootPage = LoginPage;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, public af: AngularFire) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

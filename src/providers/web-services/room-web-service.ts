@@ -6,7 +6,9 @@ import {Deck} from "../../data-classes/deck";
 import {Room} from "../../data-classes/room";
 import {DeckWebService} from "./deck-web-service";
 import {UserWebService} from "./user-web-service";
+import {AuthWebService} from "./auth-web-service";
 import {User} from "../../data-classes/user";
+
 
 /*
  Generated class for the RoomWebService provider.

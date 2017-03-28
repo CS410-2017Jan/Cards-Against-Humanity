@@ -24,6 +24,8 @@
     "@angular/router": "^3.4.10",
     "@ionic-native/vibration": "^3.2.2",
     "@ionic/storage": "2.0.0",
+    "angularfire2": "^2.0.0-beta.8",
+    "firebase": "^3.7.3",
     "ionic-angular": "2.2.0",
     "ionic-native": "2.4.1",
     "ionicons": "3.0.0",

@@ -13,12 +13,28 @@ import { SignUpModalPage } from '../pages/login/login';
 import { ScoreModalPage } from '../pages/game/game'
 import { RoomListPage } from '../pages/room-list/room-list';
 import { RoomFacade } from '../providers/facades/room-facade';
+import { AuthWebService } from "../providers/web-services/auth-web-service";
 import { Player } from "../data-classes/player";
 import {EndGameModalPage} from "../pages/game/game";
 import {UserFacade} from "../providers/facades/user-facade";
 import {ScoreBoardPage} from "../pages/score-board/score-board";
 import {LeaderboardFacade} from "../providers/facades/leaderboard-facade";
 import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+
+// AF2 Settings
+export const firebaseConfig = {
+  apiKey: "AIzaSyAEuDlmWF-BSshHw1_lGI8JUe8IE3Bup24",
+  authDomain: "cards-against-humanity-d6aec.firebaseapp.com",
+  databaseURL: "https://cards-against-humanity-d6aec.firebaseio.com",
+  storageBucket: "cards-against-humanity-d6aec.appspot.com",
+  messagingSenderId: "431681884988"
+};
+
+const myFirebaseAuthConfig = {
+  provider: AuthProviders.Password,
+  method: AuthMethods.Password
+}
 
 @NgModule({
   declarations: [
@@ -40,7 +56,8 @@ import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
 
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -6,6 +6,7 @@ import { GamePage } from '../../pages/game/game.ts';
 import { DeckWebService } from '../../providers/web-services/deck-web-service.ts';
 import { UserWebService } from '../../providers/web-services/user-web-service.ts';
 import { RoomWebService } from '../../providers/web-services/room-web-service.ts';
+import { AuthWebService } from '../../providers/web-services/auth-web-service.ts';
 
 import { Deck } from '../../data-classes/deck';
 import { Player } from '../../data-classes/player';
@@ -175,7 +176,7 @@ export class ContactPage {
 
   // Authentication test
   testAuth(email: string, password: string){
-    var ws = new UserWebService();
+    var ws = new AuthWebService();
     ws.logInUser(email, password, console.log);
   }
 

@@ -51,7 +51,7 @@ export class RoomFacade {
   // Calls callback with Array<Fake room objects> if it is not at capacity
   getOpenRooms(callback) {
     this.getRooms(function (listOfRooms) {
-      var openRooms = listOfRooms.filter(function(room) {
+      var openRooms = listOfRooms.filter(function (room) {
         console.log('Filtering room: ', room);
         return room.users.length != room.size;
       });
@@ -108,7 +108,7 @@ export class RoomFacade {
     var that = this;
     this.roomWebService.leaveRoom(user.id, room.id, function (result) {
       var newUsers = that.currentRoom.users.filter(function (u) {
-        return u.id == user.id;
+        return u.id != user.id;
       });
       that.currentRoom.users = newUsers;
       callback(that.currentRoom);

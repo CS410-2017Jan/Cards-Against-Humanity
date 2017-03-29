@@ -108,16 +108,16 @@ export class Deck {
   }
 
   // prints the deck to the console
-  printDeck() {
-    console.log("Deck ID: " + this.deckID);
-    console.log("Cards:");
-    for(let c of this.whiteCards){
-      console.log(" " + c.content);
-    }
-    for(let c of this.blackCards){
-      console.log(" " + c.content);
-    }
-  }
+  // printDeck() {
+  //   console.log("Deck ID: " + this.deckID);
+  //   console.log("Cards:");
+  //   for(let c of this.whiteCards){
+  //     console.log(" " + c.content);
+  //   }
+  //   for(let c of this.blackCards){
+  //     console.log(" " + c.content);
+  //   }
+  // }
 
   // creates n number of decks with the whiteCards distributed evenly. each of n decks
   // has all the blackCards. Used to deal a single deck amoung several players.

@@ -4,7 +4,7 @@ import {User} from "../../data-classes/user";
 let userFacade;
 let loggedInUser;
 
-describe('RoomFacade Tests', () => {
+describe('UserFacade Tests', () => {
 
   beforeAll((done) => {
     userFacade = new UserFacade();
@@ -75,13 +75,13 @@ describe('RoomFacade Tests', () => {
     });
   });
 
-  // it('Test: should create new user', function (done) {
-  //   userFacade.createUser('userfacade', 'password', 'userfacade@gmail.com', function (id: string) {
-  //     userFacade.getUserByEmail('userfacade@gmail.com', function (user: User) {
-  //       expect(user.id).toBe(id);
-  //       done();
-  //     });
-  //   });
-  // });
+  it('Test: should create new user', function (done) {
+    userFacade.createUser('userfacade', 'password', 'userfacade@gmail.com', function (id: string) {
+      userFacade.getUserByEmail('userfacade@gmail.com', function (user: User) {
+        expect(user.id).toBe(id);
+        done();
+      });
+    });
+  });
 
 });

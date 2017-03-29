@@ -1,6 +1,5 @@
 import {Deck} from './deck';
 import {RoomWebService} from '../providers/web-services/room-web-service';
-import {UserWebService} from '../providers/web-services/user-web-service';
 import {User} from './user';
 /**
  * Created by Sonalee Shah on 2/24/2017.
@@ -50,10 +49,10 @@ export class Room {
     this.roomWebService = new RoomWebService();
   }
 
-  // Prints information about the user to the console
-  print() {
-    console.log('ID: ' + this.id + ' Decks: ' + this.decks + ' Users: ' + this.users +
-      ' isLocked: ' + this.isLocked + ' Name: ' + this.name + ' Password: ' +
-      this.password + ' Size: ' + this.size);
-  }
+  // // Prints information about the user to the console
+  // print() {
+  //   console.log('ID: ' + this.id + ' Decks: ' + this.decks + ' Users: ' + this.users +
+  //     ' isLocked: ' + this.isLocked + ' Name: ' + this.name + ' Password: ' +
+  //     this.password + ' Size: ' + this.size);
+  // }
 }

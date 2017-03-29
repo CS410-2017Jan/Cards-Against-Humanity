@@ -1,5 +1,6 @@
 import {Deck} from "./data-classes/deck";
 import {Card} from "./data-classes/card";
+import {Player} from "./data-classes/player";
 
 // ======================================================================
 // Dummy Data for Mocks
@@ -15,6 +16,14 @@ for (var i=0; i<100; i++) {
 }
 
 var testDeck = new Deck('testDeckID', testBlackCards, testWhiteCards);
+
+var testPlayers = [
+  new Player('user1'),
+  new Player('user2'),
+  new Player('user3'),
+  new Player('user4'),
+  new Player('user5'),
+];
 
 // ======================================================================
 // Mock Classes
@@ -47,11 +56,17 @@ export class MockNavParams{
         decks: [testDeck],
         isLocked: true,
         name: "test room",
-        password: "sucks",
-        users:[{username: "scott", id:"2232",base64Image:"23423423"},
-          {username: "Hello", id:"342", base64Image:"23423423"}],
-        size: 3
-      }
+        password: "password",
+        users:[
+                {username: "user1", id:"111"},
+                {username: "user2", id:"222"},
+                {username: "user3", id:"333"},
+                {username: "user4", id:"444"},
+                {username: "user5", id:"555"},
+              ],
+        size: 5
+      },
+    username: 'user1'
   };
 
   get(param){

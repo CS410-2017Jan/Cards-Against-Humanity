@@ -43,6 +43,7 @@ export class GamePlay {
   continueRequests: Array<string>; // Current player usernames of players ready to continue
   cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
   joinedCount: number;
+  testMode: boolean;
 
   constructor(userCtrl: UserFacade,
               channel: string,
@@ -51,7 +52,8 @@ export class GamePlay {
               playerUsername: string,  // TODO: a player's username MUST be unique during a game
               players: Array<Player>,
               deck: Deck,
-              gameRenderer: IGameRenderer
+              gameRenderer: IGameRenderer,
+              testMode?: boolean
               ) {
 
     this.CHANNEL = channel;
@@ -74,53 +76,58 @@ export class GamePlay {
     this.hand = [];
     this.cardsSubmitted = [];
     this.joinedCount = 0;
+    if (testMode != null) {
+      this.testMode = testMode;
+    }
 
     console.log('I am: ' + this.PLAYER_USERNAME);
 
-    this.PubNub = new PubNub({
-      subscribeKey: this.SUBKEY, // always required
-      publishKey: this.PUBKEY,   // only required if publishing
-      uuid: this.PLAYER_USERNAME,
-      presenceTimeout: 30
-    });
+    if (!this.testMode) {
+      this.PubNub = new PubNub({
+        subscribeKey: this.SUBKEY, // always required
+        publishKey: this.PUBKEY,   // only required if publishing
+        uuid: this.PLAYER_USERNAME,
+        presenceTimeout: 30
+      });
 
-    // TODO: switch all references to 'this' to 'gamePlay'
-    var GamePlay = this;
+      // TODO: switch all references to 'this' to 'gamePlay'
+      var GamePlay = this;
 
-    // set up listeners for different events
-    this.PubNub.addListener({
-      status: function(statusEvent) {
-        if (statusEvent.category === 'PNConnectedCategory') {
-          console.log('PNConnectedCategory');
-        } else if (statusEvent.category === 'PNUnknownCategory') {
-          var newState = {
-            new: 'error'
-          };
-          this.PubNub.setState(
-            {
-              state: newState
-            },
-            function (status) {
-              console.log(statusEvent.errorData.message)
-            }
-          );
-        }
-      },
+      // set up listeners for different events
+      this.PubNub.addListener({
+        status: function(statusEvent) {
+          if (statusEvent.category === 'PNConnectedCategory') {
+            console.log('PNConnectedCategory');
+          } else if (statusEvent.category === 'PNUnknownCategory') {
+            var newState = {
+              new: 'error'
+            };
+            this.PubNub.setState(
+              {
+                state: newState
+              },
+              function (status) {
+                console.log(statusEvent.errorData.message)
+              }
+            );
+          }
+        },
 
-      message: function(msg) {
-        GamePlay.handleEvent(msg);
-      },
+        message: function(msg) {
+          GamePlay.handleEvent(msg);
+        },
 
-      presence: function(p) {
-        GamePlay.handlePresence(p);
-      },
-    });
+        presence: function(p) {
+          GamePlay.handlePresence(p);
+        },
+      });
 
-    // subscribe to pubnub channel
-    this.PubNub.subscribe({
-      channels: [this.CHANNEL],
-      withPresence: true
-    });
+      // subscribe to pubnub channel
+      this.PubNub.subscribe({
+        channels: [this.CHANNEL],
+        withPresence: true
+      });
+    }
   }
 
   // ======================================================================
@@ -230,9 +237,14 @@ export class GamePlay {
 
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
-    this.PubNub.publish({
-      channel :  this.CHANNEL,
-      message : JSON.stringify(msg) });
+    if (!this.testMode) {
+      this.PubNub.publish({
+        channel :  this.CHANNEL,
+        message : JSON.stringify(msg) });
+    } else {
+      // don't send msg over pubnub. But pretend to receive it
+      this.handleEvent({message: JSON.stringify(msg)})
+    }
   }
 
   // sends PubNub message indicating player has joined the game
@@ -246,9 +258,11 @@ export class GamePlay {
     console.log('signalLeaving');
     //this.sendMsg(new PubNubMsg('PLAYER_LEFT', JSON.stringify(this.PLAYER_USERNAME)));
 
-    this.PubNub.unsubscribe({
-      channels: [this.CHANNEL]
-    });
+    if (!this.testMode) {
+      this.PubNub.unsubscribe({
+        channels: [this.CHANNEL]
+      });
+    }
   }
 
   // handles a PubNub presence event. Starts the game when enough players have joined.

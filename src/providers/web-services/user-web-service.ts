@@ -75,7 +75,7 @@ export class UserWebService {
           var user = new User(JSONArray.username, id, JSONArray.email, JSONArray.score, base64Image);
           // Add this user to the cache since we have them
           var ws = new UserWebService();
-          ws.addUserToCache(user);
+          //ws.addUserToCache(user);
 
           // Make the user and call the callback on them
           callback(user);
@@ -94,6 +94,7 @@ export class UserWebService {
   // Adds the given delta to the score of the user specified by the given ID, calls callback with the new score
   addScore(userID: string, deltaScore: number, callback: (i: number)=> void){
     // we first need to get the user we're updating
+    //console.log("Adding score")
     this.getUser(userID, function (u: User){
       // we have the user, now put their new score in
       // (safety check)

@@ -1,17 +1,17 @@
 import {LeaderboardFacade} from "./leaderboard-facade";
 import {User} from "../../data-classes/user";
 
-let leaderboardFacde;
+let leaderboardFacade;
 
-describe('RoomFacade Tests', () => {
+describe('Leaderboard Facade Tests', () => {
 
   beforeAll(() => {
-    leaderboardFacde = new LeaderboardFacade();
+    leaderboardFacade = new LeaderboardFacade();
   });
 
   it('users should be ordered by score', () => {
-    leaderboardFacde.getScores(function (users: Array<User>) {
-      expect(users[0]).toBeGreaterThan(users[1]);
+    leaderboardFacade.getScores(function (users: Array<User>) {
+      expect(users[0].score).toBeGreaterThan(users[1].score);
     });
   });
 });

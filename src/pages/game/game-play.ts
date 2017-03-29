@@ -44,9 +44,9 @@ export class GamePlay {
   cardsSubmitted: Array<CardSubmission>;  // Array of cards played in current round
   joinedCount: number;
   timeoutCount: number;
-  whiteCardTimer: number;
-  pickWinnerTimer: number;
-  continueTimer: number;
+  whiteCardTimer;
+  pickWinnerTimer;
+  continueTimer;
 
   constructor(channel: string,
               subkey: string,
@@ -191,6 +191,7 @@ export class GamePlay {
 
   // submits given winning card over pubnub game channel
   pickWinningCard(cardSubmission: CardSubmission) {
+    console.log('START: pickWinning Card');
     this.timeoutCount = 0;
     clearTimeout(this.pickWinnerTimer);
     var msg = new PubNubMsg('PICK_WINNING_CARD', JSON.stringify(cardSubmission));
@@ -269,6 +270,7 @@ export class GamePlay {
 
   // called when a timer expires for clicking the continue button
   continueTimerExpire() {
+    console.log('===== START: continueTimerExpire');
     this.GameRenderer.renderText('Moving on!');
 
     this.GameRenderer.clearContinueButton();
@@ -282,9 +284,9 @@ export class GamePlay {
     }
   }
 
-
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
+    console.log('START: sendMsg: ' + msg.content);
     this.PubNub.publish({
       channel :  this.CHANNEL,
       message : JSON.stringify(msg) });

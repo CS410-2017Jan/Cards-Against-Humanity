@@ -44,12 +44,9 @@ export class DeckWebService {
             deck.addCard(new Card("white", c));
           }
 
-          // Add this deck to the cache since we have it
-          var ws = new DeckWebService();
-          ws.addDeckToCache(deck);
-
           callback(deck);
         } catch(ex) {
+          console.log(ex.message);
           console.log("Failed to get deck");
         }
       } else if (xmlHttp.readyState == 4) {
@@ -60,7 +57,7 @@ export class DeckWebService {
     xmlHttp.send(null);
   }
 
-  // Gets a deck from the cache, returning undefined if not found
+  /*// Gets a deck from the cache, returning undefined if not found
   getDeckFromCache(id): Deck {
     var JSONObject;
     try {
@@ -95,7 +92,7 @@ export class DeckWebService {
     JSONObject[deck.deckID] = deck;
     sessionStorage.setItem("deckCache", JSON.stringify(JSONObject));
     //console.log(sessionStorage.getItem("deckCache"));
-  }
+  }*/
 
   // Calls get deck for each provided ID and returns a list of said decks
   getDecksByIDList(ids: string[], callback: (u: Deck[])=> void){

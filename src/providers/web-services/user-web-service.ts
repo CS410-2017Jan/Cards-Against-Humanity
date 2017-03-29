@@ -185,7 +185,7 @@ export class UserWebService {
 
   }
 
-  // Gets a user from the cache, returning undefined if not found
+  /*// Gets a user from the cache, returning undefined if not found
   getUserFromCache(id): User {
     var JSONObject;
     try {
@@ -222,7 +222,7 @@ export class UserWebService {
     sessionStorage.setItem("userCache", JSON.stringify(JSONObject));
 
     //console.log(JSON.parse(sessionStorage.getItem("userCache")));
-  }
+  }*/
 
   // Creates new User and calls the given callback with the user's assigned ID
   // Note this is different from the firebase user- this is stored in the firebase realtime DB and is used for supplementary user information

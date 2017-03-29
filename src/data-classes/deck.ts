@@ -3,6 +3,7 @@
  */
 
 import { Card } from './card';
+import SeedRandom from 'seedrandom';
 
 // ======================================================================
 // This Class outlines the data structure and methods of a Deck
@@ -31,6 +32,18 @@ export class Deck {
     this.discards = [];
   }
 
+  setSeed(seed: string) {
+    console.log('seed:' + seed);
+    try {
+      SeedRandom(seed, { global: true });
+    } catch (ex) {
+      console.log(ex);
+    }
+    console.log(Math.random());
+    console.log(Math.random());
+    console.log(Math.random());
+  }
+
   // adds given card to cards
   addCard(card: Card) {
     if (card.type == 'white') {
@@ -54,9 +67,45 @@ export class Deck {
   }
 
   // shuffles the cards in the deck
-  shuffle() {
+  shuffle(seed: string) {
     console.log('STUB: deck.shuffle()');
+    this.shuffleWhiteCards(seed);
+    //shuffleBlackCards(seed);
   }
+
+  // shuffles just the white cards in the deck
+  shuffleWhiteCards(seed: string) {
+
+    //var whiteIndexArray = Array.apply(null, {length: this.whiteCards.length}).map(Number.call, Number);
+    //this.shuffleArray(whiteIndexArray);
+    //this.seedShuffle(seed);
+  }
+
+  shuffleArray(a: Array<any>) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+      j = Math.floor(Math.random() * i);
+      x = a[i - 1];
+      a[i - 1] = a[j];
+      a[j] = x;
+    }
+    //return a;
+  }
+  //
+  // seedShuffle(ar: Array<Card>, seeds: Array<number>): (Array<Card>) {
+  //   var seeds = ;
+  //   var numbers = [];
+  //   for( var a = 0, max = ar.length; a < max; a++){
+  //     numbers.push(a);
+  //   }
+  //   var shuffled = [];
+  //   for( var i = 0, len = ar.length; i < len; i++ ){
+  //     var r = parseInt(seeds[i] * (len - i));
+  //     shuffled.push(ar[numbers[r]]);
+  //     numbers.splice(r,1);
+  //   }
+  //   return shuffled;
+  // }
 
   // returns next white card in deck that hasn't been discarded
   // returns false if all cards have been discarded
@@ -130,8 +179,15 @@ export class Deck {
       acc[i] = new Deck(this.deckID+'-'+(i+1), this.blackCards);
     }
 
+    var indexArray = Array.apply(null, {length: this.whiteCards.length}).map(Number.call, Number);
+    console.log('before shuffle indexArray:');
+    console.log(indexArray);
+    this.shuffleArray(indexArray);
+    console.log('after shuffle indexArray:');
+    console.log(indexArray);
     for (var i=0; i<this.whiteCards.length; i++) { // for each white card
-      acc[i % n].addCard(this.whiteCards[i])
+      //var index = Math.random();
+      acc[i % n].addCard(this.whiteCards[indexArray[i]]);
     }
 
     return acc;

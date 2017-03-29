@@ -76,6 +76,9 @@ export class GamePage implements IGameRenderer {
     console.log('this.USERNAME: ' + this.USERNAME);
     console.log('room.size: ' + room.size);
 
+    console.log(room.decks[0]);
+    try {room.decks[0].setSeed(room.id);}
+    catch(ex) {console.log(ex);}
     this.DECK = room.decks[0].deal(room.size)[playerIndex];
   }
 

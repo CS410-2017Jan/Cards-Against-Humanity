@@ -266,7 +266,7 @@ export class GamePage implements IGameRenderer {
     console.log('TIMER: ' + seconds);
     this.showTimer = true;
     setInterval(() => {
-     if(this.loadProgress < 30){
+     if(this.loadProgress < seconds){
      this.loadProgress++;
      }
 
@@ -286,7 +286,7 @@ export class GamePage implements IGameRenderer {
     console.log('TIMER: ' + seconds);
     this.showTimer = true;
     setInterval(() => {
-      if(this.loadProgress < 30){
+      if(this.loadProgress < seconds){
         this.loadProgress++;
       }
 

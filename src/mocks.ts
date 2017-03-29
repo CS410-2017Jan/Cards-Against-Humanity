@@ -1,3 +1,24 @@
+import {Deck} from "./data-classes/deck";
+import {Card} from "./data-classes/card";
+
+// ======================================================================
+// Dummy Data for Mocks
+// ======================================================================
+var testBlackCards = [];
+for (var i=0; i<100; i++) {
+  testBlackCards.push(new Card('black', 'test black card #'+i));
+}
+
+var testWhiteCards = [];
+for (var i=0; i<100; i++) {
+  testWhiteCards.push(new Card('white', 'test white card #'+i));
+}
+
+var testDeck = new Deck('testDeckID', testBlackCards, testWhiteCards);
+
+// ======================================================================
+// Mock Classes
+// ======================================================================
 export class ConfigMock {
 
   public get(): any {
@@ -23,9 +44,7 @@ export class MockNavParams{
   data = {
     room: {
         id: "001",
-        decks: [{
-          deckID:"-KdfzixNq1S7IF_LGlCj",
-        }],
+        decks: [testDeck],
         isLocked: true,
         name: "test room",
         password: "sucks",

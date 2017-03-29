@@ -2,7 +2,7 @@
  * Created by ScottHenry on 2017-03-22.
  */
 
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+/*import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Component } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
@@ -53,5 +53,5 @@ describe('Component: Tabs Page', () => {
     expect(comp).toBeTruthy();
 
   });
-});
+});*/
 

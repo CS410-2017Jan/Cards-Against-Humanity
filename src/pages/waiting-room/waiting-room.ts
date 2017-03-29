@@ -11,11 +11,11 @@ import {UserFacade} from "../../providers/facades/user-facade";
 
 @Component({
   selector: 'page-waiting-room',
-  templateUrl: 'waiting-room.html'
+  templateUrl: './waiting-room.html'
 })
 export class WaitingRoomPage {
 
-  @ViewChild('userList', {read: List}) userList: List;
+  //@ViewChild('userList', {read: List}) userList: List;
   room: any;
   shownUsers: any = [];
   result: any;

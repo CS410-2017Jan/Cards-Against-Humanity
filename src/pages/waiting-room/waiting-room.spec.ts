@@ -11,6 +11,7 @@ import {NavParams} from "ionic-angular/index";
 import {AlertController} from "ionic-angular/index";
 import {MockNavParams} from "../../mocks";
 import {WaitingRoomPage} from "./waiting-room";
+import {UserFacadeMock} from "../../mocks";
 
 let comp: WaitingRoomPage;
 let fixture: ComponentFixture<WaitingRoomPage>;
@@ -28,7 +29,7 @@ describe('Page: Waiting Room Page', () => {
       providers: [
         {provide: NavController, useClass: NavMock},
         {provide: RoomFacade, useClass: RoomFacade},
-        {provide: UserFacade, useClass: UserFacade},
+        {provide: UserFacade, useClass: UserFacadeMock},
         {provide: NavParams, useClass: MockNavParams}
       ],
 
@@ -40,10 +41,11 @@ describe('Page: Waiting Room Page', () => {
 
   }));
 
+
   beforeEach(() => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     comp = fixture.componentInstance;
-
+    fixture.detectChanges();
   });
 
   afterEach(() => {
@@ -51,6 +53,20 @@ describe('Page: Waiting Room Page', () => {
     comp = null;
     de = null;
     el = null;
+  });
+
+  it('Should have one room if is received by navparams', () => {
+    comp.room = {
+      id: "001",
+      decks: "Mike",
+      isLocked: true,
+      name: "test room",
+      password: "sucks",
+      users:[{username: "scott", id:"2232"}],
+      size: 3
+    };
+
+    expect(comp.room.id).toBe("001");
   });
 
   it('Waiting Room Page is created', () => {

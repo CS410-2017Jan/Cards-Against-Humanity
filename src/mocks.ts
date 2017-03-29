@@ -70,3 +70,14 @@ export class MenuMock {
     });
   }
 }
+
+export class UserFacadeMock {
+
+  public getLoggedInUser(): any {
+    return {
+      'instance': {
+        'username': 'something',
+      },
+    };
+  }
+}

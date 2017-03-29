@@ -15,7 +15,7 @@ let fixture: ComponentFixture<LoginPage>;
 let de: DebugElement;
 let el: HTMLElement;
 
-describe('Page: Room Setup Page', () => {
+describe('Page: Login Page', () => {
 
   beforeEach(async(() => {
 

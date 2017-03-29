@@ -8,6 +8,7 @@ import {ModalController} from "ionic-angular/index";
 import {HomePage} from "./home";
 import {ProgressBarComponent} from "../../components/progress-bar/progress-bar";
 import {ToastController} from "ionic-angular/index";
+import {UserFacadeMock} from "../../mocks";
 
 let comp: HomePage;
 let fixture: ComponentFixture<HomePage>;
@@ -20,15 +21,15 @@ describe('Page: Home Page', () => {
 
     TestBed.configureTestingModule({
 
-      declarations: [MyApp, HomePage, ProgressBarComponent],
+      declarations: [MyApp, HomePage],
 
       providers: [
         {provide: ToastController, useClass: ToastController},
-        {provide: UserFacade, useClass: UserFacade}],
+        {provide: UserFacade, useClass: UserFacadeMock}
+      ],
 
       imports: [
-        Component,
-        Input
+        IonicModule.forRoot(MyApp)
       ],
 
     }).compileComponents();

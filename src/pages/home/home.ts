@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class HomePage {
 
-  loadProgress: number = 0;
+  //loadProgress: number = 0;
   options;
   usere: {email?: string} = {};
   userp: {password?:string} = {};
@@ -25,13 +25,13 @@ export class HomePage {
 
   //https://github.com/joshuamorony/ionic2-progress-component/blob/master/src/pages/home/home.ts
   ionViewDidLoad(){
-    setInterval(() => {
+    /*setInterval(() => {
 
       if(this.loadProgress < 30){
         this.loadProgress++;
       }
 
-    }, 1000);
+    }, 1000);*/
 
   }
 

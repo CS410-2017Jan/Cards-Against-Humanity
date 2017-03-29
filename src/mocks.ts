@@ -21,6 +21,18 @@ export class FormMock {
 
 export class MockNavParams{
   data = {
+    room: {
+        id: "001",
+        decks: [{
+          deckID:"-KdfzixNq1S7IF_LGlCj",
+        }],
+        isLocked: true,
+        name: "test room",
+        password: "sucks",
+        users:[{username: "scott", id:"2232",base64Image:"23423423"},
+          {username: "Hello", id:"342", base64Image:"23423423"}],
+        size: 3
+      }
   };
 
   get(param){
@@ -57,6 +69,14 @@ export class NavMock {
 
 export class PlatformMock {
   public ready(): any {
+    return new Promise((resolve: Function) => {
+      resolve();
+    });
+  }
+}
+
+export class ViewMock {
+  public dismiss(): any {
     return new Promise((resolve: Function) => {
       resolve();
     });

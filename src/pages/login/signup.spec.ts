@@ -1,7 +1,8 @@
+/*
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule, ViewController } from 'ionic-angular';
 import { MyApp } from '../../app/app.component';
 import {NavMock} from "../../mocks";
 import {NavController} from "ionic-angular/index";
@@ -9,9 +10,12 @@ import {RoomFacade} from "../../providers/facades/room-facade";
 import {UserFacade} from "../../providers/facades/user-facade";
 import {ModalController} from "ionic-angular/index";
 import {LoginPage} from "./login";
+import {SignUpModalPage} from "./login";
+import {UserFacadeMock} from "../../mocks";
+import {ViewMock} from "../../mocks";
 
-let comp: LoginPage;
-let fixture: ComponentFixture<LoginPage>;
+let comp: SignUpModalPage;
+let fixture: ComponentFixture<SignUpModalPage>;
 let de: DebugElement;
 let el: HTMLElement;
 
@@ -21,12 +25,11 @@ describe('Page: Login Page', () => {
 
     TestBed.configureTestingModule({
 
-      declarations: [MyApp, LoginPage],
+      declarations: [MyApp, SignUpModalPage],
 
       providers: [
-        {provide: NavController, useClass: NavMock},
-        {provide: ModalController, useClass: ModalController},
-        {provide: UserFacade, useClass: UserFacade}
+        {provide: ViewController, useClass: ViewMock},
+        {provide: UserFacade, useClass: UserFacadeMock}
       ],
 
       imports: [
@@ -38,10 +41,8 @@ describe('Page: Login Page', () => {
   }));
 
   beforeEach(() => {
-
-    fixture = TestBed.createComponent(LoginPage);
+    fixture = TestBed.createComponent(SignUpModalPage);
     comp = fixture.componentInstance;
-
   });
 
   afterEach(() => {
@@ -51,12 +52,11 @@ describe('Page: Login Page', () => {
     el = null;
   });
 
-  it('Login Page is created', () => {
+  it('Sign Up Modal is created', () => {
 
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
 
   });
-
-
 });
+*/

@@ -18,6 +18,8 @@ import {MockNavParams} from "../../mocks";
 import {GamePage} from "./game";
 import {ModalController} from "ionic-angular/index";
 import {ToastController} from "ionic-angular/index";
+import {UserFacadeMock} from "../../mocks";
+import {EndGameModalPage} from "./game";
 
 let comp: GamePage;
 let fixture: ComponentFixture<GamePage>;
@@ -34,7 +36,7 @@ describe('Page: Game Page', () => {
 
       providers: [
         {provide: NavController, useClass: NavMock},
-        {provide: UserFacade, useClass: UserFacade},
+        {provide: UserFacade, useClass: UserFacadeMock},
         {provide: NavParams, useClass: MockNavParams},
         {provide: AlertController, useClass:AlertController},
         {provide: ModalController, useClass:ModalController},
@@ -50,9 +52,9 @@ describe('Page: Game Page', () => {
   }));
 
   beforeEach(() => {
-
     fixture = TestBed.createComponent(GamePage);
     comp = fixture.componentInstance;
+    fixture.detectChanges();
 
   });
 
@@ -63,10 +65,12 @@ describe('Page: Game Page', () => {
     el = null;
   });
 
-  it('Game Page is created', () => {
 
+  it('Game Page is created', () => {
     expect(fixture).toBeTruthy();
     expect(comp).toBeTruthy();
-
   });
+
+
+
 });

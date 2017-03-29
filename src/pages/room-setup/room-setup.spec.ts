@@ -12,6 +12,7 @@ import {NavMock} from "../../mocks";
 import {NavController} from "ionic-angular/index";
 import {RoomFacade} from "../../providers/facades/room-facade";
 import {UserFacade} from "../../providers/facades/user-facade";
+import {WaitingRoomPage} from "../waiting-room/waiting-room";
 
 let comp: RoomSetupPage;
 let fixture: ComponentFixture<RoomSetupPage>;
@@ -60,4 +61,18 @@ describe('Page: Room Setup Page', () => {
     expect(comp).toBeTruthy();
 
   });
+
+/*  it('should be able to launch waiting room page', () => {
+
+    let navCtrl = fixture.debugElement.injector.get(NavController);
+    spyOn(navCtrl, 'push');
+
+    de = fixture.debugElement.query(By.css('ion-item button'));
+    de.triggerEventHandler('click', null);
+
+    expect(navCtrl.push).toHaveBeenCalledWith(WaitingRoomPage);
+
+  });*/
+
+
 });

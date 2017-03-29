@@ -74,4 +74,6 @@ describe('Page: Waiting Room Page', () => {
     expect(comp).toBeTruthy();
 
   });
+
+
 });

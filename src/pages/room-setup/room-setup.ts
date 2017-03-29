@@ -43,7 +43,7 @@ export class RoomSetupPage {
     }
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form?: NgForm) {
     this.submitted = true;
 
     console.log("Name: ", this.room.rname,

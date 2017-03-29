@@ -41,6 +41,8 @@ export class GamePage implements IGameRenderer {
   ScoreModal;    // Instance of score modal
   ViewCtrl;
   UserCtrl;
+  loadProgress: number = 0; //Progress bar
+  showTimer: boolean;
 
   constructor(public navParams:NavParams,
               private toastCtrl:ToastController,
@@ -51,7 +53,7 @@ export class GamePage implements IGameRenderer {
     //navCtrl.viewWillLeave.subscribe((value) => {console.log('viewWillLeave');}) =
 
     this.UserCtrl = userCtrl;
-
+    this.showTimer = false;
     console.log('PARAMS: ');
     console.log(navParams);
 
@@ -262,24 +264,40 @@ export class GamePage implements IGameRenderer {
   // for players submitting white cards
   renderWhiteCardTimer(seconds: number) { // SCOTT
     console.log('TIMER: ' + seconds);
+    this.showTimer = true;
+    setInterval(() => {
+     if(this.loadProgress < 30){
+     this.loadProgress++;
+     }
 
-
+     }, 1000);
   }
 
   //clears the White Card submission timer
   clearWhiteCardTimer() { // SCOTT
-    console.log('CLEAR White Timer')
+    console.log('CLEAR White Timer');
+    this.showTimer = false;
+    this.loadProgress = 0;
   }
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
   renderBlackCardTimer(seconds: number) { // SCOTT
     console.log('TIMER: ' + seconds);
+    this.showTimer = true;
+    setInterval(() => {
+      if(this.loadProgress < 30){
+        this.loadProgress++;
+      }
+
+    }, 1000);
   }
 
   // clears the Black Card submission timer
   clearBlackCardTimer() { // SCOTT
-    console.log('CLEAR Black Timer')
+    console.log('CLEAR Black Timer');
+    this.showTimer = false;
+    this.loadProgress = 0;
   }
 
   // renders the end game when there are not enough players to continue playing

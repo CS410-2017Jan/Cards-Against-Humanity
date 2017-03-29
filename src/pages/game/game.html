@@ -93,6 +93,7 @@
       <button ion-fab color="light" (click)="this.openScoreModal();"><ion-icon name="people"></ion-icon></button>
     </ion-fab>
 
+    <progress-bar [hidden]="!this.showTimer" [progress]="loadProgress"></progress-bar>
   </div>
 
 </ion-content>

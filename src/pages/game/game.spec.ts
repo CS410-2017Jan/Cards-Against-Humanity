@@ -27,6 +27,7 @@ import {GamePlay} from "./game-play";
 import {GameRendererStub} from "./game-renderer-stub";
 import {PubNubMsg} from "../../data-classes/pubnub-msg";
 import {CardSubmission} from "../../data-classes/card-submission";
+import {ProgressBarComponent} from "../../components/progress-bar/progress-bar";
 
 // ======================================================================
 // Dummy Data for Mocks
@@ -65,7 +66,7 @@ describe('Page: Game Page', () => {
 
     TestBed.configureTestingModule({
 
-      declarations: [MyApp, GamePage],
+      declarations: [MyApp, GamePage, ProgressBarComponent],
 
       providers: [
         {provide: NavController, useClass: NavMock},

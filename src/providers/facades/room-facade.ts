@@ -31,7 +31,7 @@ export class RoomFacade {
   // Calls callback with Room
   getRoom(roomID: string, callback) {
     this.roomWebService.getRoom(roomID, function (room) {
-      callback(room)
+      callback(room);
     })
   }
 
@@ -44,7 +44,7 @@ export class RoomFacade {
   private getRooms(callback) {
     console.log('getRooms()');
     this.roomWebService.getAllRooms(function (rooms) {
-      callback(rooms)
+      callback(rooms);
     });
   }
 

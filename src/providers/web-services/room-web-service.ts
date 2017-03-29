@@ -332,4 +332,24 @@ export class RoomWebService {
     }
   }
 
+  deleteRoom(roomID: string){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if DELETE is successful
+      if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        try {
+          // it worked!
+          console.log("Room Deleted");
+          return;
+        } catch (ex) {
+          console.log("Room not found");
+        }
+      } else if (xmlHttp.readyState == 4) {
+        console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("DELETE", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + ".json", true);
+    xmlHttp.send(null);
+  }
+
 }

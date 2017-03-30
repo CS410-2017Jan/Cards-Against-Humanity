@@ -189,7 +189,7 @@ export class GamePlay {
       if (index != -1) {
         this.hand.splice(index, 1);
       } else {
-        //console.log("ERROR: tried to play a card that somehow wasn't in this.hands");
+        console.log("ERROR: tried to play a card that somehow wasn't in this.hands");
       }
 
     } else if (card.type == 'black') {
@@ -497,7 +497,7 @@ export class GamePlay {
         break;
 
       case 'REQUEST_CONTINUE':
-        //console.log('case: REQUEST_CONTINUE');
+        console.log('case: REQUEST_CONTINUE');
         GamePlay.continueRequests.push(content);
         if (GamePlay.continueRequests.length >= GamePlay.players.length) {
           GamePlay.continueRequests = [];
@@ -512,7 +512,7 @@ export class GamePlay {
         break;
 
       case 'NEW_ROUND':
-        //console.log('case: NEW_ROUND');
+        console.log('case: NEW_ROUND');
         this.clearTimers();
         this.collectingCards = true;
         this.ongoingRound = true;

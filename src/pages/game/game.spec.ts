@@ -244,7 +244,6 @@ describe('Page: Game Page', () => {
     expect(console.log).toHaveBeenCalledWith('case: REQUEST_CONTINUE');
 
     // check a new round auto-started
-    expect(console.log).toHaveBeenCalledWith('case: NEW_ROUND');
     expect(gamePage.GamePlay.roundNumber).toEqual(3);
     expect(gamePage.GamePlay.judge.username).toEqual('user3');
 
@@ -252,7 +251,6 @@ describe('Page: Game Page', () => {
     gamePage.GamePlay.handlePresence({action: 'leave', uuid: 'user3'});
 
     // check a new round auto-started
-    expect(console.log).toHaveBeenCalledWith('case: NEW_ROUND');
     expect(gamePage.GamePlay.collectingCards).toBeTruthy;
     expect(gamePage.GamePlay.roundNumber).toEqual(4);
     expect(gamePage.GamePlay.judge.username).toEqual('user4');

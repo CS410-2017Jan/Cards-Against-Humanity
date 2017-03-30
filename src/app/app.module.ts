@@ -8,7 +8,8 @@ import { GamePage } from '../pages/game/game';
 import { WaitingRoomPage } from '../pages/waiting-room/waiting-room';
 import { LoginPage } from '../pages/login/login';
 import { SignUpModalPage } from '../pages/login/login';
-import { ScoreModalPage } from '../pages/game/game'
+import { ScoreModalPage } from '../pages/game/game';
+//import { ContactPage } from '../pages/contact/contact';
 import { RoomListPage } from '../pages/room-list/room-list';
 import { RoomFacade } from '../providers/facades/room-facade';
 import { Player } from "../data-classes/player";
@@ -32,7 +33,8 @@ import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
     ScoreModalPage,
     EndGameModalPage,
     ScoreBoardPage,
-    ProgressBarComponent
+    ProgressBarComponent,
+    //ContactPage
 
   ],
   imports: [
@@ -51,7 +53,8 @@ import {ProgressBarComponent} from "../components/progress-bar/progress-bar";
     SignUpModalPage,
     ScoreModalPage,
     EndGameModalPage,
-    ScoreBoardPage
+    ScoreBoardPage,
+    //ContactPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, RoomFacade, UserFacade, LeaderboardFacade]
 })

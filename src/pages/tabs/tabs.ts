@@ -5,6 +5,7 @@ import { AboutPage } from '../about/about';
 import { RoomSetupPage } from '../room-setup/room-setup';
 import { RoomListPage } from '../room-list/room-list';
 import {ScoreBoardPage} from "../score-board/score-board";
+//import {ContactPage} from "../contact/contact";
 
 @Component({
   selector: 'tabs',
@@ -15,6 +16,7 @@ export class TabsPage {
   tab2Root: any = RoomSetupPage;
   tab3Root: any = RoomListPage;
   tab4Root: any = ScoreBoardPage;
+  //tab5Root: any = ContactPage;
 
   constructor() {}
 }

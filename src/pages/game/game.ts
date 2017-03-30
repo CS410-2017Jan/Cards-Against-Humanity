@@ -5,7 +5,6 @@
  Ionic pages and navigation.
 */
 
-
 import { Component } from '@angular/core';
 import { NavController, NavParams,ToastController,AlertController,ModalController,Platform,ViewController } from 'ionic-angular';
 import { Tools } from '../../tools/general-tools';
@@ -76,6 +75,8 @@ export class GamePage implements IGameRenderer {
     console.log('this.USERNAME: ' + this.USERNAME);
     console.log('room.size: ' + room.size);
 
+    console.log(room.decks[0]);
+    room.decks[0].setSeed(room.id);
     this.DECK = room.decks[0].deal(room.size)[playerIndex];
   }
 
@@ -196,7 +197,7 @@ export class GamePage implements IGameRenderer {
   }
 
   // not currently in use
-  clearContinueRequest() {
+  clearContinueRequest() {  // SCOTT: I don't think this works
     console.log('STUB: clearContinueRequest');
     //this.continueRequest = false;
   }
@@ -263,7 +264,7 @@ export class GamePage implements IGameRenderer {
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting white cards
   renderWhiteCardTimer(seconds: number) { // SCOTT
-    console.log('TIMER: ' + seconds);
+    console.log('START White Card Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     setInterval(() => {
      if(this.loadProgress < seconds){
@@ -275,15 +276,15 @@ export class GamePage implements IGameRenderer {
 
   //clears the White Card submission timer
   clearWhiteCardTimer() { // SCOTT
-    console.log('CLEAR White Timer');
+    console.log('CLEAR White Card Timer');
     this.showTimer = false;
     this.loadProgress = 0;
   }
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
-  renderBlackCardTimer(seconds: number) { // SCOTT
-    console.log('TIMER: ' + seconds);
+  renderPickWinnerTimer(seconds: number) { // SCOTT
+    console.log('START Pick Winner Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     setInterval(() => {
       if(this.loadProgress < seconds){
@@ -293,9 +294,9 @@ export class GamePage implements IGameRenderer {
     }, 1000);
   }
 
-  // clears the Black Card submission timer
-  clearBlackCardTimer() { // SCOTT
-    console.log('CLEAR Black Timer');
+  // clears the Pick Winner submission timer
+  clearPickWinnerTimer() { // SCOTT
+    console.log('CLEAR Pick Winner Timer');
     this.showTimer = false;
     this.loadProgress = 0;
   }
@@ -379,6 +380,7 @@ export class ScoreModalPage {
     </ion-content>
     `
 })
+
 export class EndGameModalPage {
   constructor(public params: NavParams,public viewCtrl: ViewController,public platform: Platform, public navCtrl: NavController) {
     console.log('it worked!');

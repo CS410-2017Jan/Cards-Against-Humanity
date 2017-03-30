@@ -74,7 +74,7 @@ export class GamePlay {
 
     this.NUM_CARDS_HAND = 5;         // TODO: move value to config file
     this.NUM_WINNING_POINTS = 3;     // TODO: move value to config file
-    this.TIMER_DURATION_MS = 7000;  // TODO: move value to config file
+    this.TIMER_DURATION_MS = 30000;  // TODO: move value to config file
     this.MAX_TIMEOUTS_PERMITTED = 2; // TODO: move value to config file
     this.gameStarted = false;
     this.collectingCards = false;

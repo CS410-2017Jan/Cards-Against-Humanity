@@ -34,7 +34,7 @@ export class UserWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
           var JSONArray = JSON.parse(xmlHttp.responseText);
-          console.log('getAllUsers() JSONArray', JSONArray);
+         // console.log('getAllUsers() JSONArray', JSONArray);
           var users: User[] = [];
           for (let id in JSONArray) {
             var base64Image = "";
@@ -47,10 +47,10 @@ export class UserWebService {
           // Got all of them, call the callback
           callback(users);
         } catch (ex) {
-          console.log("Users not found- weird");
+          //console.log("Users not found- weird");
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+      //  console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users.json", true);
@@ -78,10 +78,10 @@ export class UserWebService {
           // Make the user and call the callback on them
           callback(user);
         } catch (ex) {
-          console.log("User not found");
+         // console.log("User not found");
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+       // console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + ".json", true);
@@ -116,11 +116,11 @@ export class UserWebService {
             var JSONArray = JSON.parse(xmlHttp.responseText);
             callback(JSONArray)
           } catch (ex) {
-            console.log("Failed to update score");
+           // console.log("Failed to update score");
             callback(undefined);
           }
         } else if (xmlHttp.readyState == 4) {
-          console.log("Error: " + xmlHttp.status)
+         // console.log("Error: " + xmlHttp.status)
           callback(undefined);
         }
       };
@@ -148,11 +148,11 @@ export class UserWebService {
           callback(true);
           return;
         } catch (ex) {
-          console.log("Failed to update image");
+         // console.log("Failed to update image");
           callback(false);
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+       // console.log("Error: " + xmlHttp.status)
         callback(false);
       }
     };
@@ -173,10 +173,10 @@ export class UserWebService {
           // call the callback
           callback(xmlHttp.responseText);
         } catch (ex) {
-          console.log("User or profile picture not found");
+         // console.log("User or profile picture not found");
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+       // console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/users/" + id + "/image/base64.json", true);
@@ -250,10 +250,10 @@ export class UserWebService {
               var JSONArray = JSON.parse(xmlHttp.responseText);
               callback(JSONArray.name)
             } catch (ex) {
-              console.log("Failed to create user");
+             // console.log("Failed to create user");
             }
           } else if (xmlHttp.readyState == 4) {
-            console.log("Error: " + xmlHttp.status)
+           // console.log("Error: " + xmlHttp.status)
           }
         };
         xmlHttp.open("POST", "https://cards-against-humanity-d6aec.firebaseio.com/users.json", true);
@@ -261,7 +261,7 @@ export class UserWebService {
         // Send the request
         xmlHttp.send(JSON.stringify(data));
       } else {
-        console.log("Failed to create user");
+       // console.log("Failed to create user");
         callback(undefined);
       }
 
@@ -308,19 +308,19 @@ export class UserWebService {
             var ws = new UserWebService();
             ws.cacheLoggedInUser(email, password);
 
-            console.log("Success");
+           // console.log("Success");
             callback(true);
           } else {
             // We failed for some reason
-            console.log("Received response but failed to create firebase user");
+           // console.log("Received response but failed to create firebase user");
             callback(false);
           }
         } catch (ex) {
-          console.log("Failed to create firebase user");
+         // console.log("Failed to create firebase user");
           callback(false);
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+       // console.log("Error: " + xmlHttp.status)
         callback(false);
       }
     };
@@ -350,23 +350,23 @@ export class UserWebService {
             // It worked- cache the logged in user and call the callback with true
             var ws = new UserWebService();
             ws.cacheLoggedInUser(email, password);
-            console.log("Login Verified");
+           // console.log("Login Verified");
             // return the user for this email
             ws.getUserByEmail(email, function(u: User){
               callback(u);
             });
           } else {
             // We failed for some reason
-            console.log("Login Failed");
+           // console.log("Login Failed");
             callback(undefined);
           }
         } catch (ex) {
-          console.log("Login Failed");
-          console.log(ex.message);
+         // console.log("Login Failed");
+         // console.log(ex.message);
           callback(undefined);
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+       // console.log("Error: " + xmlHttp.status)
         callback(undefined);
       }
     };
@@ -410,7 +410,7 @@ export class UserWebService {
         }
         if (foundUser == null) {
           // user not found
-          console.log("User with email " + email + " not found.");
+         // console.log("User with email " + email + " not found.");
           callback(undefined);
         } else {
           // user found
@@ -418,7 +418,7 @@ export class UserWebService {
         }
       } catch (ex) {
         // We messed up somewhere
-        console.log("Encountered exception while finding user by email: " + ex.message);
+       // console.log("Encountered exception while finding user by email: " + ex.message);
         callback(undefined);
       }
     });

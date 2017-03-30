@@ -33,7 +33,7 @@ export class RoomWebService {
       ws.checkLoggedInStatus(function (success: boolean) {
         if (!success) {
           // we're not logged in- bail
-          console.log('Error: not logged in');
+          //console.log('Error: not logged in');
           callback('Error: not logged in');
           return;
         }
@@ -97,7 +97,7 @@ export class RoomWebService {
       ws.checkLoggedInStatus(function (success: boolean) {
         if (!success) {
           // we're not logged in- bail
-          console.log("Error: not logged in");
+          //console.log("Error: not logged in");
           callback("Error: not logged in");
           return;
         }
@@ -161,11 +161,11 @@ export class RoomWebService {
             callback(r)
           });
         } catch (ex) {
-          console.log(ex.message);
-          console.log("Failed to get room " + id);
+          //console.log(ex.message);
+          //console.log("Failed to get room " + id);
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+        //console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + id + ".json", true); // true for asynchronous
@@ -182,11 +182,11 @@ export class RoomWebService {
           // return
           callback(JSON.parse(xmlHttp.responseText));
         } catch (ex) {
-          console.log(ex.message);
-          console.log("Failed to get room or users" + id);
+          //console.log(ex.message);
+          //console.log("Failed to get room or users" + id);
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+        //console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + id + "/users.json", true); // true for asynchronous
@@ -217,11 +217,11 @@ export class RoomWebService {
           }
           callback(returnList);
         } catch (ex) {
-          console.log(ex);
-          console.log("Failed to get deck");
+          //console.log(ex);
+          //console.log("Failed to get deck");
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+        //console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms.json", true); // true for asynchronous
@@ -237,7 +237,7 @@ export class RoomWebService {
       // check if authenticated
       if (!success) {
         // we're not logged in- bail
-        console.log("Error: not logged in");
+        //console.log("Error: not logged in");
         callback("Error: not logged in");
         return;
       }
@@ -270,11 +270,11 @@ export class RoomWebService {
             var JSONArray = JSON.parse(xmlHttp.responseText);
             callback(JSONArray.name)
           } catch (ex) {
-            console.log("Failed to create room");
-            console.log(ex);
+            //console.log("Failed to create room");
+            //console.log(ex);
           }
         } else if (xmlHttp.readyState == 4) {
-          console.log("Error: " + xmlHttp.status)
+          //console.log("Error: " + xmlHttp.status)
         }
       };
       xmlHttp.open("POST", "https://cards-against-humanity-d6aec.firebaseio.com/rooms.json", true);
@@ -326,8 +326,8 @@ export class RoomWebService {
         callback(new Room(decks, isLocked, name, size, roomID, users, password))
       })
     } catch (e) {
-      console.log("Could not parse room");
-      console.log(e.message);
+      //console.log("Could not parse room");
+      //console.log(e.message);
       callback(undefined);
     }
   }
@@ -339,13 +339,13 @@ export class RoomWebService {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         try {
           // it worked!
-          console.log("Room Deleted");
+          //console.log("Room Deleted");
           return;
         } catch (ex) {
-          console.log("Room not found");
+          //console.log("Room not found");
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+        //console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("DELETE", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + ".json", true);

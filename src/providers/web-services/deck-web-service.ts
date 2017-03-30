@@ -46,11 +46,11 @@ export class DeckWebService {
 
           callback(deck);
         } catch(ex) {
-          console.log(ex.message);
-          console.log("Failed to get deck");
+          //console.log(ex.message);
+          //console.log("Failed to get deck");
         }
       } else if (xmlHttp.readyState == 4) {
-        console.log("Error: " + xmlHttp.status)
+        //console.log("Error: " + xmlHttp.status)
       }
     };
     xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/decks/" + id + ".json", true); // true for asynchronous

@@ -153,6 +153,17 @@ describe('Page: Game Page', () => {
     //gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('JOINED', JSON.stringify('user2')))});
   });
 
+  it('Test User Game Render Functions', () => {
+    gamePage.renderBlackCard(testBlackCards[0]);
+    expect(window.console.log).toHaveBeenCalledWith('START: renderBlackCard');
+
+    gamePage.renderWinningCard(testWhiteCards[0]);
+    expect(window.console.log).toHaveBeenCalledWith('START: renderWinningCard');
+
+    gamePage.clearWinningCard();
+    expect(window.console.log).toHaveBeenCalledWith('START: clearWinningCard');
+  });
+
   it('Test Signal Leaving Clears Timers', () => {
     gamePage.GamePlay.signalLeaving();
     expect(window.console.log).toHaveBeenCalledWith('========== cleared both timers');

@@ -148,19 +148,19 @@ export class GamePage implements IGameRenderer {
 
   // set the var angular uses to render the black card
   renderBlackCard(card:Card) {
-    //console.log('STUB: renderBlackCard()');
+    console.log('START: renderBlackCard');
     this.blackCard = card;
   }
 
   // sets the var angular uses to render the winning card
   renderWinningCard(card:Card) {
-    //console.log('STUB: renderWinningCard()');
+    console.log('START: renderWinningCard');
     this.winningCard = card;
   }
 
   // clears the var angular uses to render the winning card
   clearWinningCard() {
-    //console.log('STUB: clearWinningCard');
+    console.log('START: clearWinningCard');
     this.winningCard = false;
   }
 

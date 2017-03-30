@@ -280,13 +280,13 @@ export class GamePlay {
   }
 
   // called when a timer expires for clicking the continue button
-  continueTimerExpire() {
-    console.log('===== START: continueTimerExpire');
-    this.GameRenderer.renderText('Moving on!');
-
-    this.GameRenderer.clearContinueButton();
-    this.requestContinue();
-  }
+  // continueTimerExpire() {
+  //   console.log('===== START: continueTimerExpire');
+  //   this.GameRenderer.renderText('Moving on!');
+  //
+  //   this.GameRenderer.clearContinueButton();
+  //   this.requestContinue();
+  // }
 
   // checks if the player has timed out enough times in a row to be kicked!
   checkTimeoutCounts() {

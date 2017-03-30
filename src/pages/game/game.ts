@@ -56,12 +56,12 @@ export class GamePage implements IGameRenderer {
 
     this.UserCtrl = userCtrl;
     this.showTimer = false;
-    console.log('PARAMS: ');
-    console.log(navParams);
+    //console.log('PARAMS: ');
+    //console.log(navParams);
 
     var room = navParams.get('room');
-    console.log('passed room:');
-    console.log(room);
+    //console.log('passed room:');
+    //console.log(room);
 
     this.USERNAME = navParams.get('username');
     // this.SUBKEY = navParams.get('subkey');
@@ -72,19 +72,19 @@ export class GamePage implements IGameRenderer {
 
     var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
 
-    console.log('players:');
-    console.log(this.PLAYERS);
-    console.log('playerIndex:' + playerIndex);
-    console.log('this.USERNAME: ' + this.USERNAME);
-    console.log('room.size: ' + room.size);
+    //console.log('players:');
+    //console.log(this.PLAYERS);
+    //console.log('playerIndex:' + playerIndex);
+    //console.log('this.USERNAME: ' + this.USERNAME);
+    //console.log('room.size: ' + room.size);
 
-    console.log(room.decks[0]);
+    //console.log(room.decks[0]);
     room.decks[0].setSeed(room.id);
     this.DECK = room.decks[0].deal(room.size)[playerIndex];
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad GamePage');
+    //console.log('ionViewDidLoad GamePage');
 
     // set up GamePlay singleton to make moves
     this.GamePlay = new GamePlay(
@@ -105,7 +105,7 @@ export class GamePage implements IGameRenderer {
   }
 
   ionViewWillLeave() {
-    console.log('=================================================ABOUT TO LEAVE');
+    //console.log('=================================================ABOUT TO LEAVE');
     this.GamePlay.signalLeaving();
   }
 
@@ -148,25 +148,25 @@ export class GamePage implements IGameRenderer {
 
   // set the var angular uses to render the black card
   renderBlackCard(card:Card) {
-    console.log('STUB: renderBlackCard()');
+    //console.log('STUB: renderBlackCard()');
     this.blackCard = card;
   }
 
   // sets the var angular uses to render the winning card
   renderWinningCard(card:Card) {
-    console.log('STUB: renderWinningCard()');
+    //console.log('STUB: renderWinningCard()');
     this.winningCard = card;
   }
 
   // clears the var angular uses to render the winning card
   clearWinningCard() {
-    console.log('STUB: clearWinningCard');
+    //console.log('STUB: clearWinningCard');
     this.winningCard = false;
   }
 
   // sets the boolean which tells angular to render the continue button
   renderContinueButton() {
-    console.log('STUB: renderContinueButton');
+    //console.log('STUB: renderContinueButton');
     this.continueButton = true;
 
     var Game = this;
@@ -178,7 +178,7 @@ export class GamePage implements IGameRenderer {
         {
           text: 'Continue',
           handler: () => {
-           console.log('Continue clicked');
+           //console.log('Continue clicked');
             Game.requestContinue();
           }
         }
@@ -195,13 +195,13 @@ export class GamePage implements IGameRenderer {
 
   // called when some player requests continuing
   renderContinueRequest() {
-    console.log('STUB: renderContinueRequest');
+    //console.log('STUB: renderContinueRequest');
     //this.continueRequest = true;
   }
 
   // not currently in use
   clearContinueRequest() {  // SCOTT: I don't think this works
-    console.log('STUB: clearContinueRequest');
+    //console.log('STUB: clearContinueRequest');
     //this.continueRequest = false;
   }
 
@@ -217,7 +217,7 @@ export class GamePage implements IGameRenderer {
 
   // sets the vars angular uses to render this round's submitted cards
   renderCardsSubmitted(cardsPlayed: Array<CardSubmission>, clickable: boolean) {
-    console.log(cardsPlayed);
+    //console.log(cardsPlayed);
     this.clickable = clickable;
     this.cardSubmissions = Tools.clone(cardsPlayed);
   }
@@ -230,7 +230,7 @@ export class GamePage implements IGameRenderer {
   // sets the var angular uses to render players' scores
   renderScores(players: Array<Player>) {
     this.players = Tools.clone(players);
-    console.log(this.players);
+    //console.log(this.players);
   }
 
   presentToast(str: string) {
@@ -246,9 +246,9 @@ export class GamePage implements IGameRenderer {
   }
 
   sendVibration() {
-    console.log('Before Vibration');
+    //console.log('Before Vibration');
     navigator.vibrate(1000);
-    console.log('After Vibration');
+    //console.log('After Vibration');
   }
 
   // sets the text var angular uses to display text instructions/messages
@@ -267,7 +267,7 @@ export class GamePage implements IGameRenderer {
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting white cards
   renderWhiteCardTimer(seconds: number) { // SCOTT
-    console.log('START White Card Timer: ' + seconds + ' seconds');
+    //console.log('START White Card Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     this.wTimer = setInterval(() => {
      if(this.loadProgress < seconds){
@@ -280,16 +280,16 @@ export class GamePage implements IGameRenderer {
 
   //clears the White Card submission timer
   clearWhiteCardTimer() { // SCOTT
-    console.log('CLEAR White Card Timer');
+    //console.log('CLEAR White Card Timer');
     this.showTimer = false;
-    clearInterval(this.wTimer);
+    //clearInterval(this.wTimer);
     this.loadProgress = 0;
   }
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
   renderPickWinnerTimer(seconds: number) { // SCOTT
-    console.log('START Pick Winner Timer: ' + seconds + ' seconds');
+    //console.log('START Pick Winner Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     this.bTimer = setInterval(() => {
       if(this.loadProgress < seconds){
@@ -302,7 +302,7 @@ export class GamePage implements IGameRenderer {
 
   // clears the Pick Winner submission timer
   clearPickWinnerTimer() { // SCOTT
-    console.log('CLEAR Pick Winner Timer');
+    //console.log('CLEAR Pick Winner Timer');
     this.showTimer = false;
     clearInterval(this.bTimer);
     this.loadProgress = 0;
@@ -310,7 +310,7 @@ export class GamePage implements IGameRenderer {
 
   // renders the end game when there are not enough players to continue playing
   renderNotEnoughPlayers(players: Array<Player>) { // SCOTT
-    console.log('STUB: renderNotEnoughPLayers');
+    //console.log('STUB: renderNotEnoughPLayers');
     this.renderGameOver(players);
   }
 
@@ -356,7 +356,7 @@ export class GamePage implements IGameRenderer {
 })
 export class ScoreModalPage {
   constructor(public params: NavParams,public viewCtrl: ViewController,public platform: Platform) {
-    console.log('it worked!');
+    //console.log('it worked!');
   }
 
   dismiss() {
@@ -395,7 +395,7 @@ export class ScoreModalPage {
 
 export class EndGameModalPage {
   constructor(public params: NavParams,public viewCtrl: ViewController,public platform: Platform, public navCtrl: NavController) {
-    console.log('it worked!');
+    //console.log('it worked!');
   }
 
   dismiss() {

@@ -75,14 +75,14 @@ describe('UserFacade Tests', () => {
     });
   });
 
-  // TODO: Uncomment for testing
-  // it('Test: should create new user', function (done) {
-  //   userFacade.createUser('userfacade', 'password', 'userfacade@gmail.com', function (id: string) {
-  //     userFacade.getUserByEmail('userfacade@gmail.com', function (user: User) {
-  //       expect(user.id).toBe(id);
-  //       done();
-  //     });
-  //   });
-  // });
+  //TODO: Uncomment for testing
+  /*it('Test: should create new user', function (done) {
+    userFacade.createUser('userfacade', 'password', 'userfacade@gmail.com', function (id: string) {
+      userFacade.getUserByEmail('userfacade@gmail.com', function (user: User) {
+        expect(user.id).toBe(id);
+        done();
+      });
+    });
+  });*/
 
 });

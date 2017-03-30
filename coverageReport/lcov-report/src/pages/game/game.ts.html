@@ -1,0 +1,1280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/pages/game/game.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">src/pages/game</a> game.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">54.55% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>72/132</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.02% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>46/63</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.95% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">55.46% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>66/119</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ Generated class for the GamePlay page.
+&nbsp;
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+*/
+&nbsp;
+import { Component } from '@angular/core';
+import { NavController, NavParams,ToastController,AlertController,ModalController,Platform,ViewController } from 'ionic-angular';
+import { Tools } from '../../tools/general-tools';
+import { GamePlay } from './game-play';
+import { Card } from '../../data-classes/card';
+import { Player } from '../../data-classes/player';
+import { CardSubmission } from '../../data-classes/card-submission';
+import { IGameRenderer } from './i-game-renderer';
+import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
+import { UserFacade } from "../../providers/facades/user-facade";
+&nbsp;
+@Component({
+  selector: 'page-game', // should this be game-page?
+  templateUrl: 'game.html'
+})
+&nbsp;
+// ======================================================================
+// This Class instantiates GamePlay singleton classes and calls the
+// appropriate methods to play the game and then render the game.
+// This class implements the IGameRenderer interface in order to render the
+// elements of the game after making moves using the GamePlay singleton
+// ======================================================================
+export class GamePage implements IGameRenderer {
+  USERNAME;      // this client's username will not change during a game
+  // SUBKEY;     // PubNub connection subscription key
+  // PUBKEY;     // PubNub connection publish key
+  CHANNEL;       // PubNub channel to join
+  DECK;          // Deck object to pass to GamePlay
+  PLAYERS;       // Player object to pass to GamePlay
+&nbsp;
+  GamePlay;      // A GamePlay singleton object
+  ScoreModal;    // Instance of score modal
+  ViewCtrl;
+  UserCtrl;
+  loadProgress: number = 0; //Progress bar
+  showTimer: boolean;
+  bTimer;
+  wTimer;
+&nbsp;
+  constructor(public navParams:NavParams<span class="branch-1 cbranch-no" title="branch not covered" >,</span>
+              public navCtrl: NavController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              private toastCtrl:ToastController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              public alertCtrl:AlertController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              public modalCtrl:ModalController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              public userCtrl: UserFacade<span class="branch-2 cbranch-no" title="branch not covered" >) {</span>
+&nbsp;
+    //navCtrl.viewWillLeave.subscribe((value) =&gt; {console.log('viewWillLeave');}) =
+&nbsp;
+    this.UserCtrl = userCtrl;
+    this.showTimer = false;
+    //console.log('PARAMS: ');
+    //console.log(navParams);
+&nbsp;
+    var room = navParams.get('room');
+    //console.log('passed room:');
+    //console.log(room);
+&nbsp;
+    this.USERNAME = navParams.get('username');
+    // this.SUBKEY = navParams.get('subkey');
+    // this.PUBKEY = navParams.get('pubkey');
+    this.CHANNEL = 'game_'+room.id;
+&nbsp;
+    this.PLAYERS = Player.createPlayersFromUsers(room.users);
+&nbsp;
+    var playerIndex = Player.getPlayerIndex(this.PLAYERS, this.USERNAME);
+&nbsp;
+    //console.log('players:');
+    //console.log(this.PLAYERS);
+    //console.log('playerIndex:' + playerIndex);
+    //console.log('this.USERNAME: ' + this.USERNAME);
+    //console.log('room.size: ' + room.size);
+&nbsp;
+    //console.log(room.decks[0]);
+    room.decks[0].setSeed(room.id);
+    this.DECK = room.decks[0].deal(room.size)[playerIndex];
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  ionViewDidLoad() {</span>
+    //console.log('ionViewDidLoad GamePage');
+&nbsp;
+    // set up GamePlay singleton to make moves
+<span class="cstat-no" title="statement not covered" >    this.GamePlay = new GamePlay(</span>
+                                  this.UserCtrl,
+                                  this.CHANNEL,
+                                  'sub-c-a72c3874-e836-11e6-b3b8-0619f8945a4f',
+                                  'pub-c-4c3ec11e-305a-420f-ba3b-265b35ee99e7',
+                                  this.USERNAME,
+                                  this.PLAYERS,
+                                  this.DECK,
+                                  this
+                                );
+&nbsp;
+    // render scores of 0
+<span class="cstat-no" title="statement not covered" >    this.renderScores(Tools.clone(this.PLAYERS));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.GamePlay.signalJoined();</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  ionViewWillLeave() {</span>
+    //console.log('=================================================ABOUT TO LEAVE');
+<span class="cstat-no" title="statement not covered" >    this.GamePlay.signalLeaving();</span>
+  }
+&nbsp;
+  // ======================================================================
+  // Below functions are what a user can do. The UI will tie to these functions
+  // ======================================================================
+&nbsp;
+  // called by user clicking a button or when the judge starts
+  // a round and plays a black card
+<span class="fstat-no" title="function not covered" >  requestPlayCard(</span>card:Card) {
+<span class="cstat-no" title="statement not covered" >    this.clearHand();</span>
+<span class="cstat-no" title="statement not covered" >    this.GamePlay.playCard(card);</span>
+  }
+&nbsp;
+  // called by user clicking a button to request continuing the game
+<span class="fstat-no" title="function not covered" >  requestContinue() {</span>
+<span class="cstat-no" title="statement not covered" >    this.clearContinueButton();</span>
+<span class="cstat-no" title="statement not covered" >    this.GamePlay.requestContinue();</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  openScoreModal() {</span>
+    let scoreModal = <span class="cstat-no" title="statement not covered" >this.modalCtrl.create(ScoreModalPage,{"players": this.players});</span>
+<span class="cstat-no" title="statement not covered" >    scoreModal.present();</span>
+  }
+&nbsp;
+  // ======================================================================
+  // Below functions implement the interface: IGameRender
+  // ======================================================================
+&nbsp;
+  // vars to render using angular:
+  text: string = '';
+  blackCard: Card;
+  hand: Array&lt;Card&gt;;
+  cardSubmissions: Array&lt;CardSubmission&gt;;
+  continueButton: boolean;
+  //continueRequest;
+  winningCard; // TODO: please type this
+  clickable: boolean;
+  players: Array&lt;Player&gt;;
+&nbsp;
+  // set the var angular uses to render the black card
+  renderBlackCard(card:Card) {
+    console.log('START: renderBlackCard');
+    this.blackCard = card;
+  }
+&nbsp;
+  // sets the var angular uses to render the winning card
+  renderWinningCard(card:Card) {
+    console.log('START: renderWinningCard');
+    this.winningCard = card;
+  }
+&nbsp;
+  // clears the var angular uses to render the winning card
+  clearWinningCard() {
+    console.log('START: clearWinningCard');
+    this.winningCard = false;
+  }
+&nbsp;
+  // sets the boolean which tells angular to render the continue button
+<span class="fstat-no" title="function not covered" >  renderContinueButton() {</span>
+    //console.log('STUB: renderContinueButton');
+<span class="cstat-no" title="statement not covered" >    this.continueButton = true;</span>
+&nbsp;
+    var Game = <span class="cstat-no" title="statement not covered" >this;</span>
+&nbsp;
+    let alert = <span class="cstat-no" title="statement not covered" >this.alertCtrl.create({</span>
+      title: 'Ready to move on?',
+      message: '',
+      buttons: [
+        {
+          text: 'Continue',
+          handler: <span class="fstat-no" title="function not covered" >() =&gt; {</span>
+           //console.log('Continue clicked');
+<span class="cstat-no" title="statement not covered" >            Game.requestContinue();</span>
+          }
+        }
+      ]
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    alert.present();</span>
+  }
+&nbsp;
+  // falsifies the boolean which tells angular to clear the continue button
+<span class="fstat-no" title="function not covered" >  clearContinueButton() {</span>
+<span class="cstat-no" title="statement not covered" >    this.continueButton = false;</span>
+  }
+&nbsp;
+  // called when some player requests continuing
+<span class="fstat-no" title="function not covered" >  renderContinueRequest() {</span>
+    //console.log('STUB: renderContinueRequest');
+    //this.continueRequest = true;
+  }
+&nbsp;
+  // not currently in use
+<span class="fstat-no" title="function not covered" >  clearContinueRequest() {  // SCOTT: I don't think this works</span>
+    //console.log('STUB: clearContinueRequest');
+    //this.continueRequest = false;
+  }
+&nbsp;
+  // sets the hand var angular uses to render this player's hand of cards
+<span class="fstat-no" title="function not covered" >  renderHand(</span>hand:Array&lt;Card&gt;) {
+<span class="cstat-no" title="statement not covered" >    this.hand = hand;</span>
+  }
+&nbsp;
+  // clears the hand var angular uses to render this player's hand of cards
+<span class="fstat-no" title="function not covered" >  clearHand() {</span>
+<span class="cstat-no" title="statement not covered" >    this.hand = [];</span>
+  }
+&nbsp;
+  // sets the vars angular uses to render this round's submitted cards
+<span class="fstat-no" title="function not covered" >  renderCardsSubmitted(</span>cardsPlayed: Array&lt;CardSubmission&gt;, clickable: boolean) {
+    //console.log(cardsPlayed);
+<span class="cstat-no" title="statement not covered" >    this.clickable = clickable;</span>
+<span class="cstat-no" title="statement not covered" >    this.cardSubmissions = Tools.clone(cardsPlayed);</span>
+  }
+&nbsp;
+  // clears the vars angular uses to render this round's submitted cards
+<span class="fstat-no" title="function not covered" >  clearCardsSubmitted() {</span>
+<span class="cstat-no" title="statement not covered" >    this.cardSubmissions = [];</span>
+  }
+&nbsp;
+  // sets the var angular uses to render players' scores
+<span class="fstat-no" title="function not covered" >  renderScores(</span>players: Array&lt;Player&gt;) {
+<span class="cstat-no" title="statement not covered" >    this.players = Tools.clone(players);</span>
+    //console.log(this.players);
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  presentToast(</span>str: string) {
+    let toast = <span class="cstat-no" title="statement not covered" >this.toastCtrl.create({</span>
+      message: str,
+      duration: 5000,
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'OK'
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    toast.present();</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  sendVibration() {</span>
+    //console.log('Before Vibration');
+<span class="cstat-no" title="statement not covered" >    navigator.vibrate(1000);</span>
+    //console.log('After Vibration');
+  }
+&nbsp;
+  // sets the text var angular uses to display text instructions/messages
+<span class="fstat-no" title="function not covered" >  renderText(</span>str: string) {
+<span class="cstat-no" title="statement not covered" >    this.text = str;</span>
+<span class="cstat-no" title="statement not covered" >    this.sendVibration();</span>
+<span class="cstat-no" title="statement not covered" >    this.presentToast(str);</span>
+  }
+&nbsp;
+  // renders the game over results
+<span class="fstat-no" title="function not covered" >  renderGameOver(</span>players: Array&lt;Player&gt;) {
+    let gameEndModal = <span class="cstat-no" title="statement not covered" >this.modalCtrl.create(EndGameModalPage,{"players": this.players});</span>
+<span class="cstat-no" title="statement not covered" >    gameEndModal.present();</span>
+  }
+&nbsp;
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting white cards
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  renderWhiteCardTimer(</span>seconds: number) { // SCOTT</span>
+    //console.log('START White Card Timer: ' + seconds + ' seconds');
+<span class="cstat-no" title="statement not covered" >    this.showTimer = true;</span>
+<span class="cstat-no" title="statement not covered" >    this.wTimer = setInterval(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >     if(this.loadProgress &lt; seconds){</span>
+<span class="cstat-no" title="statement not covered" >     this.loadProgress++;</span>
+     }
+     }, 1000);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.loadProgress = 0;</span>
+  }
+&nbsp;
+  //clears the White Card submission timer
+<span class="fstat-no" title="function not covered" >  clearWhiteCardTimer() { // SCOTT</span>
+    //console.log('CLEAR White Card Timer');
+<span class="cstat-no" title="statement not covered" >    this.showTimer = false;</span>
+    //clearInterval(this.wTimer);
+<span class="cstat-no" title="statement not covered" >    this.loadProgress = 0;</span>
+  }
+&nbsp;
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting black cards
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  renderPickWinnerTimer(</span>seconds: number) { // SCOTT</span>
+    //console.log('START Pick Winner Timer: ' + seconds + ' seconds');
+<span class="cstat-no" title="statement not covered" >    this.showTimer = true;</span>
+<span class="cstat-no" title="statement not covered" >    this.bTimer = setInterval(<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >      if(this.loadProgress &lt; seconds){</span>
+<span class="cstat-no" title="statement not covered" >        this.loadProgress++;</span>
+      }
+&nbsp;
+    }, 1000);
+<span class="cstat-no" title="statement not covered" >    this.loadProgress = 0;</span>
+  }
+&nbsp;
+  // clears the Pick Winner submission timer
+<span class="fstat-no" title="function not covered" >  clearPickWinnerTimer() { // SCOTT</span>
+    //console.log('CLEAR Pick Winner Timer');
+<span class="cstat-no" title="statement not covered" >    this.showTimer = false;</span>
+<span class="cstat-no" title="statement not covered" >    clearInterval(this.bTimer);</span>
+<span class="cstat-no" title="statement not covered" >    this.loadProgress = 0;</span>
+  }
+&nbsp;
+  // renders the end game when there are not enough players to continue playing
+<span class="fstat-no" title="function not covered" >  renderNotEnoughPlayers(</span>players: Array&lt;Player&gt;) { // SCOTT
+    //console.log('STUB: renderNotEnoughPLayers');
+<span class="cstat-no" title="statement not covered" >    this.renderGameOver(players);</span>
+  }
+&nbsp;
+  // render the player's newly updated global score
+<span class="fstat-no" title="function not covered" >  renderNewGlobalScore(</span>score: number) {
+<span class="cstat-no" title="statement not covered" >    this.renderText("You've won " + score + " games total!");</span>
+  }
+&nbsp;
+  // forcefully removes player from the game
+<span class="fstat-no" title="function not covered" >  kickPlayer() {</span>
+<span class="cstat-no" title="statement not covered" >    this.navCtrl.popToRoot();</span>
+  }
+}
+&nbsp;
+&nbsp;
+@Component({
+  template: `
+  &lt;ion-header&gt;
+  &lt;ion-toolbar&gt;
+&nbsp;
+    &lt;ion-title&gt;
+      Scoreboard
+    &lt;/ion-title&gt;
+&nbsp;
+     &lt;ion-buttons start&gt;
+      &lt;button ion-button (click)="dismiss()"&gt;
+        &lt;span ion-text color="primary" showWhen="ios"&gt;Cancel&lt;/span&gt;
+        &lt;ion-icon name="md-close" showWhen="android, windows"&gt;&lt;/ion-icon&gt;
+      &lt;/button&gt;
+    &lt;/ion-buttons&gt;
+&nbsp;
+  &lt;/ion-toolbar&gt;
+      &lt;/ion-header&gt;
+&nbsp;
+      &lt;ion-content&gt;
+&lt;ion-list&gt;
+    &lt;ion-item *ngFor="let player of  this.params.get('players'); let i = index"&gt;
+    {{i+1}}. {{player.username}} &lt;ion-badge item-right&gt;{{player.score}}&lt;/ion-badge&gt;
+    &lt;/ion-item&gt;
+    &lt;/ion-list&gt;
+    &lt;/ion-content&gt;
+    `
+})
+export class ScoreModalPage {
+<span class="fstat-no" title="function not covered" >  constructor(public <span class="cstat-no" title="statement not covered" ></span>params: NavParams<span class="branch-1 cbranch-no" title="branch not covered" >,</span>public <span class="cstat-no" title="statement not covered" >viewCtrl: </span>ViewController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>public <span class="cstat-no" title="statement not covered" >platform: </span>Platform<span class="branch-2 cbranch-no" title="branch not covered" >)</span> {</span>
+    //console.log('it worked!');
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  dismiss() {</span>
+<span class="cstat-no" title="statement not covered" >    this.viewCtrl.dismiss();</span>
+  }
+}
+&nbsp;
+@Component({
+  template: `
+  &lt;ion-header&gt;
+  &lt;ion-toolbar&gt;
+&nbsp;
+    &lt;ion-title&gt;
+      GAME OVER!
+    &lt;/ion-title&gt;
+&nbsp;
+     &lt;ion-buttons start&gt;
+      &lt;button ion-button (click)="dismiss()"&gt;
+        &lt;span ion-text color="primary" showWhen="ios"&gt;Cancel&lt;/span&gt;
+        &lt;ion-icon name="md-close" showWhen="android, windows"&gt;&lt;/ion-icon&gt;
+      &lt;/button&gt;
+    &lt;/ion-buttons&gt;
+&nbsp;
+  &lt;/ion-toolbar&gt;
+      &lt;/ion-header&gt;
+&nbsp;
+      &lt;ion-content&gt;
+&lt;ion-list&gt;
+    &lt;ion-item *ngFor="let player of  this.params.get('players'); let i = index"&gt;
+    {{i+1}}. {{player.username}} &lt;ion-badge item-right&gt;{{player.score}}&lt;/ion-badge&gt;
+    &lt;/ion-item&gt;
+    &lt;/ion-list&gt;
+    &lt;/ion-content&gt;
+    `
+})
+&nbsp;
+export class EndGameModalPage {
+<span class="fstat-no" title="function not covered" >  constructor(public <span class="cstat-no" title="statement not covered" ></span>params: NavParams<span class="branch-1 cbranch-no" title="branch not covered" >,</span>public <span class="cstat-no" title="statement not covered" >viewCtrl: </span>ViewController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>public <span class="cstat-no" title="statement not covered" >platform: </span>Platform<span class="branch-2 cbranch-no" title="branch not covered" >,</span> public <span class="cstat-no" title="statement not covered" >navCtrl: </span>NavController<span class="branch-2 cbranch-no" title="branch not covered" >)</span> {</span>
+    //console.log('it worked!');
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  dismiss() {</span>
+<span class="cstat-no" title="statement not covered" >    this.navCtrl.push(TabsPage);</span>
+<span class="cstat-no" title="statement not covered" >    this.viewCtrl.dismiss();</span>
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 29 2017 22:17:02 GMT-0700 (Pacific Daylight Time)
+</div>
+</div>
+<script src="..\..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\..\sorter.js"></script>
+</body>
+</html>

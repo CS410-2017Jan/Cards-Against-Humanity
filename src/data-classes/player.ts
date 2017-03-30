@@ -2,33 +2,50 @@
  * Created by jjxn on 2/19/2017.
  */
 
+import {User} from './user';
+
 // ======================================================================
 // This Class outlines the data structure of a Player
 // ======================================================================
-export class Player {
-  username: string;
+export class Player extends User {
   score: number;
-  id: string;
-  email: string;
+  //base64Image: string;
 
-  constructor(username: string, id?: string, email?: string) {
-    this.username = username;
+  constructor(username: string, id?: string, base64Image?: string) {
+    super(username, id, undefined, undefined, base64Image);
     this.score = 0;
-    this.id = id;
-    this.email = email;
-  }
-  // Prints information about the player to the console
-  print(){
-    console.log(this.username + " ID: (" + this.id + ")- " + this.score);
   }
 
-  static getPlayerIndex(players: Array<Player>, username: string) : number {
+  // Prints information about the player to the console
+  print() {
+    console.log(this.username + ' ID: (' + this.id + ')- ' + this.score);
+  }
+
+  // return int index of player corresponding to the given username in
+  // the given array of players. returns -1 on error.
+  static getPlayerIndex(players: Array<Player>, username: string): number {
     for (var i = 0; i < players.length; i++) {
       if (players[i].username == username) return i;
     }
-    console.log("ERROR: username not found in given players");
+    console.log('ERROR: username: ' + username + ' not found in given players: ');
+    console.log(players);
     return -1;
   }
 
-}
+  // creates a player for each user in given array of users
+  static createPlayersFromUsers(users: Array<User>): Array<Player> {
+    var players: Array<Player> = [];
+    for (let user of users) {
+      players.push(new Player(user.username, user.id, user.base64Image));
+    }
 
+    // sort players alphabetically
+    players.sort(function(a: Player, b: Player) {
+      if(a.username < b.username) return -1;
+      if(a.username > b.username) return 1;
+      return 0;
+    });
+
+    return players;
+  }
+}

@@ -24,25 +24,26 @@
 
       <ion-item>
         <ion-label>Players</ion-label>
-        <ion-select [(ngModel)]="room.players" name="players" #players="ngModel">
+        <ion-select [(ngModel)]="room.rsize" name="rsize" #users="ngModel">
           <ion-option value="3">3</ion-option>
           <ion-option value="4">4</ion-option>
+          <ion-option value="5">5</ion-option>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label>Private</ion-label>
-        <ion-toggle  value="private"[(ngModel)]="room.rtype" name="rtype" #rtype="ngModel" checked="false"></ion-toggle>
+        <ion-toggle [(ngModel)]="room.rtype" name="rtype" #rtype="ngModel" checked="false" (ionChange)="clickShowPassword()"></ion-toggle>
       </ion-item>
 
-      <ion-item>
+      <ion-item [hidden]="!this.showPassword">
         <ion-label fixed>Password</ion-label>
         <ion-input type="text" [(ngModel)]="room.rpassword" name="rpassword" #rpassword="ngModel" ></ion-input>
       </ion-item>
 
 
     <ion-item>
-    <button ion-button (click)="onSubmit(roomForm)" type="submit" >Create Room</button>
+    <button ion-button id="test1" (click)="onSubmit(roomForm)" type="submit" >Create Room</button>
     </ion-item>
 
     </form>

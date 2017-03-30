@@ -1,6 +1,7 @@
 /**
- * Created by Joshua Jackson on 21-Feb-17.
+ * Created by Joshua Jackson on 29-Mar-17.
  */
+
 import { NavController, NavParams, ToastController,AlertController, ModalController, ViewController, Platform} from 'ionic-angular';
 import { Component } from '@angular/core';
 
@@ -17,139 +18,148 @@ import { Tools } from '../../tools/general-tools';
 export class GameRendererStub implements IGameRenderer {
 
   // vars to render using angular:
-   text = '';
-   blackCard;
-   hand;
-   cardsSubmitted: Array<CardSubmission>;
-   continueButton;
-   //continueRequest;
-   winningCard;
-   clickable;
-   players;
+  // text = '';
+  // blackCard;
+  // hand;
+  // cardsSubmitted: Array<CardSubmission>;
+  // continueButton;
+  // //continueRequest;
+  // winningCard;
+  // clickable;
+  // players;
 
-   constructor(private toastCtrl: ToastController,
-               public alertCtrl: AlertController,
-               public gamePage:GamePage,
-               public modalCtrl:ModalController) {
-   }
+  constructor() {
+  }
+
+
+  // ======================================================================
+  // Below functions are what a user can do. The UI will tie to these functions
+  // ======================================================================
+
+  // called by user clicking a button or when the judge starts
+  // a round and plays a black card
+  requestPlayCard(card:Card) {
+    console.log('STUB: requestPlayCard');
+  }
+
+  // called by user clicking a button to request continuing the game
+  requestContinue() {
+    console.log('STUB: requestContinue');
+  }
+
+  openScoreModal() {
+    console.log('STUB: openScoreModal');
+  }
+
+  // ======================================================================
+  // Below functions implement the interface: IGameRender
+  // ======================================================================
 
   // set the var angular uses to render the black card
   renderBlackCard(card: Card) {
-    console.log('STUB: renderBlackCard()');
-    this.blackCard = card;
+    console.log('STUB: renderBlackCard');
+    console.log(card);
   }
 
   // sets the var angular uses to render the winning card
   renderWinningCard(card: Card) {
-    console.log('STUB: renderWinningCard()');
-    this.winningCard = card;
+    console.log('STUB: renderWinningCard');
+    console.log(card);
   }
 
   // clears the var angular uses to render the winning card
   clearWinningCard() {
     console.log('STUB: clearWinningCard');
-    this.winningCard = false;
   }
 
 
   // sets the boolean which tells angular to render the continue button
   renderContinueButton() {
     console.log('STUB: renderContinueButton');
-    this.continueButton = true;
-
-      let alert = this.alertCtrl.create({
-        title: 'Ready to move on?',
-        message: '',
-        buttons: [
-          {
-            text: 'Continue',
-            handler: () => {
-              console.log('Continue clicked');
-            }
-          }
-        ]
-      });
-
-      alert.present();
-
-    this.gamePage.requestContinue();
-    }
+  }
 
   // falsifies the boolean which tells angular to clear the continue button
   clearContinueButton() {
     console.log('STUB: clearContinueButton');
-    this.continueButton = false;
   }
 
   // // called when some player requests continuing
   // renderContinueRequest() {
   //   console.log('STUB: renderContinueRequest');
-  //   //this.continueRequest = true;
   // }
   //
   // // not currently in use
   // clearContinueRequest() {
   //   console.log('STUB: clearContinueRequest');
-  //   //this.continueRequest = false;
   // }
 
   // sets the hand var angular uses to render this player's hand of cards
   renderHand(hand: Array<Card>) {
     console.log('STUB: renderHand');
-    this.hand = hand;
+    console.log(hand);
   }
 
   // clears the hand var angular uses to render this player's hand of cards
   clearHand() {
     console.log('STUB: clearHand');
-    this.hand = [];
   }
 
   // sets the vars angular uses to render this round's submitted cards
   renderCardsSubmitted(cardsSubmitted: Array<CardSubmission>, clickable: boolean) {
     console.log('STUB: renderCardsSubmitted');
     console.log(cardsSubmitted);
-    this.clickable = clickable;
-    this.cardsSubmitted = cardsSubmitted;
   }
 
   // clears the vars angular uses to render this round's submitted cards
   clearCardsSubmitted() {
     console.log('STUB: clearCardsSubmitted');
-    this.cardsSubmitted = [];
   }
 
   // sets the var angular uses to render players' scores
   renderScores(players: Array<Player>) {
     console.log('STUB: renderScores');
-    this.players = Tools.clone(players);
-    console.log(this.players);
-  }
-
-  presentToast(str: string) {
-    let toast = this.toastCtrl.create({
-      message: str,
-      duration: 10000,
-      position: 'bottom',
-      showCloseButton: true,
-      closeButtonText: 'OK'
-    });
-
-    toast.present();
+    console.log(players);
   }
 
   // sets the text var angular uses to display text instructions/messages
   renderText(str: string) {
-    console.log('STUB: renderText');
-    this.text = str;
-    this.presentToast(str);
+    console.log('STUB: renderText: ' + str);
   }
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting white cards
+  renderWhiteCardTimer(seconds: number) {
+    console.log('STUB: renderWhiteCardTimer: ' + seconds);
+  };
+
+  //clears the White Card submission timer
+  clearWhiteCardTimer() {
+    console.log('STUB: clearWhiteCardTimer');
+  };
+
+  // renders the countdown timer with the given duration (in seconds)
+  // for players submitting black cards
+  renderPickWinnerTimer(seconds: number) {
+    console.log('STUB: renderPickWinnerTimer: ' + seconds);
+  };
+
+  //clears the Black Card submission timer
+  clearPickWinnerTimer() {
+    console.log('STUB: clearPickWinnerTimer');
+  };
+
+  // called when the game ends because there are not enough players
+  renderNotEnoughPlayers(players: Array<Player>) {
+    console.log('STUB: renderScores');
+    console.log(players);
+  };
 
   // render the Game Over state
   renderGameOver(players: Array<Player>) {
-
+    console.log('STUB: renderGameOver');
   }
 
+  // render the player's newly updated global score
+  renderNewGlobalScore(score: number) {
+    console.log('STUB: renderNewGlobalScore: ' + score);
+  };
 }
-
-

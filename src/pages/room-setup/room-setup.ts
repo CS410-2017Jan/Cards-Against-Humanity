@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
-import { RoomFacade } from '../../data-classes/room-facade';
-import {UserWebService} from "../../providers/user-web-service";
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {NgForm} from '@angular/forms';
+import {RoomFacade} from '../../providers/facades/room-facade';
+import {UserWebService} from "../../providers/web-services/user-web-service";
 import {WaitingRoomPage} from "../waiting-room/waiting-room";
-import {Player} from "../../data-classes/player";
 import {Room} from "../../data-classes/room";
+import {User} from "../../data-classes/user";
+import {UserFacade} from "../../providers/facades/user-facade";
 
 
 /*
@@ -19,21 +20,34 @@ import {Room} from "../../data-classes/room";
   templateUrl: 'room-setup.html'
 })
 export class RoomSetupPage {
-  room:{rname?: string, players?:string, rtype?: boolean, rpassword?: string} = {};
+  room: {rname?: string, rsize?: number, rtype?: boolean, rpassword?: string} = {};
   submitted = false;
+  showPassword;
 
-  constructor(public navCtrl:NavController, public navParams:NavParams, public roomCtrl: RoomFacade) {
+  constructor(public navCtrl: NavController,
+              public roomCtrl: RoomFacade,
+              public userCtrl: UserFacade) {
+    this.showPassword = false;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoomSetupPage');
   }
 
-  onSubmit(form:NgForm) {
+  clickShowPassword(){
+    console.log('Are you hidden? ', this.showPassword);
+    if (this.showPassword == false){
+      this.showPassword = true;
+    }else{
+      this.showPassword = false;
+    }
+  }
+
+  onSubmit(form?: NgForm) {
     this.submitted = true;
 
     console.log("Name: ", this.room.rname,
-      "# of Players: ", this.room.players,
+      "# of Users: ", this.room.rsize,
       "Type: ", this.room.rtype,
       "Password: ", this.room.rpassword
     );
@@ -42,26 +56,22 @@ export class RoomSetupPage {
       console.log("valid form!")
     }
 
-    if (form.valid) {
-      console.log("Valid form!")
-
-    }
-
-    var userWS = new UserWebService();
-    var loggedInUser = userWS.getLoggedInUser();
-    console.log('user: ',loggedInUser);
+    var loggedInUser = this.userCtrl.getLoggedInUser();
+    console.log('user: ', loggedInUser);
 
     var userEmail = loggedInUser.email;
     var that = this;
 
-    userWS.getUserByEmail(userEmail, function(p:Player)
-    {(that.roomCtrl.createRoom(that.room.rname,p,that.room.rtype,
-      function(r:Room){that.goToWaitingRoom(r)},that.room.rpassword))});
+    this.userCtrl.getUserByEmail(userEmail, function (u: User) {
+      that.roomCtrl.createRoom(that.room.rname, u, that.room.rtype, function (r: Room) {
+        that.goToWaitingRoom(r);
+      }, that.room.rsize, that.room.rpassword);
+    });
 
   }
 
   //Passing the room object as a navparm into the waitingroompage
-  goToWaitingRoom(room:any){
+  goToWaitingRoom(room: any) {
     this.navCtrl.push(WaitingRoomPage, room);
   }
 

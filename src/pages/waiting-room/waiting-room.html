@@ -7,23 +7,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{room.name}}</ion-title>
+    <ion-title>Room: {{room.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
 
-  <ion-list #roomList>
+<ion-list #roomList>
 
-    <ion-item-group *ngFor="let player of shownPlayers">
-      <button ion-item >
-        <h3>{{player.username}}</h3>
-      </button>
-    </ion-item-group>
+    <ion-item *ngFor="let user of shownUsers;let i=index">
+      <ion-avatar item-left>
+        <img src={{user.base64Image}}>
+      </ion-avatar>
+      <h2>{{user.username}}</h2>
+    </ion-item>
 
   </ion-list>
-
-  <button ion-button (click)="joinGame()">navigate to GamePage</button>
 
 </ion-content>

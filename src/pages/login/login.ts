@@ -1,62 +1,61 @@
-import { Component } from '@angular/core';
-import { ModalController, Platform, NavParams, ViewController,NavController} from 'ionic-angular';
-import { NgForm } from '@angular/forms';
+import {Component} from '@angular/core';
+import {ModalController, Platform, ViewController, NavController} from 'ionic-angular';
+import {NgForm} from '@angular/forms';
 import {HomePage} from "../home/home";
 import {TabsPage} from "../tabs/tabs";
-import {UserWebService} from "../../providers/user-web-service";
+import {UserWebService} from "../../providers/web-services/user-web-service";
+import {UserFacade} from "../../providers/facades/user-facade";
+import {User} from "../../data_classes/user";
 
 
 /*
-  Generated class for the Login page.
+ Generated class for the Login page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+ */
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html'
+  templateUrl: './login.html'
 })
 export class LoginPage {
-  user:{email?: string, password?:string} = {};
+  user: {email?: string, password?: string} = {};
   submitted = false;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {}
-
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userCtrl: UserFacade) {
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-
-  clickLogin(form:NgForm) {
+  clickLogin(form: NgForm) {
     this.submitted = true;
 
     console.log("email: ", this.user.email,
-      "# of Players: ", this.user.password
+      "# of Users: ", this.user.password
     );
 
-    if (form.valid) {
-      console.log("Valid form!")
-    }
-
-    //this.navCtrl.push(TabsPage); //Here temporarily
-
-    var userWS = new UserWebService();
     var that = this;
-    userWS.logInUser(this.user.email, this.user.password, function(b: boolean){that.handleLogin(b)});
+    this.userCtrl.logInUser(this.user.email, this.user.password, function (u) {
+      that.handleLogin(u)
+    });
   }
 
-  handleLogin(b:boolean){
-    if (b) {
+  handleLogin(u) {
+    if (u) {
       console.log("User had logged in!");
       this.navCtrl.push(TabsPage);
-  }
-
+    }
   }
 
   openModal() {
     let modal = this.modalCtrl.create(SignUpModalPage);
     modal.present();
+  }
+
+  //Stub
+  resetPassword(){
+
   }
 }
 
@@ -105,28 +104,27 @@ export class LoginPage {
 `
 })
 export class SignUpModalPage {
-  user:{email?: string, username?:string, password?:string} = {};
+  user: {email?: string, username?: string, password?: string} = {};
   submitted = false;
 
-  constructor(
-    public platform: Platform,
-    public params: NavParams,
-    public viewCtrl: ViewController
-  ) {}
+  constructor(public viewCtrl: ViewController,
+              public userCtrl: UserFacade) {
+  }
 
-  clickCreateAccount(form:NgForm) {
+  clickCreateAccount(form: NgForm) {
     console.log("Account create clicked!");
 
     console.log("email: ", this.user.email,
-      "# of Players: ", this.user.password
+      "# of Users: ", this.user.password
     );
 
-    var userWS = new UserWebService();
     var that = this;
-    userWS.createUser(this.user.username, this.user.password, this.user.email, function(s: string){that.userCreatedSuccess(s)});
+    this.userCtrl.createUser(this.user.username, this.user.password, this.user.email, function (s: string) {
+      that.userCreatedSuccess(s)
+    });
   }
 
-  userCreatedSuccess(id:string){
+  userCreatedSuccess(id: string) {
     console.log("Account create clicked!", id);
     this.viewCtrl.dismiss();
   }
@@ -134,4 +132,5 @@ export class SignUpModalPage {
   dismiss() {
     this.viewCtrl.dismiss();
   }
+
 }

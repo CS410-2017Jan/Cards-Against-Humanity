@@ -2,16 +2,16 @@
  * Created by jjxn on 2/19/2017.
  */
 
-type CardTypes = 'black' | 'white';
+type CardType = 'black' | 'white' | 'white_abstain' | 'black_abstain';
 
 // ======================================================================
 // This Class outlines the data structure of a Card
 // ======================================================================
 export class Card {
-  type: CardTypes;
+  type: CardType;
   content: string;
 
-  constructor(type: CardTypes, content: string) {
+  constructor(type: CardType, content: string) {
     this.type = type;
     this.content = content;
   }

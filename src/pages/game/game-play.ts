@@ -179,6 +179,7 @@ export class GamePlay {
     console.log(card);
     if (card.type == 'white') {
       this.timeoutCount = 0;
+      this.GameRenderer.clearWhiteCardTimer();
       clearTimeout(this.whiteCardTimer);
       var cardSubmission = new CardSubmission(this.PLAYER_USERNAME, card);
       var msg = new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(cardSubmission));
@@ -204,6 +205,7 @@ export class GamePlay {
   pickWinningCard(cardSubmission: CardSubmission) {
     console.log('START: pickWinning Card');
     this.timeoutCount = 0;
+    this.GameRenderer.clearPickWinnerTimer();
     clearTimeout(this.pickWinnerTimer);
     var msg = new PubNubMsg('PICK_WINNING_CARD', JSON.stringify(cardSubmission));
     this.sendMsg(msg);
@@ -211,7 +213,7 @@ export class GamePlay {
 
   // requests the game continues
   requestContinue() {
-    clearTimeout(this.continueTimer);
+    //clearTimeout(this.continueTimer);
     //console.log('REQUESTING CONTINUE: this.PLAYER_USERNAME: ' + this.PLAYER_USERNAME);
     var msg = new PubNubMsg('REQUEST_CONTINUE', JSON.stringify(this.PLAYER_USERNAME));
     this.sendMsg(msg);
@@ -250,6 +252,7 @@ export class GamePlay {
 
   // called when a timer expires for submitting a white card
   whiteCardTimerExpire() {
+    this.GameRenderer.clearWhiteCardTimer();
     console.log('===== START: whiteCardTimerExpire');
     this.GameRenderer.renderText('white card timer expired!');
 
@@ -265,6 +268,7 @@ export class GamePlay {
 
   // called when a timer expires for submitting a white card
   pickWinnerTimerExpire() {
+    this.GameRenderer.clearPickWinnerTimer();
     console.log('===== START: pickWinnerTimerExpire');
     this.GameRenderer.renderText('black card timer expired!');
 
@@ -298,9 +302,7 @@ export class GamePlay {
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
     console.log('START: sendMsg: ' + msg.content);
-    this.PubNub.publish({
-      channel :  this.CHANNEL,
-      message : JSON.stringify(msg) });
+
     if (!this.testMode) {
       this.PubNub.publish({
         channel :  this.CHANNEL,
@@ -332,6 +334,8 @@ export class GamePlay {
 
   // cancels all timers
   clearTimers() {
+    this.GameRenderer.clearWhiteCardTimer();
+    this.GameRenderer.clearPickWinnerTimer();
     clearTimeout(this.whiteCardTimer);
     clearTimeout(this.pickWinnerTimer);
     console.log('========== cleared both timers');
@@ -427,7 +431,7 @@ export class GamePlay {
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), true);
             GameRenderer.renderText('Pick a Winner');
 
-            GameRenderer.renderPickWinnerTimer(GamePlay.TIMER_DURATION_MS);
+            GameRenderer.renderPickWinnerTimer(GamePlay.TIMER_DURATION_MS / 1000);
             this.pickWinnerTimer = setTimeout(function(){GamePlay.pickWinnerTimerExpire()}, GamePlay.TIMER_DURATION_MS);
           } else {
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), false);
@@ -529,7 +533,7 @@ export class GamePlay {
           GameRenderer.renderHand(Tools.clone(GamePlay.hand));
           GameRenderer.renderText('Pick a card to play');
 
-          GameRenderer.renderWhiteCardTimer(GamePlay.TIMER_DURATION_MS);
+          GameRenderer.renderWhiteCardTimer(GamePlay.TIMER_DURATION_MS / 1000);
           this.whiteCardTimer = setTimeout(function(){GamePlay.whiteCardTimerExpire()}, GamePlay.TIMER_DURATION_MS);
         }
         break;

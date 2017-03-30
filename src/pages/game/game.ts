@@ -264,7 +264,7 @@ export class GamePage implements IGameRenderer {
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting white cards
   renderWhiteCardTimer(seconds: number) { // SCOTT
-    console.log('TIMER: ' + seconds);
+    console.log('START White Card Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     setInterval(() => {
      if(this.loadProgress < seconds){
@@ -276,7 +276,7 @@ export class GamePage implements IGameRenderer {
 
   //clears the White Card submission timer
   clearWhiteCardTimer() { // SCOTT
-    console.log('CLEAR White Timer');
+    console.log('CLEAR White Card Timer');
     this.showTimer = false;
     this.loadProgress = 0;
   }
@@ -284,7 +284,7 @@ export class GamePage implements IGameRenderer {
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
   renderPickWinnerTimer(seconds: number) { // SCOTT
-    console.log('TIMER: ' + seconds);
+    console.log('START Pick Winner Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     setInterval(() => {
       if(this.loadProgress < seconds){
@@ -294,11 +294,9 @@ export class GamePage implements IGameRenderer {
     }, 1000);
   }
 
-  // clears the Black Card submission timer
+  // clears the Pick Winner submission timer
   clearPickWinnerTimer() { // SCOTT
-    console.log('CLEAR Black Timer')
-  clearBlackCardTimer() { // SCOTT
-    console.log('CLEAR Black Timer');
+    console.log('CLEAR Pick Winner Timer');
     this.showTimer = false;
     this.loadProgress = 0;
   }

@@ -31,6 +31,7 @@ export class GameRendererStub implements IGameRenderer {
   constructor() {
   }
 
+
   // ======================================================================
   // Below functions are what a user can do. The UI will tie to these functions
   // ======================================================================
@@ -137,13 +138,13 @@ export class GameRendererStub implements IGameRenderer {
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
-  renderBlackCardTimer(seconds: number) {
-    console.log('STUB: renderBlackCardTimer: ' + seconds);
+  renderPickWinnerTimer(seconds: number) {
+    console.log('STUB: renderPickWinnerTimer: ' + seconds);
   };
 
   //clears the Black Card submission timer
-  clearBlackCardTimer() {
-    console.log('STUB: clearBlackCardTimer');
+  clearPickWinnerTimer() {
+    console.log('STUB: clearPickWinnerTimer');
   };
 
   // called when the game ends because there are not enough players

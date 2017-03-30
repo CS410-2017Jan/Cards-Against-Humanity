@@ -89,7 +89,7 @@ export class GamePlay {
       this.testMode = testMode;
     }
 
-    console.log('I am: ' + this.PLAYER_USERNAME);
+    //console.log('I am: ' + this.PLAYER_USERNAME);
 
     if (!this.testMode) {
       this.PubNub = new PubNub({
@@ -106,7 +106,7 @@ export class GamePlay {
       this.PubNub.addListener({
         status: function(statusEvent) {
           if (statusEvent.category === 'PNConnectedCategory') {
-            console.log('PNConnectedCategory');
+            //console.log('PNConnectedCategory');
           } else if (statusEvent.category === 'PNUnknownCategory') {
             var newState = {
               new: 'error'
@@ -116,7 +116,7 @@ export class GamePlay {
                 state: newState
               },
               function (status) {
-                console.log(statusEvent.errorData.message)
+                //console.log(statusEvent.errorData.message)
               }
             );
           }
@@ -145,7 +145,7 @@ export class GamePlay {
 
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
   startGame() {
-    console.log('start new game');
+    //console.log('start new game');
 
     // deal out (NUM_CARDS_HAND - 1) cards
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
@@ -153,7 +153,7 @@ export class GamePlay {
       if (card) {
         this.hand.push(card);
       } else {
-        console.log('ERROR: this.deck.drawWhiteCard returned false');
+        //console.log('ERROR: this.deck.drawWhiteCard returned false');
       }
     }
 
@@ -170,13 +170,13 @@ export class GamePlay {
       var index = (this.players.indexOf(this.judge)+1) % this.players.length;
       this.judge = this.players[index];
     }
-    console.log('set judge to: ' + this.judge.username);
+    //console.log('set judge to: ' + this.judge.username);
   }
 
   // submits the given card through a pubnub msg on the pubnub game channel
   playCard(card: Card) {
-    console.log('playCard card:');
-    console.log(card);
+    //console.log('playCard card:');
+    //console.log(card);
     if (card.type == 'white') {
       this.timeoutCount = 0;
       this.GameRenderer.clearWhiteCardTimer();
@@ -189,7 +189,7 @@ export class GamePlay {
       if (index != -1) {
         this.hand.splice(index, 1);
       } else {
-        console.log("ERROR: tried to play a card that somehow wasn't in this.hands");
+        //console.log("ERROR: tried to play a card that somehow wasn't in this.hands");
       }
 
     } else if (card.type == 'black') {
@@ -197,13 +197,13 @@ export class GamePlay {
       var msg = new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(cardSubmission));
       this.sendMsg(msg);
     } else {
-      console.log('ERROR: playCard card.type was invalid');
+      //console.log('ERROR: playCard card.type was invalid');
     }
   }
 
   // submits given winning card over pubnub game channel
   pickWinningCard(cardSubmission: CardSubmission) {
-    console.log('START: pickWinning Card');
+    //console.log('START: pickWinning Card');
     this.timeoutCount = 0;
     this.GameRenderer.clearPickWinnerTimer();
     clearTimeout(this.pickWinnerTimer);
@@ -253,7 +253,7 @@ export class GamePlay {
   // called when a timer expires for submitting a white card
   whiteCardTimerExpire() {
     this.GameRenderer.clearWhiteCardTimer();
-    console.log('===== START: whiteCardTimerExpire');
+    //console.log('===== START: whiteCardTimerExpire');
     this.GameRenderer.renderText('white card timer expired!');
 
     this.GameRenderer.clearHand();
@@ -269,14 +269,14 @@ export class GamePlay {
   // called when a timer expires for submitting a white card
   pickWinnerTimerExpire() {
     this.GameRenderer.clearPickWinnerTimer();
-    console.log('===== START: pickWinnerTimerExpire');
+    //console.log('===== START: pickWinnerTimerExpire');
     this.GameRenderer.renderText('black card timer expired!');
 
     //this.GameRenderer.clearCardsSubmitted();
 
     var abstainCard = new Card('black_abstain', '');
     var abstainCardSubmission = new CardSubmission(this.PLAYER_USERNAME, abstainCard);
-    console.log(this);
+    //console.log(this);
     this.sendMsg(new PubNubMsg('PLAY_BLACK_CARD', JSON.stringify(abstainCardSubmission)));
 
     this.timeoutCount++;
@@ -301,7 +301,7 @@ export class GamePlay {
 
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
-    console.log('START: sendMsg: ' + msg.content);
+    //console.log('START: sendMsg: ' + msg.content);
 
     if (!this.testMode) {
       this.PubNub.publish({
@@ -315,13 +315,13 @@ export class GamePlay {
 
   // sends PubNub message indicating player has joined the game
   signalJoined() {
-    console.log('signalJoined');
+    //console.log('signalJoined');
     //this.sendMsg(new PubNubMsg('JOINED', JSON.stringify(this.PLAYER_USERNAME)));
   }
 
   // sends PubNub message indicating player has joined the game
   signalLeaving() {
-    console.log('signalLeaving');
+    //console.log('signalLeaving');
     this.clearTimers();
     //this.sendMsg(new PubNubMsg('PLAYER_LEFT', JSON.stringify(this.PLAYER_USERNAME)));
 
@@ -338,7 +338,7 @@ export class GamePlay {
     this.GameRenderer.clearPickWinnerTimer();
     clearTimeout(this.whiteCardTimer);
     clearTimeout(this.pickWinnerTimer);
-    console.log('========== cleared both timers');
+    //console.log('========== cleared both timers');
   }
 
   purgeAbstains(cardSubmissions: Array<CardSubmission>): Array<CardSubmission> {
@@ -354,11 +354,11 @@ export class GamePlay {
 
   // handles a PubNub presence event. Starts the game when enough players have joined.
   handlePresence(p) {
-    console.log(p);
+    //console.log(p);
     if (p.action == 'join') {
       this.handlePubNubMsg(new PubNubMsg('JOINED', JSON.stringify(p.uuid)));
     } else if (p.action == 'leave') {
-      console.log('detected ' + p.uuid + ' left!');
+      //console.log('detected ' + p.uuid + ' left!');
       this.handlePubNubMsg(new PubNubMsg('PLAYER_LEFT', JSON.stringify(p.uuid)));
     }
   }
@@ -367,7 +367,7 @@ export class GamePlay {
   // This allows us to simulate handling an event that wasn't received on the message channel
   // by simply calling handlePubNubMsg directly.
   handleEvent(pubnubEvent) {
-    console.log(pubnubEvent);
+    //console.log(pubnubEvent);
 
     var pubnubMsg = JSON.parse(pubnubEvent.message);
     this.handlePubNubMsg(pubnubMsg)
@@ -384,8 +384,8 @@ export class GamePlay {
       var content = JSON.parse(pubnubMsg.content);
     } else {
       alert("receieved a PubNub message that I don't recognize. See console.");
-      console.log('pubnubMsg:');
-      console.log(pubnubMsg);
+      //console.log('pubnubMsg:');
+      //console.log(pubnubMsg);
       pubnubMsg.code = 'default';
     }
 
@@ -394,20 +394,20 @@ export class GamePlay {
 
     switch (pubnubMsg.code) {
       case 'JOINED':
-        console.log('case: JOINED');
+        //console.log('case: JOINED');
         this.joinedCount++;
 
         if (this.joinedCount == GamePlay.players.length) {
-          console.log('sendMsg START_GAME');
+          //console.log('sendMsg START_GAME');
           GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // null necessary
         } else if (this.joinedCount > GamePlay.players.length) {
-          console.log('this.joinedCount >= this.PLAYERS.length!');
+          //console.log('this.joinedCount >= this.PLAYERS.length!');
         }
 
         break;
 
       case 'START_GAME':
-        console.log('case: START_GAME');
+        //console.log('case: START_GAME');
         if(!this.gameStarted) {
           // only start the game once
           this.gameStarted = true;
@@ -415,12 +415,12 @@ export class GamePlay {
           // http://imgur.com/a/38VII
           GamePlay.startGame();
         } else {
-          console.log('told to START_GAME, but game already started. Must have concurrent player joins. ');
+          //console.log('told to START_GAME, but game already started. Must have concurrent player joins. ');
         }
         break;
 
       case 'PLAY_WHITE_CARD':
-        console.log('case: PLAY_WHITE_CARD');
+        //console.log('case: PLAY_WHITE_CARD');
         var whiteCardSubmission = content; // for readability
         GamePlay.cardsSubmitted.push(whiteCardSubmission);
 
@@ -441,7 +441,7 @@ export class GamePlay {
         break;
 
       case 'PLAY_BLACK_CARD':
-        console.log('case: PLAY_BLACK_CARD');
+        //console.log('case: PLAY_BLACK_CARD');
         var blackCard = new Card(content.card.type, content.card.content); // cast/set as Card object
 
         if (blackCard.type != 'black_abstain') {
@@ -460,7 +460,7 @@ export class GamePlay {
         break;
 
       case 'PICK_WINNING_CARD':
-        console.log('case: PICK_WINNING_CARD');
+        //console.log('case: PICK_WINNING_CARD');
         GamePlay.ongoingRound = false;
         var winningCardSubmission = content; // for readability
 
@@ -494,7 +494,7 @@ export class GamePlay {
         break;
 
       case 'REQUEST_CONTINUE':
-        console.log('case: REQUEST_CONTINUE');
+        //console.log('case: REQUEST_CONTINUE');
         GamePlay.continueRequests.push(content);
         if (GamePlay.continueRequests.length >= GamePlay.players.length) {
           GamePlay.continueRequests = [];
@@ -509,7 +509,7 @@ export class GamePlay {
         break;
 
       case 'NEW_ROUND':
-        console.log('case: NEW_ROUND');
+        //console.log('case: NEW_ROUND');
         this.clearTimers();
         this.collectingCards = true;
         this.ongoingRound = true;
@@ -526,7 +526,7 @@ export class GamePlay {
             if (card != false) {
               GamePlay.hand.push(card);
             } else {
-              console.log('ERROR: tried to draw a white card but received false');
+              //console.log('ERROR: tried to draw a white card but received false');
             }
           }
 
@@ -542,7 +542,7 @@ export class GamePlay {
         var absentPlayerUsername = content;
 
         if (this.judge.username == absentPlayerUsername) {  // if the judge left
-          console.log('judge left');
+          //console.log('judge left');
           GamePlay.cardsSubmitted = [];
           GameRenderer.clearCardsSubmitted();
           GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
@@ -553,7 +553,7 @@ export class GamePlay {
             var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
             this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
           } else {
-            console.log('judge left after the round was over but before a new round started.');
+            //console.log('judge left after the round was over but before a new round started.');
           }
         } else if (this.collectingCards) {
           // we were waiting on card submissions when a player left
@@ -562,13 +562,13 @@ export class GamePlay {
           var potCardSubmission = CardSubmission.getCardSubmissionByUsername(this.cardsSubmitted, absentPlayerUsername);
 
           if (potCardSubmission != undefined) {
-            console.log('Player: ' + absentPlayerUsername + ' left a round in progress AFTER submitting a card');
+            //console.log('Player: ' + absentPlayerUsername + ' left a round in progress AFTER submitting a card');
             // they submitted a card:
             GamePlay.cardsSubmitted = CardSubmission.removeCardSubmission(GamePlay.cardsSubmitted, potCardSubmission);
-            console.log('cardsSubmitted after purging his:');
-            console.log(GamePlay.cardsSubmitted);
+            //console.log('cardsSubmitted after purging his:');
+            //console.log(GamePlay.cardsSubmitted);
           } else {
-            console.log('Player: ' + absentPlayerUsername + ' left a round in progress BEFORE submitting a card');
+            //console.log('Player: ' + absentPlayerUsername + ' left a round in progress BEFORE submitting a card');
             // they didn't submit a card:
           }
           GameRenderer.renderText('Player: ' + absentPlayerUsername + ' left the game!');
@@ -587,13 +587,13 @@ export class GamePlay {
 
         // purge the player who left
         this.players.splice(Player.getPlayerIndex(this.players, absentPlayerUsername), 1);
-        console.log('post purge players:');
-        console.log(this.players);
+        //console.log('post purge players:');
+        //console.log(this.players);
         GameRenderer.renderScores(Tools.clone(GamePlay.players));
 
         // we need at least 3 players to play
         if ((this.players.length) >= 3) {
-          console.log('we CAN continue without him!');
+          //console.log('we CAN continue without him!');
           if(this.collectingCards) { // if we were collection cards
             // check if all cards submitted
             if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for judge
@@ -606,19 +606,19 @@ export class GamePlay {
               }
             }
           } else {
-            console.log('we were not collecting cards when he died');
+            //console.log('we were not collecting cards when he died');
           }
 
         } else {  // not enough players to continue the game...
           this.clearTimers();
-          console.log('we can NOT continue without him!');
+          //console.log('we can NOT continue without him!');
           GameRenderer.renderText('Not enough players to continue the game...');
           GameRenderer.renderNotEnoughPlayers(Tools.clone(GamePlay.players));
         }
         break;
 
       default:
-        console.log('ERROR: default case reached in handleMsg');
+        //console.log('ERROR: default case reached in handleMsg');
     }
   }
 }

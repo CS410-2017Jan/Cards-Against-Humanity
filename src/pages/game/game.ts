@@ -44,6 +44,7 @@ export class GamePage implements IGameRenderer {
   showTimer: boolean;
 
   constructor(public navParams:NavParams,
+              public navCtrl: NavController,
               private toastCtrl:ToastController,
               public alertCtrl:AlertController,
               public modalCtrl:ModalController,
@@ -310,6 +311,11 @@ export class GamePage implements IGameRenderer {
   // render the player's newly updated global score
   renderNewGlobalScore(score: number) {
     this.renderText("You've won " + score + " games total!");
+  }
+
+  // forcefully removes player from the game
+  kickPlayer() {
+    this.navCtrl.popToRoot();
   }
 }
 

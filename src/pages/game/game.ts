@@ -5,7 +5,6 @@
  Ionic pages and navigation.
 */
 
-
 import { Component } from '@angular/core';
 import { NavController, NavParams,ToastController,AlertController,ModalController,Platform,ViewController } from 'ionic-angular';
 import { Tools } from '../../tools/general-tools';
@@ -47,10 +46,6 @@ export class GamePage implements IGameRenderer {
               private toastCtrl:ToastController,
               public alertCtrl:AlertController,
               public modalCtrl:ModalController) {
-
-    //navCtrl.viewWillLeave.subscribe((value) => {console.log('viewWillLeave');}) =
-
-
 
     console.log('PARAMS: ');
     console.log(navParams);
@@ -347,6 +342,7 @@ export class ScoreModalPage {
     </ion-content>
     `
 })
+
 export class EndGameModalPage {
   constructor(public params: NavParams,public viewCtrl: ViewController,public platform: Platform, public navCtrl: NavController) {
     console.log('it worked!');

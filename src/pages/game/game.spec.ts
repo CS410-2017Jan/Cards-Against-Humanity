@@ -158,6 +158,64 @@ describe('Page: Game Page', () => {
     expect(window.console.log).toHaveBeenCalledWith('========== cleared both timers');
   });
 
+  it('Test White Card Timer Expire', () => {
+    gamePage.GamePlay.startGame();
+
+    // play a black card
+    gamePage.GamePlay.playCard(gamePage.GamePlay.deck.drawBlackCard());
+
+    // fake card submissions
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user2', testWhiteCards[0]))))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user3', testWhiteCards[1]))))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user4', testWhiteCards[2]))))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user5', testWhiteCards[3]))))});
+
+    // pick winning card
+    gamePage.GamePlay.pickWinningCard(gamePage.GamePlay.cardsSubmitted[0]);
+
+    // request continue the round
+    gamePage.GamePlay.requestContinue();
+
+    // check our continue request was received
+    expect(console.log).toHaveBeenCalledWith('case: REQUEST_CONTINUE');
+
+    // fake continue requests
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('REQUEST_CONTINUE', JSON.stringify('user2')))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('REQUEST_CONTINUE', JSON.stringify('user3')))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('REQUEST_CONTINUE', JSON.stringify('user4')))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('REQUEST_CONTINUE', JSON.stringify('user5')))});
+
+    // check a new round auto-started
+    expect(console.log).toHaveBeenCalledWith('case: NEW_ROUND');
+    expect(gamePage.GamePlay.roundNumber).toEqual(2);
+    expect(gamePage.GamePlay.judge.username).toEqual('user2');
+
+    // fail to submit our white card
+    gamePage.GamePlay.whiteCardTimerExpire();
+
+    // check white abstain was sent
+    expect(window.console.log).toHaveBeenCalledWith('START: sendMsg: {"username":"user1","card":{"type":"white_abstain","content":""}}');
+  });
+
+  it('Test Pick Winner Timer Expire', () => {
+    gamePage.GamePlay.startGame();
+
+    // play a black card
+    gamePage.GamePlay.playCard(gamePage.GamePlay.deck.drawBlackCard());
+
+    // fake card submissions
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user2', testWhiteCards[0]))))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user3', testWhiteCards[1]))))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user4', testWhiteCards[2]))))});
+    gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user5', testWhiteCards[3]))))});
+
+    // fail to submit our white card
+    gamePage.GamePlay.pickWinnerTimerExpire();
+
+    // check black abstain was sent
+    expect(window.console.log).toHaveBeenCalledWith('START: sendMsg: {"username":"user1","card":{"type":"black_abstain","content":""}}');
+  });
+
   it('Game Plays With 5 Players', () => {
     gamePage.GamePlay.startGame();
 

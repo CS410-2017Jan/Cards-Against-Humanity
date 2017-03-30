@@ -304,7 +304,7 @@ export class GamePlay {
 
   // sends given msg over this client's pubnub game channel
   sendMsg(msg: PubNubMsg) {
-    //console.log('START: sendMsg: ' + msg.content);
+    console.log('START: sendMsg: ' + msg.content);
 
     if (!this.testMode) {
       this.PubNub.publish({

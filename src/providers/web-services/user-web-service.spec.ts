@@ -37,7 +37,7 @@ describe('Service- User Web Service Create User Functionality', () => {
         }
     // Wait for them all to return before calling Done
     Promise.all(promises).then(function(result){
-      
+
           done();
         });
   })
@@ -75,12 +75,12 @@ describe('Service- User Web Service Basic Functionality', () => {
 	let testUserEmail: string = "testsuiteuser@gmail.com";
 	let profilePicture: string = "THIS_IS_NOT_A_REAL_PROFILE_PICTURE_ITS_JUST_FOR_TESTING";
 
-  
+
 
 	beforeEach((done) => {
 		// Do all the promises
 		ws = new UserWebService();
-		
+
 		// getUser()
 		promises.push(new Promise(function (resolve, reject) {
            ws.getUser(testUserID, u => {
@@ -145,14 +145,14 @@ describe('Service- User Web Service Basic Functionality', () => {
            usersGottenByID = <User[]> result;
         }))
 
-        
 
-        
-        
+
+
+
 
 		// Wait for them all to return before calling Done
 		Promise.all(promises).then(function(result){
-			
+
         	done();
       	});
   	});
@@ -213,7 +213,7 @@ describe('Service- User Web Service Basic Functionality', () => {
   		expect(true).toBe(true);
   	})
 
-    
+
 
 
 

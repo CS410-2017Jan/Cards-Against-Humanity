@@ -153,6 +153,11 @@ describe('Page: Game Page', () => {
     //gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('JOINED', JSON.stringify('user2')))});
   });
 
+  it('Test Signal Leaving Clears Timers', () => {
+    gamePage.GamePlay.signalLeaving();
+    expect(window.console.log).toHaveBeenCalledWith('========== cleared both timers');
+  });
+
   it('Game Plays With 5 Players', () => {
     gamePage.GamePlay.startGame();
 
@@ -179,6 +184,9 @@ describe('Page: Game Page', () => {
 
     // pick winning card
     gamePage.GamePlay.pickWinningCard(gamePage.GamePlay.cardsSubmitted[0]);
+
+    // check correct player won
+    expect(gamePage.GamePlay.getLeadingPlayer()).toEqual(testPlayers[1]);
 
     // should have rendered winning card
     expect(window.console.log).toHaveBeenCalledWith('STUB: renderWinningCard');
@@ -259,6 +267,14 @@ describe('Page: Game Page', () => {
     var tempCard = gamePage.GamePlay.hand[0];
     gamePage.GamePlay.playCard(tempCard);
 
+    // fake players leaving to end game
+    gamePage.GamePlay.handlePresence({action: 'leave', uuid: 'user5'});
+    gamePage.GamePlay.handlePresence({action: 'leave', uuid: 'user4'});
+
+    // check game ended
+    expect(console.log).toHaveBeenCalledWith('STUB: renderText: Not enough players to continue the game...');
+
+
     // // fake card submissions
     // expect(gamePage.GamePlay.collectingCards).toBeTruthy;
     // //gamePage.GamePlay.handleEvent({message: JSON.stringify(new PubNubMsg('PLAY_WHITE_CARD', JSON.stringify(new CardSubmission('user3', testWhiteCards[6]))))});
@@ -273,4 +289,5 @@ describe('Page: Game Page', () => {
     // expect(window.console.log).toHaveBeenCalledWith('Player: user5 left a round in progress AFTER submitting a card');
 
   });
+
 });

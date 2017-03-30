@@ -1,7 +1,62 @@
 import {UserWebService} from "./user-web-service";
 import {User} from "../../data-classes/user";
 
+describe('Service- User Web Service Create User Functionality', () => {
 
+  // NOTE- THIS SHOULD ALWAYS BE FALSE UNLESS YOU ARE SPECICALLY TESTING CREATEUSER
+  let doCreateUserTest = false;
+
+  let promises: Promise<void>[] = [];
+  let newUser: User;
+  let newUserUsername;
+  let newUserPassword = "abcdefg1234567";
+  let newUserEmail;
+  let ws: UserWebService;
+
+  beforeEach((done) => {
+    // Do all the promises
+    ws = new UserWebService();
+    // check if we are doing createUser test
+        if(doCreateUserTest){
+          // init the username and email to something random
+          let randInt = Math.floor(Math.random() * (1000000000));
+          newUserEmail = "testUser" + randInt + "@gmail.com";
+          newUserUsername = "testUser" + randInt;
+
+          promises.push(new Promise(function (resolve, reject) {
+           // add the new picture
+           ws.createUser(newUserUsername, newUserPassword, newUserEmail, id => {
+             // get the user
+             ws.getUser(id, u => {
+              resolve(u);
+              });
+           });
+          }).then(function (result) {
+           newUser = <User> result;
+          }))
+        }
+    // Wait for them all to return before calling Done
+    Promise.all(promises).then(function(result){
+      
+          done();
+        });
+  })
+
+  // Test for create user, auto-passes if turned off
+    it('Ensure user is created (auto-passes if disabled)', () => {
+      if(doCreateUserTest){
+        // check that the retrieved new user had fields created properly
+        expect(newUser.email).toBe(newUserEmail);
+        expect(newUser.username).toBe(newUserUsername);
+        expect(newUser.score).toBe(0);
+        expect(newUser.base64Image).toBe('');
+      }
+      else{
+        expect(true).toBe(true);
+      }
+    })
+
+})
 
 describe('Service- User Web Service Basic Functionality', () => {
 
@@ -19,6 +74,8 @@ describe('Service- User Web Service Basic Functionality', () => {
 	let testUserID: string = "-KgNcUbFHI_NX7Ic7R-G";
 	let testUserEmail: string = "testsuiteuser@gmail.com";
 	let profilePicture: string = "THIS_IS_NOT_A_REAL_PROFILE_PICTURE_ITS_JUST_FOR_TESTING";
+
+  
 
 	beforeEach((done) => {
 		// Do all the promises
@@ -88,6 +145,11 @@ describe('Service- User Web Service Basic Functionality', () => {
            usersGottenByID = <User[]> result;
         }))
 
+        
+
+        
+        
+
 		// Wait for them all to return before calling Done
 		Promise.all(promises).then(function(result){
 			
@@ -150,6 +212,8 @@ describe('Service- User Web Service Basic Functionality', () => {
   		ws.updateEmail("","",function(b: boolean){});
   		expect(true).toBe(true);
   	})
+
+    
 
 
 

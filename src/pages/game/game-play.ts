@@ -341,7 +341,7 @@ export class GamePlay {
     this.GameRenderer.clearPickWinnerTimer();
     clearTimeout(this.whiteCardTimer);
     clearTimeout(this.pickWinnerTimer);
-    //console.log('========== cleared both timers');
+    console.log('========== cleared both timers');
   }
 
   purgeAbstains(cardSubmissions: Array<CardSubmission>): Array<CardSubmission> {

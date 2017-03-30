@@ -4,6 +4,9 @@ import {User} from "../../data-classes/user";
 let userFacade;
 let loggedInUser;
 
+// SET THIS TO TRUE TO DO CREATE USER TESTS
+let doCreateUserTest = false;
+
 describe('UserFacade Tests', () => {
 
   beforeAll((done) => {
@@ -75,14 +78,21 @@ describe('UserFacade Tests', () => {
     });
   });
 
-  /*//TODO: Uncomment for testing
+  //TODO: Uncomment for testing
   it('Test: should create new user', function (done) {
-    userFacade.createUser('userfacade', 'password', 'userfacade@gmail.com', function (id: string) {
-      userFacade.getUserByEmail('userfacade@gmail.com', function (user: User) {
+    if(doCreateUserTest){
+      let randomAppend = Math.floor(Math.random() * (1000000000));
+      userFacade.createUser('userfacade' + randomAppend, 'password', 'userfacade' + randomAppend + '@gmail.com', function (id: string) {
+      userFacade.getUserByEmail('userfacade' + randomAppend + '@gmail.com', function (user: User) {
         expect(user.id).toBe(id);
         done();
       });
     });
+    }
+    else{
+      expect(true).toBe(true);
+    }
+    
   });
-*/
+
 });

@@ -54,6 +54,7 @@ export class Deck {
     }
   }
 
+  // sets the seed to use for shuffling the deck
   setSeed(seed: string) {
     console.log('seed:' + seed);
     try {
@@ -81,6 +82,7 @@ export class Deck {
   //   //this.seedShuffle(seed);
   // }
 
+  // shuffles given array in place. Modifies given array.
   shuffleArray(a: Array<any>) {
     var j, x, i;
     for (i = a.length; i; i--) {

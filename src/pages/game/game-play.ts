@@ -89,7 +89,7 @@ export class GamePlay {
       this.testMode = testMode;
     }
 
-    //console.log('I am: ' + this.PLAYER_USERNAME);
+    console.log('I am: ' + this.PLAYER_USERNAME);
 
     if (!this.testMode) {
       this.PubNub = new PubNub({
@@ -145,7 +145,7 @@ export class GamePlay {
 
   // deals out (NUM_CARDS_HAND - 1) cards and then indirectly starts new round
   startGame() {
-    //console.log('start new game');
+    console.log('start new game');
 
     // deal out (NUM_CARDS_HAND - 1) cards
     for (var i=1; i<this.NUM_CARDS_HAND; i++) {
@@ -170,13 +170,13 @@ export class GamePlay {
       var index = (this.players.indexOf(this.judge)+1) % this.players.length;
       this.judge = this.players[index];
     }
-    //console.log('set judge to: ' + this.judge.username);
+    console.log('set judge to: ' + this.judge.username);
   }
 
   // submits the given card through a pubnub msg on the pubnub game channel
   playCard(card: Card) {
-    //console.log('playCard card:');
-    //console.log(card);
+    console.log('playCard card:');
+    console.log(card);
     if (card.type == 'white') {
       this.timeoutCount = 0;
       this.GameRenderer.clearWhiteCardTimer();
@@ -203,7 +203,7 @@ export class GamePlay {
 
   // submits given winning card over pubnub game channel
   pickWinningCard(cardSubmission: CardSubmission) {
-    //console.log('START: pickWinning Card');
+    console.log('START: pickWinning Card');
     this.timeoutCount = 0;
     this.GameRenderer.clearPickWinnerTimer();
     clearTimeout(this.pickWinnerTimer);
@@ -221,7 +221,7 @@ export class GamePlay {
 
   // increments the score of the player associated with the given winning CardSubmission
   updateScores(winningCardSubmission: CardSubmission) {
-    //console.log('START: updateScores()');
+    console.log('START: updateScores()');
     for (var i=0; i<this.players.length; i++) {
       if (this.players[i].username == winningCardSubmission.username) {
         this.players[i].score++;
@@ -253,7 +253,7 @@ export class GamePlay {
   // called when a timer expires for submitting a white card
   whiteCardTimerExpire() {
     this.GameRenderer.clearWhiteCardTimer();
-    //console.log('===== START: whiteCardTimerExpire');
+    console.log('===== START: whiteCardTimerExpire');
     this.GameRenderer.renderText('white card timer expired!');
 
     this.GameRenderer.clearHand();
@@ -269,7 +269,7 @@ export class GamePlay {
   // called when a timer expires for submitting a white card
   pickWinnerTimerExpire() {
     this.GameRenderer.clearPickWinnerTimer();
-    //console.log('===== START: pickWinnerTimerExpire');
+    console.log('===== START: pickWinnerTimerExpire');
     this.GameRenderer.renderText('black card timer expired!');
 
     //this.GameRenderer.clearCardsSubmitted();
@@ -545,7 +545,7 @@ export class GamePlay {
         var absentPlayerUsername = content;
 
         if (this.judge.username == absentPlayerUsername) {  // if the judge left
-          //console.log('judge left');
+          console.log('judge left');
           GamePlay.cardsSubmitted = [];
           GameRenderer.clearCardsSubmitted();
           GameRenderer.renderText('The judge: ' + absentPlayerUsername + ' left the game!');
@@ -590,13 +590,13 @@ export class GamePlay {
 
         // purge the player who left
         this.players.splice(Player.getPlayerIndex(this.players, absentPlayerUsername), 1);
-        //console.log('post purge players:');
-        //console.log(this.players);
+        console.log('post purge players:');
+        console.log(this.players);
         GameRenderer.renderScores(Tools.clone(GamePlay.players));
 
         // we need at least 3 players to play
         if ((this.players.length) >= 3) {
-          //console.log('we CAN continue without him!');
+          console.log('we CAN continue without him!');
           if(this.collectingCards) { // if we were collection cards
             // check if all cards submitted
             if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for judge
@@ -614,7 +614,7 @@ export class GamePlay {
 
         } else {  // not enough players to continue the game...
           this.clearTimers();
-          //console.log('we can NOT continue without him!');
+          console.log('we can NOT continue without him!');
           GameRenderer.renderText('Not enough players to continue the game...');
           GameRenderer.renderNotEnoughPlayers(Tools.clone(GamePlay.players));
         }

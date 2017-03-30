@@ -295,7 +295,10 @@ export class GamePlay {
   // checks if the player has timed out enough times in a row to be kicked!
   checkTimeoutCounts() {
     if (this.timeoutCount > this.MAX_TIMEOUTS_PERMITTED) {
-      alert('STUB: you should be kicked');
+      //alert('STUB: you should be kicked');
+      //this.GameRenderer.renderText('');
+      this.signalLeaving();
+      this.GameRenderer.kickPlayer();
     }
   }
 

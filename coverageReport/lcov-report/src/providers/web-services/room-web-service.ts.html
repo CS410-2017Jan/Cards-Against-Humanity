@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/providers/web-services/room-web-service.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">src/providers/web-services</a> room-web-service.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">91.07% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>153/168</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75.86% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>44/58</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>30/30</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.96% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>151/166</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Injectable} from '@angular/core';
+import {Component} from '@angular/core';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
+import {Deck} from "../../data-classes/deck";
+import {Room} from "../../data-classes/room";
+import {DeckWebService} from "./deck-web-service";
+import {UserWebService} from "./user-web-service";
+import {User} from "../../data-classes/user";
+&nbsp;
+/*
+ Generated class for the RoomWebService provider.
+&nbsp;
+ See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+ for more info on providers and Angular 2 DI.
+ */
+@Injectable()
+export class RoomWebService {
+&nbsp;
+  constructor() {
+  }
+&nbsp;
+  // Adds the user specified by the ID to the room specified by the ID, only if there is space left in that room. Password is optional
+  // Then calls the callback with the new list of users in the room by id
+  // returns undefined if there is a problem
+  //
+  // Note- This needs to be updated with password authentication. Password currently does nothing !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  joinRoom(userID: string, roomID: string, callback: (s: string)=&gt;void) {
+&nbsp;
+    try {
+      // First Authenticate to ensure we're logged in
+      var ws = new UserWebService();
+      ws.checkLoggedInStatus(function (success: boolean) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!success) {
+          // we're not logged in- bail
+          //console.log('Error: not logged in');
+<span class="cstat-no" title="statement not covered" >          callback('Error: not logged in');</span>
+<span class="cstat-no" title="statement not covered" >          return;</span>
+        }
+        // First we need to get the room we're joining to make sure it's all gucci
+        var rs = new RoomWebService();
+        rs.getRoom(roomID, (r: Room)=&gt; {
+          // Check the room to make sure its not full
+          var numUsers = r.users.length;
+          var roomSize = r.size;
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (numUsers &lt; roomSize) {
+            // Time to add the user to the room
+            var xmlHttp = new XMLHttpRequest();
+            var data: string[] = [];
+            var users: User[] = r.users;
+            for (let p in users) {
+              <span class="missing-if-branch" title="if path not taken" >I</span>if (users[p].id == userID) {
+                // can't add a duplicate
+<span class="cstat-no" title="statement not covered" >                callback("Error: Already in room");</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+              }
+              data.push(users[p].id);
+            }
+            data.push(userID);
+            xmlHttp.onreadystatechange = function () {
+              // Stuff to do if PUT is successful
+              if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+                try {
+                  var JSONArray = JSON.parse(xmlHttp.responseText);
+                  // Parse in the room and call the callback
+                  //var ws = new RoomWebService();
+                  //console.log(xmlHttp.responseText);
+                  callback(xmlHttp.responseText);
+                } catch (ex) {
+                  //callback("Error: Response Formatted Unexpectedly: " + xmlHttp.responseText);
+                }
+              } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+                //callback("Error: " + xmlHttp.status)
+              }
+            };
+            xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
+            xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xmlHttp.send(JSON.stringify(data));
+          } else {
+            // Room is full yo
+<span class="cstat-no" title="statement not covered" >            callback("Error: Room is Full");</span>
+          }
+        });
+      })
+    } catch (ex) {
+      // Must have failed to find room or failed to log in
+<span class="cstat-no" title="statement not covered" >      callback(undefined);</span>
+    }
+  }
+&nbsp;
+  // Removes the specified user from the room and calls the callback on the updated room object
+  leaveRoom(userID: string, roomID: string, callback: (s: string)=&gt;void) {
+&nbsp;
+    try {
+      // first check that we're authenticated
+      var ws = new UserWebService();
+      ws.checkLoggedInStatus(function (success: boolean) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!success) {
+          // we're not logged in- bail
+          //console.log("Error: not logged in");
+<span class="cstat-no" title="statement not covered" >          callback("Error: not logged in");</span>
+<span class="cstat-no" title="statement not covered" >          return;</span>
+        }
+        // we need to get the room we're joining to make sure it's all gucci
+        // Get the room
+        var rs = new RoomWebService();
+        rs.getRoom(roomID, (r: Room)=&gt; {
+          var xmlHttp = new XMLHttpRequest();
+          var data: string[] = [];
+          var user: User[] = r.users;
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (user.length == 1) {
+            // Can't have last user leave
+<span class="cstat-no" title="statement not covered" >            callback("Error: Last user cannot leave room");</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+          }
+          for (let p in user) {
+            if (user[p].id != userID) {
+              data.push(user[p].id);
+            }
+          }
+          xmlHttp.onreadystatechange = function () {
+            // Stuff to do if PUT is successful
+            if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+              try {
+                var JSONArray = JSON.parse(xmlHttp.responseText);
+                // Parse in the room and call the callback
+                //var ws = new RoomWebService();
+                //console.log(xmlHttp.responseText);
+                callback(xmlHttp.responseText);
+              } catch (ex) {
+                //callback("Error: Response Formatted Unexpectedly: " + xmlHttp.responseText);
+              }
+            } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+              //callback("Error: " + xmlHttp.status)
+            }
+          };
+          xmlHttp.open("PUT", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + "/users.json", true); // true for asynchronous
+          xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+          xmlHttp.send(JSON.stringify(data));
+        })
+      });
+    } catch (ex) {
+      // Must have failed to find room
+<span class="cstat-no" title="statement not covered" >      callback(undefined);</span>
+    }
+  }
+&nbsp;
+  // Gets a room by ID and calls the callback on the returned JSON string
+  getRoom(id: string, callback: (Room) =&gt; void) {
+&nbsp;
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if GET is successful
+      if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+        try {
+          // NOTE- THIS STORES THE PASSWORD LOCALLY- FIX?
+          // Parse in the room and call the callback
+          var ws = new RoomWebService();
+          //console.log(xmlHttp.responseText);
+          ws.parseRoom(id, xmlHttp.responseText, function (r) {
+            callback(r)
+          });
+        } catch (ex) {
+          //console.log(ex.message);
+          //console.log("Failed to get room " + id);
+        }
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+        //console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + id + ".json", true); // true for asynchronous
+    xmlHttp.send(null);
+  }
+&nbsp;
+  // Gets the users in a room specified by ID and returns a list of ID's
+  getUsersInRoom(id: string, callback: (p: String[]) =&gt; void) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if GET is successful
+      if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+        try {
+          // return
+          callback(JSON.parse(xmlHttp.responseText));
+        } catch (ex) {
+          //console.log(ex.message);
+          //console.log("Failed to get room or users" + id);
+        }
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+        //console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + id + "/users.json", true); // true for asynchronous
+    xmlHttp.send(null);
+  }
+&nbsp;
+  // Gets all rooms and calls the callback on the returned JSON string
+  getAllRooms(callback: (any) =&gt; void) {
+&nbsp;
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if GET is successful
+      if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+        try {
+          var JSONArray = JSON.parse(xmlHttp.responseText);
+          var returnList = [];
+          var toAdd;
+          // Iterate across all rooms
+          for (let r in JSONArray) {
+            toAdd = {};
+            toAdd.name = JSONArray[r].name;
+            toAdd.isLocked = JSONArray[r].isLocked;
+            toAdd.password = JSONArray[r].password;
+            toAdd.size = JSONArray[r].size;
+            toAdd.users = JSONArray[r].users;
+            toAdd.id = r;
+            returnList.push(toAdd);
+          }
+          callback(returnList);
+        } catch (ex) {
+          //console.log(ex);
+          //console.log("Failed to get deck");
+        }
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+        //console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("GET", "https://cards-against-humanity-d6aec.firebaseio.com/rooms.json", true); // true for asynchronous
+    xmlHttp.send(null);
+  }
+&nbsp;
+  // Creates a room with an optional password, and add the user who sent this to the room
+  createRoom(name: string, decks: Array&lt;string&gt;, userID: string, callback: (id: string)=&gt; void, password ?: string, size ?: number) {
+    // check if we are authenticated
+&nbsp;
+    var ws = new UserWebService();
+    ws.checkLoggedInStatus(function (success: boolean) {
+      // check if authenticated
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!success) {
+        // we're not logged in- bail
+        //console.log("Error: not logged in");
+<span class="cstat-no" title="statement not covered" >        callback("Error: not logged in");</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      var hasPassword = !(password == undefined);
+&nbsp;
+&nbsp;
+      // Set up data to be posted
+      var data = {};
+      data["isLocked"] = hasPassword;
+      data["name"] = name;
+      data["decks"] = decks;
+      data["password"] = password;
+      data["users"] = [userID];
+      // default size to 3
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (size == undefined) {
+<span class="cstat-no" title="statement not covered" >        data["size"] = 3;</span>
+      }
+      else {
+        data["size"] = size;
+      }
+&nbsp;
+      // Get it ready to send
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function () {
+&nbsp;
+        // Stuff to do if POST is successful
+        if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+          try {
+            // We should be done, call the callback with the returned name (which is the ID)
+            var JSONArray = JSON.parse(xmlHttp.responseText);
+            callback(JSONArray.name)
+          } catch (ex) {
+            //console.log("Failed to create room");
+            //console.log(ex);
+          }
+        } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+          //console.log("Error: " + xmlHttp.status)
+        }
+      };
+      xmlHttp.open("POST", "https://cards-against-humanity-d6aec.firebaseio.com/rooms.json", true);
+      xmlHttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      // Send the request
+      xmlHttp.send(JSON.stringify(data));
+    })
+  }
+&nbsp;
+  // Creates a Room object from a JSON String and roomID and then calls a callback on that room
+  parseRoom(roomID: string, jsonString: string, callback: (Room) =&gt; void) {
+    try {
+      var JSONArray = JSON.parse(jsonString);
+      var deckStrings = JSONArray.decks;
+      var name = JSONArray.name;
+      var userStrings = JSONArray.users;
+      var size = JSONArray.size;
+      var isLocked = JSONArray.isLocked;
+      var password = JSONArray.password;
+&nbsp;
+      // Get all the decks and users
+      var decks = [];
+      var dws = new DeckWebService();
+      var deckPromise: Promise&lt;void&gt;;
+&nbsp;
+      deckPromise = new Promise(function (resolve, reject) {
+        dws.getDecksByIDList(deckStrings, d =&gt; {
+          resolve(d)
+        });
+      }).then(function (result) {
+        decks = result as Deck[];
+      });
+&nbsp;
+      var users = [];
+      var uws = new UserWebService();
+      var userPromise: Promise&lt;void&gt;;
+&nbsp;
+      userPromise = new Promise(function (resolve, reject) {
+&nbsp;
+        uws.getUsersByIDList(userStrings, u =&gt; {
+          resolve(u)
+        });
+      }).then(function (result) {
+        users = result as User[];
+      });
+&nbsp;
+      // wait for all promises to come back
+      Promise.all([userPromise, deckPromise]).then(function (result) {
+        callback(new Room(decks, isLocked, name, size, roomID, users, password))
+      })
+    } catch (e) {
+      //console.log("Could not parse room");
+      //console.log(e.message);
+<span class="cstat-no" title="statement not covered" >      callback(undefined);</span>
+    }
+  }
+&nbsp;
+  deleteRoom(roomID: string){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+      // Stuff to do if DELETE is successful
+      if (xmlHttp.readyState == 4 &amp;&amp; xmlHttp.status == 200) {
+        try {
+          // it worked!
+          //console.log("Room Deleted");
+          return;
+        } catch (ex) {
+          //console.log("Room not found");
+        }
+      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (xmlHttp.readyState == 4) {
+        //console.log("Error: " + xmlHttp.status)
+      }
+    };
+    xmlHttp.open("DELETE", "https://cards-against-humanity-d6aec.firebaseio.com/rooms/" + roomID + ".json", true);
+    xmlHttp.send(null);
+  }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 29 2017 22:17:02 GMT-0700 (Pacific Daylight Time)
+</div>
+</div>
+<script src="..\..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\..\sorter.js"></script>
+</body>
+</html>

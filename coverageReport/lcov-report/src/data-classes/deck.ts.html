@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/data-classes/deck.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\index.html">All files</a> / <a href="index.html">src/data-classes</a> deck.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84.81% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>67/79</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">70% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>14/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">76.92% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>10/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84.62% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>66/78</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">42x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9912x</span>
+<span class="cline-any cline-yes">8620x</span>
+<span class="cline-any cline-yes">1292x</span>
+<span class="cline-any cline-yes">1292x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">267x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">267x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">33x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">800x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Created by Joshua Jackson on 19-Feb-17.
+ */
+&nbsp;
+import { Card } from './card';
+import SeedRandom from 'seedrandom';
+&nbsp;
+// ======================================================================
+// This Class outlines the data structure and methods of a Deck
+// ======================================================================
+export class Deck {
+  deckID;        // Unique deck id
+  blackCards;    // Array of Cards of 'black' type
+  whiteCards;    // Array of Cards of 'white' type
+  discards;      // Array of discarded cards (includes both 'white' and 'black' cards)
+&nbsp;
+  constructor(deckID: string, blackCards?: Array&lt;Card&gt;, whiteCards?: Array&lt;Card&gt;) {
+    this.deckID = deckID;
+&nbsp;
+    if (blackCards) {
+      this.blackCards = blackCards;
+    } else {
+      this.blackCards = [];
+    }
+&nbsp;
+    if (whiteCards) {
+      this.whiteCards = whiteCards;
+    } else {
+      this.whiteCards = [];
+    }
+&nbsp;
+    this.discards = [];
+  }
+&nbsp;
+  // adds given card to cards
+  addCard(card: Card) {
+    if (card.type == 'white') {
+      this.whiteCards.push(card);
+    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (card.type == 'black') {
+      this.blackCards.push(card);
+    } else {
+<span class="cstat-no" title="statement not covered" >      console.log('ERROR: attempted to add card of unknown type to deck!');</span>
+    }
+  }
+&nbsp;
+  // removes given card from cards
+<span class="fstat-no" title="function not covered" >  removeCard(</span>card: Card) {
+<span class="cstat-no" title="statement not covered" >    if (card.type == 'white') {</span>
+<span class="cstat-no" title="statement not covered" >      this.whiteCards.remove(card);</span>
+    } else <span class="cstat-no" title="statement not covered" >if (card.type == 'black') {</span>
+<span class="cstat-no" title="statement not covered" >      this.blackCards.remove(card);</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      console.log('ERROR: attempted to add card of unknown type to deck!');</span>
+    }
+  }
+&nbsp;
+  // sets the seed to use for shuffling the deck
+  setSeed(seed: string) {
+    console.log('seed:' + seed);
+    try {
+      SeedRandom(seed, { global: true });
+    } catch (ex) {
+      console.log(ex);
+    }
+    console.log(Math.random());
+    console.log(Math.random());
+    console.log(Math.random());
+  }
+&nbsp;
+  // shuffles the cards in the deck
+<span class="fstat-no" title="function not covered" >  shuffle(</span>seed: string) {
+<span class="cstat-no" title="statement not covered" >    console.log('STUB: deck.shuffle()');</span>
+<span class="cstat-no" title="statement not covered" >    this.setSeed(seed);</span>
+    // this.shuffleWhiteCards(seed);
+    // this.shuffleBlackCards(seed);
+  }
+&nbsp;
+  // shuffles just the white cards in the deck
+  // shuffleWhiteCards(seed: string) {
+  //   //var whiteIndexArray = Array.apply(null, {length: this.whiteCards.length}).map(Number.call, Number);
+  //   //this.shuffleArray(whiteIndexArray);
+  //   //this.seedShuffle(seed);
+  // }
+&nbsp;
+  // shuffles given array in place. Modifies given array.
+  shuffleArray(a: Array&lt;any&gt;) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+      j = Math.floor(Math.random() * i);
+      x = a[i - 1];
+      a[i - 1] = a[j];
+      a[j] = x;
+    }
+  }
+&nbsp;
+  // returns next white card in deck that hasn't been discarded
+  // returns false if all cards have been discarded
+  drawWhiteCard() : Card | false {
+    return this.drawCard('white');
+  }
+&nbsp;
+  // returns next black card in deck that hasn't been discarded
+  // returns false if all cards have been discarded
+  drawBlackCard() : Card | false {
+    return this.drawCard('black');
+  }
+&nbsp;
+  // taking a string type as a param is more flexible in case we eventually
+  // implement drawing a card of any type, etc
+  drawCard(type: string) {
+    console.log('start drawCard');
+    var cards = (type == 'white') ? this.whiteCards : this.blackCards;
+    for (var i=0; i&lt;cards.length; i++) {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (cards[i].type == type) {
+        // if the potential drawn card hasnt been discarded
+        if (!Card.member(cards[i], this.discards)) {
+          this.discard(cards[i]);
+          console.log('drawCard returning:');
+          console.log(cards[i]);
+          return cards[i];
+        }
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    console.log('ERROR: drawCard returning false');</span>
+    // stub returns first card everytime
+<span class="cstat-no" title="statement not covered" >    return false;</span>
+  }
+&nbsp;
+  // adds given card to discards array
+  discard(card: Card) {
+    console.log('discarding card: ' + card.content);
+    if (!Card.member(card, this.discards)) {
+      this.discards.push(card);
+    } else {
+      console.log('tried to discard a card ALREADY in the discards (probably just playing a black card)');
+    }
+  }
+&nbsp;
+  // empties the discards array
+<span class="fstat-no" title="function not covered" >  reset() {</span>
+<span class="cstat-no" title="statement not covered" >    console.log('reset deck discards array');</span>
+<span class="cstat-no" title="statement not covered" >    this.discards = [];</span>
+  }
+&nbsp;
+  // prints the deck to the console
+  // printDeck() {
+  //   console.log("Deck ID: " + this.deckID);
+  //   console.log("Cards:");
+  //   for(let c of this.whiteCards){
+  //     console.log(" " + c.content);
+  //   }
+  //   for(let c of this.blackCards){
+  //     console.log(" " + c.content);
+  //   }
+  // }
+&nbsp;
+  // creates n number of decks with the whiteCards distributed evenly. each of n decks
+  // has all the blackCards. Used to deal a single deck amoung several players.
+  deal(n: number) : Array&lt;Deck&gt; {
+&nbsp;
+    var acc = [];
+    // create n sub decks
+    for (var i=0; i&lt;n; i++) {
+      // the deckID's generated are OK since we're not saving these to the Database
+      acc[i] = new Deck(this.deckID+'-'+(i+1), this.blackCards);
+    }
+&nbsp;
+    var indexArray = Array.apply(null, {length: this.whiteCards.length}).map(Number.call, Number);
+    console.log('before shuffle indexArray:');
+    console.log(indexArray);
+    this.shuffleArray(indexArray);
+    console.log('after shuffle indexArray:');
+    console.log(indexArray);
+    for (var i=0; i&lt;this.whiteCards.length; i++) { // for each white card
+      acc[i % n].addCard(this.whiteCards[indexArray[i]]);
+    }
+&nbsp;
+    return acc;
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 29 2017 22:17:02 GMT-0700 (Pacific Daylight Time)
+</div>
+</div>
+<script src="..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\sorter.js"></script>
+</body>
+</html>

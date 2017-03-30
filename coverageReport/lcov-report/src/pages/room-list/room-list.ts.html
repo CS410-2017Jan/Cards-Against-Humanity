@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/pages/room-list/room-list.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">src/pages/room-list</a> room-list.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.07% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>23/56</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.82% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>20/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.29% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">39.62% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/53</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Component, ViewChild} from '@angular/core';
+import {
+  AlertController,
+  App,
+  FabContainer,
+  ItemSliding,
+  List,
+  ModalController,
+  NavController,
+  LoadingController,
+  NavParams
+} from 'ionic-angular';
+import {NgForm} from '@angular/forms';
+import {WaitingRoomPage} from '../waiting-room/waiting-room';
+import {RoomFacade} from '../../providers/facades/room-facade';
+import {Room} from "../../data-classes/room";
+import {UserWebService} from "../../providers/web-services/user-web-service";
+import {UserFacade} from "../../providers/facades/user-facade";
+import {User} from "../../data-classes/user";
+&nbsp;
+@Component({
+  selector: 'page-room-list',
+  templateUrl: 'room-list.html'
+})
+export class RoomListPage {
+&nbsp;
+  @ViewChild('roomList', {read: List}) roomList: List<span class="branch-1 cbranch-no" title="branch not covered" >;</span>
+&nbsp;
+  queryText = '';
+  listOfRooms: any;
+  isJoinModalOpen: boolean;
+  loggedInUser: User;
+&nbsp;
+  constructor(public navCtrl: NavController<span class="branch-1 cbranch-no" title="branch not covered" >,</span>
+              public navParams: NavParams<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              public roomCtrl: RoomFacade<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              public alertCtrl: AlertController<span class="branch-2 cbranch-no" title="branch not covered" >,</span>
+              public userCtrl: UserFacade<span class="branch-2 cbranch-no" title="branch not covered" >) {</span>
+    this.isJoinModalOpen = false;
+    this.loggedInUser = this.userCtrl.getLoggedInUser();
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  ionViewDidEnter() {</span>
+<span class="cstat-no" title="statement not covered" >    console.log('ionViewDidLoad RoomListPage');</span>
+<span class="cstat-no" title="statement not covered" >    this.updateList();</span>
+  }
+&nbsp;
+  //Gets called when the player enters the screen, upates the list
+<span class="fstat-no" title="function not covered" >  updateList() {</span>
+<span class="cstat-no" title="statement not covered" >    this.roomList &amp;&amp; this.roomList.closeSlidingItems();</span>
+    var that = <span class="cstat-no" title="statement not covered" >this;</span>
+<span class="cstat-no" title="statement not covered" >    this.roomCtrl.getOpenRooms(<span class="fstat-no" title="function not covered" >function (</span>rooms) {</span>
+<span class="cstat-no" title="statement not covered" >      that.listOfRooms = rooms;</span>
+    });
+&nbsp;
+  }
+&nbsp;
+  //Called when a user clicks on a room, takes in a partial room object
+<span class="fstat-no" title="function not covered" >  clickJoinRoom(</span>room: any) {
+<span class="cstat-no" title="statement not covered" >    console.log('ClickJoinRoom() ', this.isJoinModalOpen);</span>
+<span class="cstat-no" title="statement not covered" >    console.log('Current Room: ', room);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.isJoinModalOpen == false) {</span>
+<span class="cstat-no" title="statement not covered" >      this.isJoinModalOpen = true;</span>
+<span class="cstat-no" title="statement not covered" >      console.log('JoinModalOpen: ', this.isJoinModalOpen);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (room.isLocked) {</span>
+<span class="cstat-no" title="statement not covered" >        console.log('Private Room: ', room);</span>
+        var that = <span class="cstat-no" title="statement not covered" >this;</span>
+<span class="cstat-no" title="statement not covered" >        this.roomCtrl.getRoom(room.id, <span class="fstat-no" title="function not covered" >function (</span>r) {</span>
+<span class="cstat-no" title="statement not covered" >          that.joinRoomAlert(r)</span>
+        });
+      }
+      else {
+<span class="cstat-no" title="statement not covered" >        console.log('Public Room: ', room);</span>
+        var that = <span class="cstat-no" title="statement not covered" >this;</span>
+<span class="cstat-no" title="statement not covered" >        this.roomCtrl.getRoom(room.id, <span class="fstat-no" title="function not covered" >function (</span>r) {</span>
+<span class="cstat-no" title="statement not covered" >          that.roomCtrl.joinRoom(r,that.loggedInUser, <span class="fstat-no" title="function not covered" >function (</span>m) {</span>
+<span class="cstat-no" title="statement not covered" >            that.goToWaitingRoom(m)}</span>)});
+      }
+    }
+  };
+&nbsp;
+  //Modal for private rooms
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  joinRoomAlert(</span>room: Room) {</span>
+    let alert = <span class="cstat-no" title="statement not covered" >this.alertCtrl.create({</span>
+      title: 'Join',
+      inputs: [
+        {
+          name: 'password',
+          placeholder: 'Password',
+          type: 'password'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: <span class="fstat-no" title="function not covered" ></span>data =&gt; {
+          }
+        },
+        {
+          text: 'Join',
+          handler: <span class="fstat-no" title="function not covered" ></span>data =&gt; {
+<span class="cstat-no" title="statement not covered" >            if (this.roomCtrl.attemptRoomPassword(room, data.password)) {</span>
+              var that = <span class="cstat-no" title="statement not covered" >this;</span>
+<span class="cstat-no" title="statement not covered" >              this.roomCtrl.joinRoom(room, this.loggedInUser, <span class="fstat-no" title="function not covered" >function (</span>m) {</span>
+<span class="cstat-no" title="statement not covered" >                that.goToWaitingRoom(m)</span>
+              });
+&nbsp;
+            } else {
+<span class="cstat-no" title="statement not covered" >              alert.dismiss();</span>
+<span class="cstat-no" title="statement not covered" >              return false;</span>
+            }
+          }
+        }
+      ]
+    });
+<span class="cstat-no" title="statement not covered" >    alert.present();</span>
+  }
+&nbsp;
+  //Passing the room object as a navparm into the waitingroompage
+<span class="fstat-no" title="function not covered" >  goToWaitingRoom(</span>room: Room) {
+<span class="cstat-no" title="statement not covered" >    this.isJoinModalOpen = false;</span>
+<span class="cstat-no" title="statement not covered" >    console.log('goToWaitingRoom(): ', room);</span>
+<span class="cstat-no" title="statement not covered" >    this.navCtrl.push(WaitingRoomPage, room);</span>
+  }
+&nbsp;
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Mar 29 2017 22:17:02 GMT-0700 (Pacific Daylight Time)
+</div>
+</div>
+<script src="..\..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\..\sorter.js"></script>
+</body>
+</html>

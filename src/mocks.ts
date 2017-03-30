@@ -82,6 +82,10 @@ export class NavMock {
     });
   }
 
+  public popToRoot(): any {
+    return true;
+  }
+
   public push(): any {
     return new Promise(function(resolve: Function): void {
       resolve();

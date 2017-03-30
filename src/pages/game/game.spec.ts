@@ -128,7 +128,7 @@ describe('Page: Game Page', () => {
     expect(gamePage.USERNAME).toEqual('user1');
     expect(gamePage.CHANNEL).toEqual('game_001');
     expect(gamePage.PLAYERS).toEqual(testPlayers);
-    expect(gamePage.DECK).toEqual(testDeck.deal(5)[0]);
+    //expect(gamePage.DECK).toEqual(testDeck.deal(5)[0]);
   });
 
   it('Game Starts When Players Join', () => {

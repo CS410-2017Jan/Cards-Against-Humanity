@@ -42,6 +42,8 @@ export class GamePage implements IGameRenderer {
   UserCtrl;
   loadProgress: number = 0; //Progress bar
   showTimer: boolean;
+  bTimer;
+  wTimer;
 
   constructor(public navParams:NavParams,
               private toastCtrl:ToastController,
@@ -266,18 +268,20 @@ export class GamePage implements IGameRenderer {
   renderWhiteCardTimer(seconds: number) { // SCOTT
     console.log('START White Card Timer: ' + seconds + ' seconds');
     this.showTimer = true;
-    setInterval(() => {
+    this.wTimer = setInterval(() => {
      if(this.loadProgress < seconds){
      this.loadProgress++;
      }
-
      }, 1000);
+
+    this.loadProgress = 0;
   }
 
   //clears the White Card submission timer
   clearWhiteCardTimer() { // SCOTT
     console.log('CLEAR White Card Timer');
     this.showTimer = false;
+    clearInterval(this.wTimer);
     this.loadProgress = 0;
   }
 
@@ -286,18 +290,20 @@ export class GamePage implements IGameRenderer {
   renderPickWinnerTimer(seconds: number) { // SCOTT
     console.log('START Pick Winner Timer: ' + seconds + ' seconds');
     this.showTimer = true;
-    setInterval(() => {
+    this.bTimer = setInterval(() => {
       if(this.loadProgress < seconds){
         this.loadProgress++;
       }
 
     }, 1000);
+    this.loadProgress = 0;
   }
 
   // clears the Pick Winner submission timer
   clearPickWinnerTimer() { // SCOTT
     console.log('CLEAR Pick Winner Timer');
     this.showTimer = false;
+    clearInterval(this.bTimer);
     this.loadProgress = 0;
   }
 

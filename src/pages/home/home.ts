@@ -126,8 +126,10 @@ export class HomePage {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
 
       // TEST
-      var ws = new UserWebService();
-      ws.addProfilePicture("-KfoDlgOu1JHgkqsdAT0", base64Image, console.log);
+      //var ws = new UserWebService();
+      //ws.addProfilePicture("-KfoDlgOu1JHgkqsdAT0", base64Image, console.log);
+
+      this.userCtrl.addProfilePicture(base64Image, function(f){});
 
     }, (e) => {
       console.log("error", e);

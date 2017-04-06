@@ -15,7 +15,7 @@ describe('Service- Room Web Service', () => {
   let newRoomName: string = "TESTROOMSHOULDBEDELETED";
   let newRoomDecks: string[] = ["-KdfzixNq1S7IF_LGlCj"];
   let newRoomPassword: string = "sdsadsadasdasdas";
-  let newRoomUser: string = "-KgO-2jkFkabf5hGBZET";
+  let newRoomUser: string = "-KgqDUDWnBpnf978TjAJ";
   let newRoomSize = 3;
   let newRoom: Room;
 
@@ -36,7 +36,7 @@ describe('Service- Room Web Service', () => {
     // createRoom()
     // log in 
     promises.push(new Promise(function (resolve, reject) {
-      uws.logInUser("testsuiteuser@gmail.com", "testtest", u => {
+      uws.logInUser("thomas@gmail.com", "thomas123", u => {
         resolve(u)
       });
     }).then(function (result) {
@@ -68,7 +68,7 @@ describe('Service- Room Web Service', () => {
   	});
 
   	it('Room is correctly retrieved', () => {
-  		expect(testRoom.name).toBe("Master Test Room: Don't Delete");
+  		expect(testRoom.name).toBe("UBC");
       expect(testRoom.isLocked).toBe(true);
   		
   	})

@@ -266,50 +266,49 @@ export class GamePage implements IGameRenderer {
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting white cards
-  renderWhiteCardTimer(seconds: number) { // SCOTT
-    //console.log('START White Card Timer: ' + seconds + ' seconds');
+  renderWhiteCardTimer(seconds: number) {
+    console.log('START White Card Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     this.wTimer = setInterval(() => {
-     if(this.loadProgress < seconds){
-     this.loadProgress++;
-     }
-     }, 1000);
+      if(this.loadProgress < seconds){
+        this.loadProgress++;
+      }
+    }, 1000);
 
     this.loadProgress = 0;
   }
 
   //clears the White Card submission timer
-  clearWhiteCardTimer() { // SCOTT
-    //console.log('CLEAR White Card Timer');
+  clearWhiteCardTimer() {
+    console.log('CLEAR White Card Timer');
     this.showTimer = false;
-    //clearInterval(this.wTimer);
+    clearInterval(this.wTimer);
     this.loadProgress = 0;
   }
 
   // renders the countdown timer with the given duration (in seconds)
   // for players submitting black cards
-  renderPickWinnerTimer(seconds: number) { // SCOTT
-    //console.log('START Pick Winner Timer: ' + seconds + ' seconds');
+  renderPickWinnerTimer(seconds: number) {
+    console.log('START Pick Winner Timer: ' + seconds + ' seconds');
     this.showTimer = true;
     this.bTimer = setInterval(() => {
       if(this.loadProgress < seconds){
         this.loadProgress++;
       }
-
     }, 1000);
     this.loadProgress = 0;
   }
 
   // clears the Pick Winner submission timer
-  clearPickWinnerTimer() { // SCOTT
-    //console.log('CLEAR Pick Winner Timer');
+  clearPickWinnerTimer() {
+    console.log('CLEAR Pick Winner Timer');
     this.showTimer = false;
     clearInterval(this.bTimer);
     this.loadProgress = 0;
   }
 
   // renders the end game when there are not enough players to continue playing
-  renderNotEnoughPlayers(players: Array<Player>) { // SCOTT
+  renderNotEnoughPlayers(players: Array<Player>) {
     //console.log('STUB: renderNotEnoughPLayers');
     this.renderGameOver(players);
   }

@@ -71,8 +71,8 @@ describe('Service- User Web Service Basic Functionality', () => {
 	let userGottenByEmail: User;
 	let usersGottenByID: User[];
 
-	let testUserID: string = "-KgNcUbFHI_NX7Ic7R-G";
-	let testUserEmail: string = "testsuiteuser@gmail.com";
+	let testUserID: string = "-KgqDUDWnBpnf978TjAJ";
+	let testUserEmail: string = "thomas@gmail.com";
 	let profilePicture: string = "THIS_IS_NOT_A_REAL_PROFILE_PICTURE_ITS_JUST_FOR_TESTING";
 
 
@@ -159,7 +159,7 @@ describe('Service- User Web Service Basic Functionality', () => {
 
   	it('User is correctly retrieved', () => {
   		// Go through the fields
-  		expect(testUser.username).toBe("dontdeleteme");
+  		expect(testUser.username).toBe("thomas123");
   		expect(testUser.id).toBe(testUserID);
   		expect(testUser.email).toBe(testUserEmail);
   		expect(testUser.score).toBeGreaterThan(-1);
@@ -175,7 +175,7 @@ describe('Service- User Web Service Basic Functionality', () => {
   		}
   		// check them out
   		expect(foundUser == undefined).toBeFalsy();
-  		expect(foundUser.username).toBe("dontdeleteme");
+  		expect(foundUser.username).toBe("thomas123");
   		expect(foundUser.id).toBe(testUserID);
   		expect(foundUser.email).toBe(testUserEmail);
   		expect(foundUser.score).toBeGreaterThan(-1);
@@ -196,11 +196,11 @@ describe('Service- User Web Service Basic Functionality', () => {
 
   	it('Set of users gotten by ID is retrieved correctly', () => {
   		// repeat the single user check on the second and third in the list
-  		expect(usersGottenByID[1].username).toBe("dontdeleteme");
+  		expect(usersGottenByID[1].username).toBe("thomas123");
   		expect(usersGottenByID[1].id).toBe(testUserID);
   		expect(usersGottenByID[1].email).toBe(testUserEmail);
   		expect(usersGottenByID[1].score).toBeGreaterThan(-1);
-  		expect(usersGottenByID[2].username).toBe("dontdeleteme");
+  		expect(usersGottenByID[2].username).toBe("thomas123");
   		expect(usersGottenByID[2].id).toBe(testUserID);
   		expect(usersGottenByID[2].email).toBe(testUserEmail);
   		expect(usersGottenByID[2].score).toBeGreaterThan(-1);

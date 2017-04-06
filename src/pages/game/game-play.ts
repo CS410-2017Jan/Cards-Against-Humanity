@@ -250,11 +250,22 @@ export class GamePlay {
     return leader;
   }
 
+  // returns true if every card in given array is an abstain card
+  allAbstains(cardSubs: Array<CardSubmission>): boolean {
+    for (let cardSub of cardSubs) {
+      if ((cardSub.card.type != 'white_abstain') && (cardSub.card.type != 'black_abstain')) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   // called when a timer expires for submitting a white card
   whiteCardTimerExpire() {
     this.GameRenderer.clearWhiteCardTimer();
     console.log('===== START: whiteCardTimerExpire');
-    this.GameRenderer.renderText('white card timer expired!');
+    // this.GameRenderer.renderText('white card timer expired!');
 
     this.GameRenderer.clearHand();
 
@@ -270,9 +281,7 @@ export class GamePlay {
   pickWinnerTimerExpire() {
     this.GameRenderer.clearPickWinnerTimer();
     console.log('===== START: pickWinnerTimerExpire');
-    this.GameRenderer.renderText('black card timer expired!');
-
-    //this.GameRenderer.clearCardsSubmitted();
+    // this.GameRenderer.renderText('pick winner card timer expired!');
 
     var abstainCard = new Card('black_abstain', '');
     var abstainCardSubmission = new CardSubmission(this.PLAYER_USERNAME, abstainCard);
@@ -397,11 +406,11 @@ export class GamePlay {
 
     switch (pubnubMsg.code) {
       case 'JOINED':
-        //console.log('case: JOINED');
+        console.log('case: JOINED');
         this.joinedCount++;
 
         if (this.joinedCount == GamePlay.players.length) {
-          //console.log('sendMsg START_GAME');
+          console.log('sendMsg START_GAME');
           GamePlay.sendMsg(new PubNubMsg('START_GAME', 'null'));  // null necessary
         } else if (this.joinedCount > GamePlay.players.length) {
           //console.log('this.joinedCount >= this.PLAYERS.length!');
@@ -410,7 +419,7 @@ export class GamePlay {
         break;
 
       case 'START_GAME':
-        //console.log('case: START_GAME');
+        console.log('case: START_GAME');
         if(!this.gameStarted) {
           // only start the game once
           this.gameStarted = true;
@@ -423,14 +432,34 @@ export class GamePlay {
         break;
 
       case 'PLAY_WHITE_CARD':
-        //console.log('case: PLAY_WHITE_CARD');
+        console.log('case: PLAY_WHITE_CARD');
         var whiteCardSubmission = content; // for readability
         GamePlay.cardsSubmitted.push(whiteCardSubmission);
 
         // if all cards submitted
         if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for the judge
           this.collectingCards = false;
-          if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
+
+          if (this.allAbstains(GamePlay.cardsSubmitted)) {
+            console.log('EVERYONE abstained!');
+
+            // wait sending renderText msg (so that timer expire msg shows first)
+            setTimeout(function() {
+              GameRenderer.renderText('No cards submitted this round!');
+
+              // wait before auto-proceeding
+              setTimeout(function() {
+                // round ends as a draw
+                GamePlay.cardsSubmitted = [];
+                GameRenderer.clearCardsSubmitted();
+
+                // start new round
+                var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+                GamePlay.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+              },2000);
+            }, 1500);
+
+          } else if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
             GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.purgeAbstains(GamePlay.cardsSubmitted)), true);
             GameRenderer.renderText('Pick a Winner');
 
@@ -444,7 +473,7 @@ export class GamePlay {
         break;
 
       case 'PLAY_BLACK_CARD':
-        //console.log('case: PLAY_BLACK_CARD');
+        console.log('case: PLAY_BLACK_CARD');
         var blackCard = new Card(content.card.type, content.card.content); // cast/set as Card object
 
         if (blackCard.type != 'black_abstain') {
@@ -453,17 +482,21 @@ export class GamePlay {
           GameRenderer.renderBlackCard(Tools.clone(blackCard));
         } else {
           GameRenderer.renderText('judge failed to pick card in time!');
-          GamePlay.cardsSubmitted = [];
-          GameRenderer.clearCardsSubmitted();
 
-          // start new round
-          var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
-          this.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+          // wait before renderText msg (so that
+          setTimeout(function() {
+            GamePlay.cardsSubmitted = [];
+            GameRenderer.clearCardsSubmitted();
+
+            // start new round
+            var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+            GamePlay.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+          }, 2000);
         }
         break;
 
       case 'PICK_WINNING_CARD':
-        //console.log('case: PICK_WINNING_CARD');
+        console.log('case: PICK_WINNING_CARD');
         GamePlay.ongoingRound = false;
         var winningCardSubmission = content; // for readability
 
@@ -542,9 +575,11 @@ export class GamePlay {
         break;
 
       case 'PLAYER_LEFT':
+        console.log('case: PLAYER_LEFT');
         var absentPlayerUsername = content;
 
-        if (this.judge.username == absentPlayerUsername) {  // if the judge left
+        // if the judge left
+        if (this.judge.username == absentPlayerUsername) {
           console.log('judge left');
           GamePlay.cardsSubmitted = [];
           GameRenderer.clearCardsSubmitted();
@@ -600,7 +635,28 @@ export class GamePlay {
           if(this.collectingCards) { // if we were collection cards
             // check if all cards submitted
             if (GamePlay.cardsSubmitted.length >= (GamePlay.players.length - 1)) { // -1 for judge
-              if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
+              this.collectingCards = false;
+
+              if (this.allAbstains(GamePlay.cardsSubmitted)) {
+                console.log('EVERYONE abstained!');
+
+                // wait before renderText msg (so that timer expire msg shows first)
+                setTimeout(function() {
+                  GameRenderer.renderText('No cards submitted this round!');
+
+                  // wait before auto-proceeding
+                  setTimeout(function() {
+                    // round ends as a draw
+                    GamePlay.cardsSubmitted = [];
+                    GameRenderer.clearCardsSubmitted();
+
+                    // start new round
+                    var newRoundMsg = JSON.stringify(new PubNubMsg('NEW_ROUND', 'null'));
+                    GamePlay.handleEvent({message: newRoundMsg}); // TODO: change this to handlePubNubMsg()
+                  },2000);
+                }, 1500);
+
+              } else if (GamePlay.judge.username == GamePlay.PLAYER_USERNAME) {  // if we are the judge
                 GameRenderer.renderCardsSubmitted(Tools.clone(GamePlay.cardsSubmitted), true);
                 GameRenderer.renderText('Pick a Winner');
               } else {

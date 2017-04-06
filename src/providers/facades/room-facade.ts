@@ -55,8 +55,16 @@ export class RoomFacade {
         console.log('Filtering room: ', room);
         return room.users.length != room.size;
       });
-      callback(openRooms);
-    })
+
+      var sortedRooms = openRooms.sort(function (a, b) {
+        var keyA = a.name;
+        var keyB = b.name;
+        if (keyA < keyB) return -1;
+        if (keyA > keyB) return 1;
+        return 0;
+      });
+      callback(sortedRooms);
+    });
   }
 
   getUsersInRoom(roomID: string, callback) {
